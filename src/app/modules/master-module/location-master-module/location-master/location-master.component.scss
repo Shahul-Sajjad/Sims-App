@@ -1,0 +1,194 @@
+table {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 500px;
+  }
+  // .mat-column-erpName {
+  //   word-wrap: break-word !important;
+  //   white-space: unset !important;
+  //   flex: 0 0 10% !important;
+  //   width: 10% !important;
+  //   overflow-wrap: break-word;
+  //   word-wrap: break-word;
+  //   word-break: break-word;
+  //   -ms-hyphens: auto;
+  //   -moz-hyphens: auto;
+  //   -webkit-hyphens: auto;
+  //   hyphens: auto;
+  // }
+  // .mat-column-houseNo {
+  //   word-wrap: break-word !important;
+  //   white-space: unset !important;
+  //   flex: 0 0 10% !important;
+  //   width: 10% !important;
+  //   overflow-wrap: break-word;
+  //   word-wrap: break-word;
+  //   word-break: break-word;
+  //   -ms-hyphens: auto;
+  //   -moz-hyphens: auto;
+  //   -webkit-hyphens: auto;
+  //   hyphens: auto;
+  // }
+  
+  // .mat-column-postalCode {
+  //   word-wrap: break-word !important;
+  //   white-space: unset !important;
+  //   flex: 0 0 10% !important;
+  //   width: 10% !important;
+  //   overflow-wrap: break-word;
+  //   word-wrap: break-word;
+  //   word-break: break-word;
+  //   -ms-hyphens: auto;
+  //   -moz-hyphens: auto;
+  //   -webkit-hyphens: auto;
+  //   hyphens: auto;
+  // }
+  
+  // .mat-column-glCode {
+  //   word-wrap: break-word !important;
+  //   white-space: unset !important;
+  //   flex: 0 0 10% !important;
+  //   width: 10% !important;
+  //   overflow-wrap: break-word;
+  //   word-wrap: break-word;
+  //   word-break: break-word;
+  //   -ms-hyphens: auto;
+  //   -moz-hyphens: auto;
+  //   -webkit-hyphens: auto;
+  //   hyphens: auto;
+  // }
+  // .mat-column-name {
+  //   word-wrap: break-word !important;
+  //   white-space: unset !important;
+  //   flex: 0 0 10% !important;
+  //   width: 20% !important;
+  //   overflow-wrap: break-word;
+  //   word-wrap: break-word;
+  //   word-break: break-word;
+  //   -ms-hyphens: auto;
+  //   -moz-hyphens: auto;
+  //   -webkit-hyphens: auto;
+  //   hyphens: auto;
+  // }
+  
+  // .mat-column-streetName {
+  //   word-wrap: break-word !important;
+  //   white-space: unset !important;
+  //   flex: 0 0 10% !important;
+  //   width: 20% !important;
+  //   overflow-wrap: break-word;
+  //   word-wrap: break-word;
+  //   word-break: break-word;
+  //   -ms-hyphens: auto;
+  //   -moz-hyphens: auto;
+  //   -webkit-hyphens: auto;
+  //   hyphens: auto;
+  // }
+  
+  .card-header {
+    padding: 0 !important;
+  }
+  mat-form-field {
+    padding-right: 5px;
+    width: 180px;
+  }
+  
+  .searchBtn1 {
+    // padding: 5px;
+    border-radius: 5px;
+    margin: 2px;
+    margin-left: 20px;
+    width: 112px;
+    background-color: #17a2b8;
+    color: white;
+    height: 33px;
+    font-weight: 500px;
+  }
+  
+  .button-groups {
+    margin-left: 37%;
+  }
+  
+  .tableBtn1 {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 20px;
+    width: 10%;
+    background-color: #17a2b8;
+    color: white;
+    height: 42px;
+    margin-left: 200px;
+    margin-right: -150px;
+  }
+  .example-button-row {
+    position: relative;
+    margin-left: 600px;
+    color: blue;
+  }
+  
+  .card-body {
+    margin-bottom: 4rem;
+  }
+  #collapsibleBody {
+    height: 100px;
+  }
+  
+  .card-body {
+    margin-left: 11px;
+  }
+  
+  .searchinput {
+    margin-left: 25%;
+    height: 75px;
+    margin-right: 25%;
+  }
+  .btndiv {
+    margin-left: 20px;
+  }
+  .pointer {
+    cursor: pointer;
+  }
+  // .card1
+  // {
+  // height:123px;
+  // }
+  // .math:hover {
+  //   background-color: grey;
+  // }
+  // td.mat-cell, td.mat-footer-cell{
+  //   padding:9px;
+  // }
+  .mat-row:nth-child(odd) {
+    background-color: rgb(240, 247, 246);
+  }
+  
+  .mat-row:nth-child(even) {
+    background-color: white;
+  }
+  th.mat-header-cell {
+    text-align: left;
+    max-width: 300px;
+    font-weight: 400;
+    color:white;
+    
+      //padding: 6px;
+      padding-left:12px;
+  
+  }
+  .mat-form-field {
+    font-size: 14px;
+   
+  }
+  td.mat-cell
+  {
+    padding-left:12px;
+    word-wrap: break-word;
+  }
+  .mat-header-row{
+    background-color:#17a2b8 !important;
+  }
+  .card
+  {
+    margin-top:50px;
+  }

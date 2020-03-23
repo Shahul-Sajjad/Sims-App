@@ -1,0 +1,124 @@
+<div class="wrapper-1">
+    <div id="content" class="">
+        <div class="page right-content">
+            <div class="mt-10 ">
+                <div class="common card-base-1 bg-light ml-10 mr-10">
+                    <div class="card">
+                        <div class="card-header header-font container-fluid" style="background-color:aliceblue;">
+                            <div class="row">
+                                <div class="col" style="margin-left:22px;margin-top: 10px;">
+                                    <b>Vendor Details</b>
+                                </div>
+                                <div class="col-8">
+
+                            </div>
+
+                            </div>
+                        </div>
+                        <!-- <div id="collapsibleBody" class="collapse"> -->
+                        <div class="card-body">
+                            <form class="row" [formGroup]="vendorDetailform">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Vendor Code</mat-label>
+                                    <input matInput formControlName="code" placeholder="Code" readonly>
+                                </mat-form-field>
+                                <!-- Input Field 2 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Erp Name</mat-label>
+                                    <input matInput formControlName="erpName" placeholder="Erp Name"  readonly>
+                                </mat-form-field>
+                                 <!-- Input Field -->
+                                 <mat-form-field appearance="outline">
+                                    <mat-label>Erp Id</mat-label>
+                                    <input matInput formControlName="erpId" placeholder="Erp Id" readonly>
+                                </mat-form-field>
+                                <!-- Input Field 3 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Vendor Name</mat-label>
+                                    <input matInput formControlName="name" placeholder="Name"readonly>
+                                </mat-form-field>
+                                <!-- Input Field 4 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>House No</mat-label>
+                                    <input matInput formControlName="houseNo" placeholder="House No"readonly>
+                                </mat-form-field>
+                                <!-- Input Field 5 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Street Name</mat-label>
+                                    <input matInput formControlName="streetName" placeholder="Street Name"readonly>
+                                </mat-form-field>
+                                <!-- Input Field 6 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Location</mat-label>
+                                    <input matInput formControlName="location" placeholder="Location"readonly>
+                                </mat-form-field>
+                                <!-- Input Field 7 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Postal code</mat-label>
+                                    <input matInput formControlName="postalCode" placeholder="Postal code">
+                                </mat-form-field>
+                                <!-- Input Field 8 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Telephone</mat-label>
+                                    <input matInput formControlName="telephone" placeholder="Telephone">
+                                </mat-form-field>
+                                <!-- Input Field 9 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>TDS</mat-label>
+                                    <input matInput formControlName="tds" placeholder="TDS">
+                                </mat-form-field>
+                                <!-- Input Field 10 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Regional Manager</mat-label>
+                                    <input matInput formControlName="regionalManager" placeholder="Regional Manager">
+                                </mat-form-field>
+                                <!-- Input Field 11 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Gl Code</mat-label>
+                                    <input matInput formControlName="glCode" placeholder="Gl Code">
+                                </mat-form-field>
+                                <!-- Input Field 12 -->
+                                <!-- <mat-form-field appearance="outline">
+                                    <mat-label>Approver1</mat-label>
+                                    <input matInput formControlName="approver1" placeholder="Approver1">
+                                </mat-form-field> -->
+                                <!-- Input Field 13 -->
+                                <!-- <mat-form-field appearance="outline">
+                                    <mat-label>Approver2</mat-label>
+                                    <input matInput formControlName="approver2" placeholder="Approver2">
+                                </mat-form-field> -->
+                                <!-- Input Field 14 -->
+                                <!-- <mat-form-field appearance="outline">
+                                    <mat-label>Approver3</mat-label>
+                                    <input matInput formControlName="approver3" placeholder="Approver3">
+                                </mat-form-field> -->
+                                <!-- Input Field 15 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Cost Center</mat-label>
+                                    <input matInput formControlName="costCenter" placeholder="Cost Center">
+                                </mat-form-field>
+                                <!-- Input Field 16 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Status</mat-label>
+                                    <input matInput formControlName="status" placeholder="Status">
+                                </mat-form-field>
+                                <!-- Input Field 17 -->
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Email Id</mat-label>
+                                    <input matInput formControlName="emailId" placeholder="Email Id">
+                                </mat-form-field>
+                                <div class="btndiv">
+                                    <button class="searchBtn1" mat-raised-button (click)="updateVendorDetails()">Save</button>
+                                    <!-- <button class="searchBtn1" mat-raised-button   (click)="openDialogs()" >BankDetails</button> -->
+                                    <button class="searchBtn1" mat-raised-button (click)="onNoClick()">Close</button>
+
+                                    <!-- <button class="tableBtn1" mat-raised-button  type="submit">Save</button> -->
+
+
+                                </div>
+
+
+                            </form>
+                        </div>
+
+                    </div>

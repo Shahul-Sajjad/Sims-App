@@ -1,0 +1,114 @@
+<mat-card-content>
+    <mat-toolbar>
+        <div class="btn">
+            <button mat-raised-button color="primary">Save</button>
+            <button mat-raised-button color="accent">Cancel</button>
+        </div>
+    </mat-toolbar>
+    <app-invoice-header [invNum]="invoiceNumber" [internalId]="internalId"></app-invoice-header>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Invoice Details
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-invoice-detail-tab></app-invoice-detail-tab>
+            
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Bank Details
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-accordion>
+                <mat-expansion-panel >
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Invoice Bank Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-invoice-bank-detail-tab></app-invoice-bank-detail-tab>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <br>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Vendor Bank Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-vendor-bank-detail-tab></app-vendor-bank-detail-tab>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Tax & Freight
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-tax-freight-detail-tab></app-tax-freight-detail-tab>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Comments
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Comments</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Previous Comments</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+            </div>
+            <!-- <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>System Comments</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>SAP Comments</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+            </div> -->
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Uploads
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-upload-detail-tab></app-upload-detail-tab>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Three way Matching
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-invoice-three-way-matching></app-invoice-three-way-matching>
+        </mat-expansion-panel>
+    </mat-accordion>

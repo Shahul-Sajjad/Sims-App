@@ -1,0 +1,28 @@
+<div fxLayout="row" fxLayoutAlign="end center" class="alignBtn">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div>
+            <button mat-raised-button style="border-radius: 6px 0px 0px 6px !important;" color="accent" [disabled]="endSaveBtn" (click)="saveData()">Save</button>
+        </div>
+        <div>
+            <button class="iconBtn" [matMenuTriggerFor]="menu">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item color="accent" (click)="approveReject()">Approve Invoice</button>
+                <button mat-menu-item color="accent" (click)="approveReject()">Reject</button>
+                <button mat-menu-item color="accent">Submit Invoice</button>
+                <button mat-menu-item color="accent" (click)="pullPO_GR()">Pull PO/GR</button>
+                <button mat-menu-item color="accent" (click)="postToERP()">Post to ERP</button>
+                <button mat-menu-item color="accent" (click)="downloadInvoice()">Download Invoice</button>
+                <button mat-menu-item color="accent" [disabled]="enbReverseExit" (click)="reverese_exit()">Revesre &
+                    Exit</button>
+                <button mat-menu-item color="accent" (click)="reverese_post()">Revesre & Post</button>
+                <button mat-menu-item color="accent">Return to validator</button>
+                <button mat-menu-item color="accent" [disabled]="enbCommentBtn" (click)="saveComment()">Save
+                    Comments</button>
+                <button mat-menu-item color="accent" (click)="modifyInvoiceDetails()">Modify Invoice Lines</button>
+            </mat-menu>
+        </div>
+    </div>
+    <button mat-raised-button color="accent" (click)="cancelInvoice()">Cancel</button>
+</div>

@@ -1,0 +1,57 @@
+.example-button-row
+{
+  position:relative;
+ /* float:center; */
+  margin-left:567px;
+  
+}
+
+table {
+  width: 100%;
+}
+.card-header {
+padding: 0 !important;
+}
+mat-form-field {
+padding-right: 5px;
+width: 180px;
+}
+
+.mat-raised-button{
+  margin-right: 15px;
+  margin-left : 10pxpx;
+  width: 130px;
+  height:35px;
+  color:white;
+  background-color:#0d47a1;
+}
+.FilterByUserId{
+  position: relative;
+  float: left;
+  margin-left:1400px;
+}
+#collapsibleBody{
+  margin-left: 15px;
+  margin-right: 10px;
+}
+element.style {
+  margin-left: 617px;
+  padding-top: 10px;
+}
+.example-button-row{
+  position: relative;
+  margin-left: 38px;
+}
+
+.mat-row:nth-child(even){
+  background-color:rgb(240, 247, 246);
+  }
+
+.mat-row:nth-child(odd){
+  background-color:white;
+  }
+  .mat-header-row
+  {
+  background-color: #17a2b8 !important;
+    color: white;
+  }

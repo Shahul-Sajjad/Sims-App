@@ -1,0 +1,21 @@
+table {
+    width: max-content;
+    th{
+        padding: 0px 15px 0px 0px;  
+      }
+      td{
+          padding-right: 15px;
+          b{
+            font-weight: 400;
+          }
+          p{
+            font-weight: 400;
+          }
+          input{
+            border-bottom: 1px solid blue;
+          }
+      }
+}
+.tableAlign{
+    overflow-x: auto;
+}

@@ -1,0 +1,47 @@
+
+<div class="wrapper-1">
+    
+    <div id="content" class="">
+        
+        <div class="page right-content">
+
+            <div class="mt-10 ">
+                <div class="common card-base-1 bg-light ml-10 mr-10">
+                    <div class="card">
+                        <div class="card-header header-font container-fluid" style="background-color:aliceblue;">
+                            <div class="row">
+                                <div class="col" style="margin-left:22px;margin-top: 10px;">
+                                    <b>Invoice Update</b>
+                                </div>
+                                <div class="col-8">
+                                    
+                                </div>
+                                <div class="col-2 float-right">
+                                    
+                                </div> 
+                            </div>
+
+                        </div>
+                        <div id="collapsibleBody" class=".collapse.show">
+                            <div class="card-body">
+                                <form class="row" [formGroup]="invoiceForm">
+                        
+                                    <mat-form-field  appearance="outline">
+                                        <mat-label>Sl No</mat-label> 
+                                        <input matInput formControlName="slNo"  placeholder="Sl No" readonly>
+                                    </mat-form-field>  
+                            
+                                    <mat-form-field appearance="outline">
+                                    <mat-label>Invoice Type</mat-label>
+                                    <input matInput formControlName="invoiceType" placeholder="UserName">
+                                    </mat-form-field>
+                        
+                                    <br>    
+                                    <div class="example-button-row">
+                                        <button mat-raised-button (click)="updateInvoice()">Update</button>
+                                    </div>   
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+

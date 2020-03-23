@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px" [formGroup]="invoiceCommentForm">
+    <mat-form-field fxFlex appearance="outline">
+        <mat-label>Comments</mat-label>
+        <input matInput formControlName="comments" (focusout)="onKey($event)" placeholder="Comments" />
+    </mat-form-field>
+
+    <mat-form-field fxFlex appearance="outline">
+        <mat-label>Previous Comments</mat-label>
+        <textarea matInput formControlName="previousComments" placeholder="PreviousComments" readonly></textarea>
+    </mat-form-field>
+</div>

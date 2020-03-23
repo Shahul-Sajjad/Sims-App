@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SimsApp</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
+  <script src="http://111.93.191.82:96/cordys/html5/cordys.html5sdk.js"></script> 
+  <script src="./assets/cordysjsfile.js" type="text/javascript"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<script>
+  document.cookie ="defaultinst_ct=94a70e0a6bebbaafbd0d14b40166b411c317bd5a"
+  document.cookie="defaultinst_SAMLart=e0pBVkEtQUVTL0dDTS9Ob1BhZGRpbmd9/uy69bSt6JTG5CQynyrlO09I5Et06H1dp0aQT2bt+7kOKVZR6ypcrjFE2W7A9F8/V+dL2UYtTW2dCL8FWVxVgEIWx8ONyVW2CQZ+XrRxZB3YkRMea9FqxZgECHrvAsI=";
+</script>
+<body>
+  <app-root></app-root>
+</body>
+</html>

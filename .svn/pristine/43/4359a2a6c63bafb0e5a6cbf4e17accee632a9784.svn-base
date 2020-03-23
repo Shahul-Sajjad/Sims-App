@@ -1,0 +1,34 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
+import { CommonService } from 'src/app/services/common.service';
+
+@Component({
+  selector: 'app-invoice-info-details',
+  templateUrl: './invoice-info-details.component.html',
+  styleUrls: ['./invoice-info-details.component.scss']
+})
+export class InvoiceInfoDetailsComponent implements OnInit {
+  vendordataRequest: string;
+  soapRequest: string;
+  invoiceNumber;
+  internalId;
+
+
+  constructor(
+    private simsHttpCoreServices: SimsHttpCoreServices,
+    private commonService: CommonService,
+  ) { }
+
+  ngOnInit() {
+    this.invoiceNumber = '005556';
+    this.internalId = '613';
+
+  }
+}
+
+
+
+
+
+
+

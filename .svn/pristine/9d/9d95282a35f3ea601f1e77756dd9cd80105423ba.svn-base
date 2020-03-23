@@ -1,0 +1,6 @@
+{
+    "/home/system": {
+      "target": "http://111.93.191.82:96/",
+      "secure": false
+    }
+}

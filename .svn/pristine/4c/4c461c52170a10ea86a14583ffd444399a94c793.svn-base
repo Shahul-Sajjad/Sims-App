@@ -1,0 +1,22 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InvoiceDataService {
+
+  private invoiceHeaderInfo;
+
+  constructor() { }
+
+setInvoiceHeaderData(val) {
+
+  this.invoiceHeaderInfo = val;
+
+}
+
+getInvoiceHeaderData() {
+  return this.invoiceHeaderInfo;
+}
+
+}

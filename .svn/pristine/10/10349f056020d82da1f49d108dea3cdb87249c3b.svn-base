@@ -1,0 +1,18 @@
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <img src="/assets/icons/muraai-logo.png" class="company-logo">
+        <span class="menu-spacer"></span>
+        <div fxLayout="row" fxLayoutAlign="space-evenly none">
+          <a mat-button [routerLink]="'/home'"> Home </a><!--Static content for Home button-->
+          <a mat-button [routerLink]="'/invoice-summary'"> Invoice Summary </a><!--Static content for Invoice Summary-->
+          <div class="menu-item" *ngFor="let menu of menuList" fxLayout="row" fxLayoutAlign="space-evenly none"><!--Repeating content for Menu Item-->
+            {{menu.MenuName}}
+            <div class="dropdown-content" style="left:0;">
+              <a href="#" *ngFor="let menu of menu.SubMenus">{{menu.FormName}}</a><!--Repeating content for Sub Menu Item-->
+            </div>
+          </div>      
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+  

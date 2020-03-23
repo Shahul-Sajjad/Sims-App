@@ -1,0 +1,200 @@
+<div class="wrapper-1" fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+    <div id="content" class="">
+        <div class="page right-content">
+            <div class="mt-10 ">
+                <div class="common card-base-1 bg-light ml-10 mr-10">
+                    <div class="body">
+                        <div class="card" style="height:125px">
+                            <div class="card-header header-font container-fluid"
+                                style="background-color:aliceblue;height:auto">
+                                <div class="row">
+                                    <div class="col" style="margin-left:22px;margin-top: 10px;">
+                                        <b>Location Search</b>
+                                    </div>
+                                    <div class="col-8"></div>
+                                    <div class="col-2 float-right">
+                                        <a mat-icon-button class="float-right">
+                                            <mat-icon (click)="getlocationmasterdetails(vendorSearchInputform.value)"
+                                                matTooltip="Search">search
+                                            </mat-icon>
+                                        </a>
+                                        <!-- <a
+                        mat-icon-button
+                        class="float-right"
+                        (click)="modifyCollapse($event)"
+                      >
+                        <mat-icon
+                          data-toggle="collapse"
+                          data-target="#collapsibleBody"
+                          >arrow_drop_down
+                        </mat-icon>
+                      </a> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="collapsibleBody" class=".collapse.open">
+                                <div class="card-body">
+                                    <form class="row" [formGroup]="locationSearchInputform">
+                                           
+                                        <mat-form-field appearance="outline" fxFlex>
+                                            <mat-label>Location</mat-label>
+                                            <input matInput formControlName="location"
+                                                (keydown.enter)="getlocationmasterdetails(locationSearchInputform.value)"
+                                                placeholder="location" />
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>GST NO</mat-label>
+                                            <input matInput formControlName="gstNo"
+                                                (keydown.enter)="getlocationmasterdetails(locationSearchInputform.value)"
+                                                placeholder="GST NO" />
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Business Place</mat-label>
+                                            <input matInput formControlName="businessPlace"
+                                                (keydown.enter)="getlocationmasterdetails(locationSearchInputform.value)"
+                                                placeholder="Business Place" />
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Comapny Code</mat-label>
+                                            <input matInput formControlName="companyCode"
+                                                (keydown.enter)="getlocationmasterdetails(locationSearchInputform.value)"
+                                                placeholder="Comapny Code" />
+                                        </mat-form-field>
+
+
+
+                                        <div class="btndiv">
+                                            <button class="searchBtn1" mat-raised-button
+                                                (click)="getlocationmasterdetails(locationSearchInputform.value)">
+                                                Search
+
+                                            </button>
+                                            <button class="searchBtn1" mat-raised-button (click)="resetForm()">
+                                                Clear
+                                            </button>
+                                            <button class="searchBtn1" mat-raised-button (click)="addlocationdetail()">
+                                                Add
+                                            </button>
+                                            <button  class="searchBtn1" mat-raised-button  (click)="removeSelectedRows()">
+                                                Delete
+                                              </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vendor Table Details -->
+
+                        <div class="card mt-15">
+                            <div class="card-header header-font" style="background-color:aliceblue;">
+                                <div class="col" style="margin-left:10px;margin-top: 10px;margin-bottom: 5px;">
+                                    <b>Location Search List</b>
+                                </div>
+                            </div>
+                            <div [style.display]="!loadLocationSpinner ? 'none' : 'block'">
+                                <app-saw-loader></app-saw-loader>
+                            </div>
+                            <!-- removed class="card-body"  -->
+                            <div [style.display]="loadLocationSpinner ? 'none' : 'block'">
+                                <!-- <div class="{{collapsed ? 'table-wrap' : '' }} table-responsive"> -->
+                                <table mat-table [dataSource]="locationDataSource" matSort class="mat-elevation-z8">
+                                    <!-- Position Column -->
+                                    <!-- <ng-container matColumnDef="bank">
+                      <th mat-header-cell *matHeaderCellDef></th>
+                      <td mat-cell *matCellDef="let element">
+                        <mat-icon matTooltip="Bank Detail" class="pointer" (click)="openDialog()">account_balance
+                        </mat-icon>
+                      </td>
+                    </ng-container>
+
+
+
+   -->
+   <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox 
+      (change)="$event ? masterToggle() : null"
+      [checked]="selection.hasValue() && isAllSelected()"
+      [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+                      (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+   <ng-container matColumnDef="srNo" class="math">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Sno
+        </th>
+        <td mat-cell *matCellDef="let element" class="task-td"
+            [style.background-color]="element.color">
+            {{ element.srNo }}
+        </td>
+    </ng-container>
+                                    <ng-container matColumnDef="location" class="math">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Location
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" class="task-td"
+                                            [style.background-color]="element.color">
+                                            {{ element.location }}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Name Column -->
+                                    <ng-container matColumnDef="gstNo">
+                                        <th mat-header-cell *matHeaderCellDef fxFlex="20">
+                                            GST NO
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                                            {{ element.gstNo }}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="businessPlace">
+                                        <th mat-header-cell *matHeaderCellDef fxFlex="20">
+                                            Business Place
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                                            {{ element.businessPlace }}
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Weight Column -->
+                                    <ng-container matColumnDef="companyCode">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Company Code
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                                            {{ element.companyCode }}
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; let index=index; columns: displayedColumns"
+                                        (dblclick)="locationDetailDialog(row, index)" (click)="selection.toggle(row)"></tr>
+                                </table>
+
+                                <mat-paginator [pageSizeOptions]="[10, 20, 30, 40, 50]" showFirstLastButtons>
+                                </mat-paginator>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <mat-card class="footer">
+        <div style="margin-left:2%; color:#0d47a1">Copyright Muraai Information Technologies Pvt Ltd 	&copy; 2020-2021</div>
+    </mat-card> -->

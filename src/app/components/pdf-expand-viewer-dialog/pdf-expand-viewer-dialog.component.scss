@@ -1,0 +1,12 @@
+button{
+    border: none;
+    background: none;
+    outline: none;
+}
+.align{
+    overflow-y: hidden;
+    height: 86vh;
+}
+.align:hover{
+    overflow-y: auto;
+}

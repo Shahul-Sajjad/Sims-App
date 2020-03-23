@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Change Password</h2>
+<mat-dialog-content>
+    <div fxLayout="column" fxLayoutGap="20px">
+        <div fxLayout>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter Old Password</mat-label>
+                <input type="password" matInput placeholder="Enter Old Password">
+            </mat-form-field>
+        </div>
+        <div fxLayout>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter New Password</mat-label>
+                <input type="password" matInput placeholder="Enter New Password">
+            </mat-form-field>
+        </div>
+        <div fxLayout>
+            <mat-form-field appearance="outline">
+                <mat-label>Confirm New Password</mat-label>
+                <input type="password" matInput placeholder="Confirm New Password">
+            </mat-form-field>
+        </div>
+
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button mat-raised-button color="primary" [mat-dialog-close]="true">Save</button>
+</mat-dialog-actions>

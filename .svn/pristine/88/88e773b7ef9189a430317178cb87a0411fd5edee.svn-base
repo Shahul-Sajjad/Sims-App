@@ -1,0 +1,198 @@
+var vcodes= new Array();
+var vnames= new Array();
+var vlocation= new Array();
+var rowindx=0;
+function getVendorMasterModel_OnRequest(eventObject)
+{    
+    cordys.setNodeText(eventObject.request,".//*[local-name()='vendor_code']",vcode.getValue());
+    cordys.setNodeText(eventObject.request,".//*[local-name()='vendor_name']",vname.getValue());
+    cordys.setNodeText(eventObject.request,".//*[local-name()='vendor_location']",vlocation1.getValue());
+    cordys.setNodeText(eventObject.request,".//*[local-name()='vendor_status']",vstatus.getValue());
+    cordys.setNodeText(eventObject.request,".//*[local-name()='company_code']","");
+    cordys.setNodeText(eventObject.request,".//*[local-name()='erp_id']","");
+    
+}
+function vstatus_Change(eventObject)
+{
+   
+    getVendorMasterModel.reset();
+}
+function Form_InitDone(eventObject)
+{
+  showbankdetails.disable();
+  //  GetVendorMasterAutosuggestModel.reset();
+    getVendorMasterModel.reset();
+    vstatus.setValue("");
+     
+  /*   application.importType("wcp.library.util.AutoSuggest");
+    application.importType("wcp.library.util.DataProvider");
+
+    application.addType(vcode, "wcp.library.util.AutoSuggest");
+    application.inherit(Uname, DataProvider);
+    vcode.registerDataProvider(new Uname());
+    
+   application.addType(vname, "wcp.library.util.AutoSuggest");
+    application.inherit(Uname1, DataProvider);
+    vname.registerDataProvider(new Uname1());
+    
+    application.addType(vlocation1, "wcp.library.util.AutoSuggest");
+    application.inherit(Uname2, DataProvider);
+    vlocation1.registerDataProvider(new Uname2());  */
+      
+}
+function Uname() {
+    this.DataProvider();
+}
+Uname.prototype.getSuggestions = function() {
+    vcodes.length = 0;
+
+    var vcodeValues = cordys.selectXMLNodes(GetVendorMasterAutosuggestModel.getData(), ".//*[local-name()='vendor_code']");
+
+    for (var n = 0; n < vcodeValues.length; n++) {
+        vcodes[n] = cordys.getTextContent(vcodeValues[n]);
+    }
+    return vcodes;
+}
+function Uname1() {
+    this.DataProvider();
+}
+Uname1.prototype.getSuggestions = function() {
+    vnames.length = 0;
+
+    var vnameValues = cordys.selectXMLNodes(GetVendorMasterAutosuggestModel.getData(), ".//*[local-name()='vendor_name']");
+
+    for (var n = 0; n < vnameValues.length; n++) {
+        vnames[n] = cordys.getTextContent(vnameValues[n]);
+    }
+    return vnames;
+}
+function Uname2() {
+    this.DataProvider();
+}
+Uname2.prototype.getSuggestions = function() {
+    vlocation.length = 0;
+
+    var vlocationValues = cordys.selectXMLNodes(GetVendorMasterAutosuggestModel.getData(), ".//*[local-name()='vendor_location']");
+
+    for (var n = 0; n < vlocationValues.length; n++) {
+        vlocation[n] = cordys.getTextContent(vlocationValues[n]);
+    }
+    return vlocation;
+}
+function GetVendorMasterAutosuggestModel_OnRequest(eventObject)
+{
+    cordys.setNodeText(eventObject.request,".//*[local-name()='vendor_code']","");
+    cordys.setNodeText(eventObject.request,".//*[local-name()='vendor_name']","");
+    cordys.setNodeText(eventObject.request,".//*[local-name()='vendor_location']","");
+    cordys.setNodeText(eventObject.request,".//*[local-name()='vendor_status']","");
+    cordys.setNodeText(eventObject.request,".//*[local-name()='company_code']","");
+    cordys.setNodeText(eventObject.request,".//*[local-name()='erp_id']","");
+}
+function search1_Click(eventObject)
+{
+    getVendorMasterModel.reset();
+}
+function refresh1_Click(eventObject)
+{
+    vcode.setValue("");
+    vname.setValue("");
+    vlocation1.setValue("");
+    vstatus.setValue("");
+     getVendorMasterModel.reset();
+}
+function save1_Click(eventObject)
+{
+    getVendorMasterModel.synchronize();
+     if (!getVendorMasterModel.soapFaultOccurred) {
+    alert("Updated Successfully"); }
+    else
+    {
+     alert("Updated Failed");
+    }
+}
+
+function showDescription(rowindex) {
+   
+        var data = new Object();
+        data.vendorcode= vendor_code[rowindex].getValue();
+        application.showDialog(Details.XMLDocument.documentElement, data,null,closeHandler);
+    
+}
+
+function closeHandler(dialogReturnValue)
+{
+  // refreshBtn.click();
+}   
+
+
+function vendorTable_OnRowChecked(eventObject)
+{
+    if(eventObject.checked)
+    {
+           if(vendorTable.getCheckedRows().length>1)
+           {
+                alert("select only one row");
+                 eventObject.returnValue = false;
+           }
+           
+          else if(vendorTable.getCheckedRows().length==1)
+           {
+            rowindx=eventObject.rowIndex;
+            showbankdetails.enable();
+           }
+           else
+           {
+            showbankdetails.disable();
+           }
+    }
+    else {
+    if(vendorTable.getCheckedRows().length==1)
+           {
+            showbankdetails.enable();
+           }
+           else
+           {
+            showbankdetails.disable();
+           }
+       }    
+}
+function vcode_Change(eventObject)
+{
+    getVendorMasterModel.reset();
+}
+function vname_Change(eventObject)
+{
+    getVendorMasterModel.reset();
+}
+function vlocation1_Change(eventObject)
+{
+    getVendorMasterModel.reset();
+}
+
+function showbankdetails_Click(eventObject)
+{
+    showDescription(rowindx);
+}
+function getVendorMasterModel_BeforeSynchronize(eventObject)
+{
+     var UpdateDocument = eventObject.updateDocument;
+    var parentnodes = cordys.selectXMLNodes(UpdateDocument, ".//*[local-name()='Update']");
+    for (var r = 0; r < parentnodes.length; r++) {
+        var updatetuples = cordys.selectXMLNodes(UpdateDocument, ".//*[local-name()='tuple']");
+        for (var l = 0; l < updatetuples.length; l++) {
+            var newNode = cordys.selectXMLNode(updatetuples[l], ".//*[local-name()='new']");
+            var childnode = cordys.selectXMLNodes(updatetuples[l], ".//*[local-name()='win_vendor_master']");
+            var oldNode = cordys.selectXMLNode(updatetuples[l], ".//*[local-name()='old']");
+            
+            
+            for (var n = 0; n < childnode.length; n++) {
+                childnode[n].removeChild(cordys.selectXMLNode(childnode[n], ".//*[local-name()='erp_name']"));
+             
+               
+ 
+            }
+
+        }
+
+    }
+}

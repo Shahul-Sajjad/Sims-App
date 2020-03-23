@@ -1,0 +1,41 @@
+button {
+    margin: 5px 0px 5px 5px;
+}
+
+table {
+    width: max-content;
+    th {
+        padding: 0px 15px 0px 0px;
+    }
+    td {
+        padding-right: 15px;
+    }
+}
+
+.tableAlign {
+    overflow-x: auto;
+}
+
+.mat-tab-label-active {
+    background-color: red;
+    opacity: 1 !important;
+}
+
+.menu-extended {
+    margin-top: 12px;
+    background: lightgrey;
+    border-radius: 50%;
+}
+
+.rght {
+    margin-left: 14px;
+}
+
+.lft {
+    margin-left: -15px;
+}
+
+label {
+    font-weight: bolder;
+    font-size: 24px;
+}

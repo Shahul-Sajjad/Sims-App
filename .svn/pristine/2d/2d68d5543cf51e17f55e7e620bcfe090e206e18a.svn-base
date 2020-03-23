@@ -1,0 +1,68 @@
+<div class="wrapper-1">
+    <div id="content" class="">
+        <div class="page right-content">
+            <div class="mt-10 ">
+                <div class="common card-base-1 bg-light ml-10 mr-10">
+                    <div class="card">
+                        <div class="card-header header-font container-fluid" style="background-color:aliceblue;">
+                            <div class="row">
+                                <div class="col" style="margin-left:22px;margin-top: 10px;">
+                                    <b>Location Search Details</b>
+                                </div>
+                                <div class="col-8">
+
+                            </div>
+
+                            </div>
+                        </div>
+                        <!-- <div id="collapsibleBody" class="collapse"> -->
+                        <div class="card-body">
+                            <form class="row" [formGroup]="locationSearchupdateform">
+                                    <mat-form-field appearance="outline" fxFlex>
+                                            <mat-label>Sno</mat-label>
+                                            <input matInput formControlName="srNo"
+                                                                                placeholder="Sno" readonly >
+                                        </mat-form-field>
+                                <mat-form-field appearance="outline" fxFlex>
+                                    <mat-label>Location</mat-label>
+                                    <input matInput formControlName="location"
+                                       
+                                        placeholder="location" >
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>GST NO</mat-label>
+                                    <input matInput formControlName="gstNo"
+                                  placeholder="GST NO" >
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Business Place</mat-label>
+                                    <input matInput formControlName="businessPlace"
+        
+                                        placeholder="Business Place">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Comapny Code</mat-label>
+                                    <input matInput formControlName="companyCode"
+                                      
+                                        placeholder="Comapny Code">
+                                </mat-form-field>
+
+
+                                <div class="btndiv">
+                                    <button class="searchBtn1" mat-raised-button (click)="updatelocationDetails()">Save</button>
+                                    <!-- <button class="searchBtn1" mat-raised-button   (click)="openDialogs()" >BankDetails</button> -->
+                                    <button class="searchBtn1" mat-raised-button (click)="onNoClick()">Close</button>
+
+                                    <!-- <button class="tableBtn1" mat-raised-button  type="submit">Save</button> -->
+
+
+                                </div>
+
+
+                            </form>
+                        </div>
+
+                    </div>

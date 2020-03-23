@@ -1,0 +1,19 @@
+.mat-raised-button:not([class*=mat-elevation-z]) {
+    margin: 5px;
+    font-size: 11px;
+    padding: 0px 4px 0px 4px;
+}
+.snackBarColor{
+background-color: rgb(29, 102, 29);
+  color:lightgreen;
+}
+.alignBtn{
+  position: fixed;
+    z-index: 1;
+    width: 100%;
+    top: 64px;
+    background: white;
+}
+button:hover{
+  background: #74a4bb;
+}

@@ -1,0 +1,865 @@
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CommonService } from 'src/app/services/common.service';
+import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { InvoiceDataService } from 'src/app/services/invoice-data.service';
+import * as invoiceModel from 'src/app/models/invoice-item.model';
+
+@Component({
+  selector: 'app-invoice-header',
+  templateUrl: './invoice-header.component.html',
+  styleUrls: ['./invoice-header.component.scss']
+})
+export class InvoiceHeaderComponent implements OnInit {
+
+
+
+  invoiceHeaderForm = new FormGroup({
+    invoiceNumber: new FormControl(''),
+    taskId: new FormControl(''),
+    classification: new FormControl(''),
+    invoiceDate: new FormControl(''),
+    invoiceRcptDate: new FormControl(''),
+    invoiceType: new FormControl(''),
+    vendorCode: new FormControl(''),
+    vendorName: new FormControl(''),
+    vendorPan: new FormControl(''),
+    poNumber: new FormControl(''),
+    companyCode: new FormControl(''),
+    currency: new FormControl(''),
+    language: new FormControl(''),
+    company: new FormControl(''),
+    country: new FormControl(''),
+    localAmt: new FormControl(''),
+    basic: new FormControl(''),
+    freight: new FormControl(''),
+    taxAmt: new FormControl(''),
+    total: new FormControl(''),
+    difference: new FormControl(''),
+    payMethod: new FormControl(''),
+    regionDes: new FormControl(''),
+    exchangeRate: new FormControl(''),
+    vendorGST: new FormControl(''),
+    billGST: new FormControl(''),
+    houseBankId: new FormControl(''),
+    digitalSign: new FormControl(''),
+    original: new FormControl(''),
+    dsValid: new FormControl(''),
+    billOfEntry: new FormControl(''),
+    location: new FormControl(''),
+    batchId: new FormControl(''),
+    igmDate: new FormControl(''),
+    validationDate: new FormControl(''),
+    scanDate: new FormControl(''),
+    invoiceDueDate: new FormControl(''),
+    erpDueDate: new FormControl(''),
+    countryCode: new FormControl(''),
+    city: new FormControl(''),
+    name2: new FormControl(''),
+    vendorRegion: new FormControl(''),
+    street: new FormControl(''),
+    addresseeDOA: new FormControl(''),
+    addresseeOCC: new FormControl(''),
+    DOACC: new FormControl(''),
+    portCode: new FormControl(''),
+    invoiceStatus: new FormControl(''),
+    purchaseGroup: new FormControl(''),
+    OCCRemarks: new FormControl(''),
+    vendorAdd: new FormControl(''),
+    billingAdd: new FormControl(''),
+    swissCode: new FormControl(''),
+    placeOfSupply: new FormControl(''),
+    sectionCode: new FormControl(''),
+    transaction: new FormControl(''),
+    docType: new FormControl(''),
+    businessArea: new FormControl(''),
+    bankKey: new FormControl(''),
+    businessPlace: new FormControl(''),
+    taxCode: new FormControl('')
+  });
+
+  @Input() invNum;
+  @Input() internalId;
+  @Input() mode;
+  @Input() taskId;
+
+  @Output() valueChange = new EventEmitter();
+
+  showAddresseeDOA = true;
+  showCountry = true;
+  showCity = true;
+  showRegion = true;
+  showName2 = true;
+  showStreet = true;
+  showBatchId = true;
+  showCostCenter = true;
+  showBusinessArea = true;
+  showPoNumber = true;
+  showFreight = true;
+  oneTimeCode;
+  showVendorPan = true;
+  showDOACC = true;
+  userId;
+
+  constructor(
+    private commonService: CommonService,
+    private simsHttpCoreServices: SimsHttpCoreServices,
+    private invoiceDataService: InvoiceDataService
+  ) { }
+
+  invoiceTypeList: invoiceModel.InvoiceTypeList[] = [];
+
+  companyList: invoiceModel.CompanyList[] = [];
+
+  gstNoLists: invoiceModel.GstNoList[] = [];
+
+  locationLists: invoiceModel.LocationList[] = [];
+
+  taxCodeLists: invoiceModel.TaxCodeLists[] = [];
+
+  businessAreaLists: invoiceModel.BusinessAreaLists[] = [];
+
+  currencyLists: invoiceModel.CurrencyList[] = [
+    { value: 'INR', name: 'INR' },
+    { value: 'USD', name: 'USD' },
+    { value: 'EUR', name: 'EUR' },
+    { value: 'GBP', name: 'GBP' },
+    { value: 'SGD', name: 'SGD' },
+    { value: 'MYR', name: 'MYR' },
+    { value: 'ZMK', name: 'ZMK' },
+    { value: 'XCD', name: 'XCD' },
+    { value: 'XDR', name: 'XDR' },
+    { value: 'XAU', name: 'XAU' },
+    { value: 'XPD', name: 'XPD' },
+    { value: 'XAG', name: 'XAG' },
+    { value: 'XPT', name: 'XPT' },
+    { value: 'FRF', name: 'FRF' },
+    { value: 'ILS', name: 'ILS' },
+    { value: 'TRY', name: 'TRY' },
+    { value: 'SKK', name: 'SKK' },
+    { value: 'CZK', name: 'CZK' },
+    { value: 'PLN', name: 'PLN' },
+    { value: 'ECU', name: 'ECU' }
+  ];
+
+  sectionCodeLists: invoiceModel.TypeLists[] = [
+    { value: 'ANKL', description: 'ANKL' },
+    { value: 'AUBD', description: 'AUBD' },
+    { value: 'BIPN', description: 'BIPN' },
+    { value: 'CORP', description: 'CORP' },
+    { value: 'DBHS', description: 'DBHS' },
+    { value: 'GOA1', description: 'GOA1' },
+    { value: 'JAMU', description: 'JAMU' },
+    { value: 'JHDA', description: 'JHDA' },
+    { value: 'MDP1', description: 'MDP1' },
+    { value: 'MDP2', description: 'MDP2' },
+    { value: 'MEU1', description: 'MEU1' },
+    { value: 'MEU2', description: 'MEU2' },
+    { value: 'NAGP', description: 'NAGP' },
+    { value: 'PNCE', description: 'PNCE' },
+    { value: 'PTHM', description: 'PTHM' },
+    { value: 'PUNE', description: 'PUNE' },
+    { value: 'SKIM', description: 'SKIM' },
+    { value: 'TRPR', description: 'TRPR' },
+    { value: 'TRU1', description: 'TRU1' },
+    { value: 'VADO', description: 'VADO' },
+    { value: 'VSKP', description: 'VSKP' }
+  ];
+
+  docTypeLists: invoiceModel.TypeLists[] = [
+    { value: 'KA', description: 'KA-Vendor document' },
+    { value: 'KB', description: 'KB-IN VenRCMAdvPayRef' },
+    { value: 'KC', description: 'KC-IN Vendor Inv-RCM-FI' },
+    { value: 'KD', description: 'KD-Vend_Cust Clearing' },
+    { value: 'KE', description: 'KE-Employee Vendor Doc' },
+    { value: 'KF', description: 'KF-IN VendDrMemoRCM-FI' },
+    { value: 'KG', description: 'KG-Vendor credit memo' },
+    { value: 'KR ', description: 'KR-Vendor invoice' },
+    { value: 'KZ', description: 'KZ-Vendor payment' },
+    { value: 'RC', description: 'RC-IN VendorInvRCM-MIRO' },
+    { value: 'RE', description: 'RE-Vendor Invoice' },
+    { value: 'KH', description: 'KH-IN VendCrMemoRCM-FI' },
+    { value: 'RB', description: 'RB-IN VendCrMemRCM-MIRO' },
+    { value: 'RD', description: 'RD-IN VendDrMemRCM-MIRO' },
+    { value: 'KS', description: 'KS-Vendor STO Invoice' }
+  ];
+
+  transactionLists: invoiceModel.TypeLists[] = [
+    { value: 'Vendor Invoice', description: 'Vendor Invoice' },
+    { value: 'Subsequent Debit', description: 'Subsequent Debit' },
+    { value: 'Subsequent Credit', description: 'Subsequent Credit' }
+  ];
+
+  ngOnInit() {
+    this.getCompanyWiseInvoiceTypes();
+    this.getDistinctCompCode();
+    this.getCompanyWiseLocations();
+    this.getDistinctBillToGstNo();
+    this.getUserRole();
+    this.getTaxCodeDetails();
+    this.getBusinessAreaDetails();
+    this.getInvoiceHeaderDetails();
+  }
+
+  getCompanyWiseInvoiceTypes() {
+
+    const dataRequest = '<comp_code>L001</comp_code>';
+    // tslint:disable-next-line: max-line-length
+    const soapRequest = this.commonService.getSoapBody('GetCompanyWiseInvoiceTypes', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+      const invoiceTypeListInfo = this.responseDataManipulation(response, 'GetCompanyWiseInvoiceTypesResponse');
+      invoiceTypeListInfo.forEach(element => {
+        const invoiceTypeList = {
+          slNo: element.old[0].mtr_ap_invoice_type[0].slno[0],
+          invoiceType: element.old[0].mtr_ap_invoice_type[0].invoice_type[0]
+        };
+        this.invoiceTypeList.push(invoiceTypeList);
+      });
+    });
+
+  }
+  getDistinctCompCode() {
+    const dataRequest = '<queryString>select distinct comp_code,name from mtr_entity where erp_id=' + '\'SAP001\'' + '</queryString>';
+    const soapRequest = this.commonService.getSoapBody('RunSqlQuery', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+      const companyItems = this.responseDataManipulation(response, 'RunSqlQueryResponse');
+      companyItems.forEach(element => {
+        const companyList = {
+          compCode: element.old[0].mtr_entity[0].comp_code[0],
+          compName: element.old[0].mtr_entity[0].name[0]
+        };
+        this.companyList.push(companyList);
+      });
+    });
+  }
+
+  getDistinctBillToGstNo() {
+    // tslint:disable-next-line: max-line-length
+    const dataRequest = `<queryString>select distinct * from (select gstNo +' ('+ state +')-'+ business_Place as billToGstNo,gstNo from dbo.mtr_gst_number where plant_Code!= '') as T</queryString>`;
+    const soapRequest = this.commonService.getSoapBody('RunSqlQuery', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+      let distinctBillToGstNO = this.responseDataManipulation(response, 'RunSqlQueryResponse');
+      distinctBillToGstNO.forEach(element => {
+        const gstNoList = {
+          name: element.old[0].TABLE[0].billToGstNo[0],
+          value: element.old[0].TABLE[0].gstNo[0]
+        };
+        this.gstNoLists.push(gstNoList);
+      });
+    });
+  }
+
+  getCompanyWiseLocations() {
+
+    const dataRequest = '<comp_code>L001</comp_code>';
+    // tslint:disable-next-line: max-line-length
+    const soapRequest = this.commonService.getSoapBody('GetCompanyWiseLocations', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+
+      const companyLocation = this.responseDataManipulation(response, 'GetCompanyWiseLocationsResponse');
+      companyLocation.forEach(element => {
+        const locationLists = {
+          srno: element.old[0].mtr_location[0].srno[0],
+          location: element.old[0].mtr_location[0].location[0],
+          gstNo: element.old[0].mtr_location[0].gstNo[0],
+          businessPlace: element.old[0].mtr_location[0].businessPlace[0],
+        };
+        this.locationLists.push(locationLists);
+      });
+    });
+
+  }
+
+  getInvoiceHeaderDetails() {
+    const dataRequest = '<InvoiceNumber>' + this.invNum + '</InvoiceNumber>' + '<internalId>' + this.internalId + '</internalId>';
+    // tslint:disable-next-line: max-line-length
+    const soapRequest = this.commonService.getSoapBody('GetInvoiceHeaderDetailsbyInvNo', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+      const headerFormItems = this.responseDataManipulation(response, 'GetInvoiceHeaderDetailsbyInvNoResponse');
+      headerFormItems.forEach(element => {
+        this.setValueLocalStorage(element);
+        this.setInvoiceHeaderFormData(element);
+        this.headerFormValidation();
+      });
+    });
+  }
+
+  getBusinessAreaDetails() {
+    const dataRequest = '<queryString>select * from mtr_business_area</queryString>';
+    const soapRequest = this.commonService.getSoapBody('RunSqlQuery', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+      const businessAreaInfo = this.responseDataManipulation(response, 'RunSqlQueryResponse');
+      businessAreaInfo.forEach(element => {
+        const businessAreaDetails = {
+          businessArea: element.old[0].mtr_business_area[0].businessArea[0],
+          description: element.old[0].mtr_business_area[0].description[0],
+        };
+        this.businessAreaLists.push(businessAreaDetails);
+      });
+    });
+  }
+
+  getTaxCodeDetails() {
+    const dataRequest = '<win_tx_code></win_tx_code><entity_id></entity_id>';
+    const soapRequest = this.commonService.getSoapBody('GetTaxdescbytaxcode', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+      const taxCodeInfo = this.responseDataManipulation(response, 'GetTaxdescbytaxcodeResponse');
+      taxCodeInfo.forEach(element => {
+        const taxCodes = {
+          tax: element.old[0].win_taxcode[0].tax[0],
+          win_tx_code: element.old[0].win_taxcode[0].win_tx_code[0]
+        };
+        this.taxCodeLists.push(taxCodes);
+      });
+    });
+  }
+
+  onChangeInvoiceType() {
+    const invoiceType = this.invoiceHeaderForm.value.invoiceType;
+    const invoiceClassification = this.invoiceHeaderForm.value.classification;
+    const compCode = this.invoiceHeaderForm.value.companyCode;
+    const invoiceTypeList = ['1', '5', '9', '10', '18', '20', '22'];
+
+    if (invoiceTypeList.includes(invoiceType)) {
+      this.showAddresseeDOA = false;
+      this.showCostCenter = false;
+    } else {
+      this.showAddresseeDOA = true;
+      this.showCostCenter = true;
+    }
+
+    if (invoiceClassification === 'Non-PO') {
+      this.showCostCenter = true;
+    }
+
+    if (compCode === 'L001') {
+      if (invoiceType === '5' || invoiceType === '6' || invoiceType === '7' || invoiceType === '8' || invoiceType === '23') {
+        this.invoiceHeaderForm.patchValue({
+          houseBankId: ''
+        });
+      } else {
+        this.invoiceHeaderForm.patchValue({
+          houseBankId: 'CIT06'
+        });
+      }
+    }
+
+    if ((invoiceType === '5' || invoiceType === '6' || invoiceType === '14') && invoiceClassification === 'Non-PO') {
+      this.showPoNumber = true;
+    } else {
+      this.showPoNumber = true;
+    }
+
+    if (invoiceType === '1' || invoiceType === '5' || invoiceType === '9' || invoiceType === '10' || invoiceType === '18' || invoiceType === '20' || invoiceType === '22') {
+      this.showAddresseeDOA = true;
+    } else {
+      this.showAddresseeDOA = false;
+    }
+
+    if (invoiceType === '16') {
+      this.invoiceDataService.invoiceDetailHandler.next();
+    } else {
+      this.invoiceDataService.invoiceDetailHandler.next();
+    }
+
+    if (invoiceType === '27' && invoiceClassification === 'Non-PO') {
+      this.showCountry = true;
+      this.showCity = true;
+      this.showRegion = true;
+      this.showName2 = true;
+      this.showStreet = true;
+      this.oneTimeCode = '1';
+
+    } else {
+      this.showCountry = true;
+      this.showCity = true;
+      this.showRegion = true;
+      this.showName2 = true;
+      this.showStreet = true;
+
+      if (this.oneTimeCode === '1') {
+        this.invoiceHeaderForm.patchValue({
+          vendorCode: localStorage.getItem('VendorCode')
+        });
+      }
+    }
+    if (invoiceType === '17' || invoiceType === '18' || invoiceType === '31') {
+      this.showFreight = false;
+    } else {
+      if (this.userId === '48') {
+        this.showFreight = true;
+      }
+    }
+
+    if (invoiceClassification === 'Non-PO') {
+      this.showCostCenter = true;
+    }
+    if ((invoiceType === '16' || invoiceType === '15') && (invoiceClassification === 'Non-PO')) {
+      this.showFreight = false;
+    } else {
+      if (this.userId === '48') {
+        this.showFreight = true;
+      }
+
+    }
+  }
+
+  getAllDoaLevels(data: any) {
+    const soapRequest = this.commonService.getSoapBody('GetAllDoaLevels', 'http://schemas.cordys.com/WINDatabaseMetadata', data);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(
+      (response) => {
+
+      });
+
+  }
+
+  headerFormValidation() {
+
+    this.showBatchId = false;
+    this.showCity = false;
+    this.showCountry = false;
+    this.showName2 = false;
+    this.showRegion = false;
+    const invoiceType = this.invoiceHeaderForm.value.invoiceType;
+    const invoiceClassification = this.invoiceHeaderForm.value.classification;
+    const invoiceStatus = this.invoiceHeaderForm.value.invoiceStatus.split('-')[1];
+    const invoiceTypeLists = ['1', '5', '9', '10', '18', '20', '22'];
+
+    if (invoiceTypeLists.includes(invoiceType)) {
+      this.showAddresseeDOA = false;
+      this.showCostCenter = false;
+    } else {
+      this.showAddresseeDOA = true;
+      this.showCostCenter = true;
+    }
+
+    if (invoiceClassification === 'Non-PO') {
+      this.showAddresseeDOA = false;
+      this.showCostCenter = false;
+    }
+
+    if (invoiceType === '27' && invoiceClassification === 'Non-PO') {
+      this.showCity = false;
+      this.showCountry = false;
+      this.showRegion = false;
+      this.showName2 = false;
+      this.showStreet = false;
+    }
+
+  }
+
+  getUserRole() {
+    // tslint:disable-next-line: max-line-length
+    const dataRequest = '<ud_userid>asavarinaik@PSPartition</ud_userid>';
+    const soapRequest = this.commonService.getSoapBody('GetRoleNameByUserID', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+      const userInfo = this.responseDataManipulation(response, 'GetRoleNameByUserIDResponse');
+      this.userId = userInfo[0].old[0].getRoleNameByUserID[0].getRoleNameByUserID[0];
+    });
+  }
+
+  setInvoiceHeaderFormData(element) {
+    console.log(element.old[0].invoice_header[0]);
+    this.invoiceHeaderForm.patchValue({
+      invoiceNumber: element.old[0].invoice_header[0].invoice_no[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_no[0],
+      taskId: element.old[0].invoice_header[0].work_item[0] instanceof Object ? '' : element.old[0].invoice_header[0].work_item[0],
+      classification: element.old[0].invoice_header[0].invoice_category[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_category[0],
+      invoiceDate: element.old[0].invoice_header[0].invoice_date[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_date[0],
+      invoiceRcptDate: element.old[0].invoice_header[0].invoice_recieved_date[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_recieved_date[0],
+      invoiceType: element.old[0].invoice_header[0].invoice_type[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_type[0],
+      vendorCode: element.old[0].invoice_header[0].vendor[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor[0],
+      vendorName: element.old[0].invoice_header[0].vendor_name[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor_name[0],
+      vendorPan: element.old[0].invoice_header[0].vendor_pan[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor_pan[0],
+      poNumber: element.old[0].invoice_header[0].invoice_po[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_po[0],
+      companyCode: element.old[0].invoice_header[0].comp_code[0] instanceof Object ? '' : element.old[0].invoice_header[0].comp_code[0],
+      currency: element.old[0].invoice_header[0].currency[0] instanceof Object ? '' : element.old[0].invoice_header[0].currency[0],
+      language: element.old[0].invoice_header[0].lang[0] instanceof Object ? '' : element.old[0].invoice_header[0].lang[0],
+      company: element.old[0].invoice_header[0].comp_code[0] instanceof Object ? '' : element.old[0].invoice_header[0].comp_code[0],
+      country: element.old[0].invoice_header[0].entity_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].entity_id[0],
+      localAmt: element.old[0].invoice_header[0].local_curr_amt[0] instanceof Object ? '' : element.old[0].invoice_header[0].local_curr_amt[0],
+      basic: element.old[0].invoice_header[0].sub_total[0] instanceof Object ? '' : element.old[0].invoice_header[0].sub_total[0],
+      freight: element.old[0].invoice_header[0].frieght_amount[0] instanceof Object ? '' : element.old[0].invoice_header[0].frieght_amount[0],
+      taxAmt: element.old[0].invoice_header[0].tax_total[0] instanceof Object ? '' : element.old[0].invoice_header[0].tax_total[0],
+      total: element.old[0].invoice_header[0].grand_total[0] instanceof Object ? '' : element.old[0].invoice_header[0].grand_total[0],
+      // tslint:disable-next-line: max-line-length
+      difference: (+element.old[0].invoice_header[0].grand_total[0] - (+element.old[0].invoice_header[0].sub_total[0] + +element.old[0].invoice_header[0].frieght_amount[0] + +element.old[0].invoice_header[0].tax_total[0])).toFixed(2),
+      payMethod: element.old[0].invoice_header[0].payment_method[0] instanceof Object ? '' : element.old[0].invoice_header[0].payment_method[0],
+      regionDes: element.old[0].invoice_header[0].Region_desc[0] instanceof Object ? '' : element.old[0].invoice_header[0].Region_desc[0],
+      exchangeRate: element.old[0].invoice_header[0].exchange_rate[0] instanceof Object ? '' : element.old[0].invoice_header[0].exchange_rate[0],
+      vendorGST: element.old[0].invoice_header[0].vendor_gstNo[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor_gstNo[0],
+      billGST: element.old[0].invoice_header[0].billToGstNo[0] instanceof Object ? '' : element.old[0].invoice_header[0].billToGstNo[0],
+      houseBankId: element.old[0].invoice_header[0].house_bankid[0] instanceof Object ? '' : element.old[0].invoice_header[0].house_bankid[0],
+      digitalSign: element.old[0].invoice_header[0].digital_sign[0] instanceof Object ? '' : element.old[0].invoice_header[0].digital_sign[0],
+      original: element.old[0].invoice_header[0].is_original[0] instanceof Object ? '' : element.old[0].invoice_header[0].is_original[0],
+      dsValid: element.old[0].invoice_header[0].validation_digital_sign[0] instanceof Object ? '' : element.old[0].invoice_header[0].validation_digital_sign[0],
+      billOfEntry: element.old[0].invoice_header[0].bill_of_entry[0] instanceof Object ? '' : element.old[0].invoice_header[0].bill_of_entry[0],
+      location: element.old[0].invoice_header[0].location[0] instanceof Object ? '' : element.old[0].invoice_header[0].location[0],
+      batchId: element.old[0].invoice_header[0].internal_doc_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].internal_doc_id[0],
+      igmDate: element.old[0].invoice_header[0].igm_date[0] instanceof Object ? '' : element.old[0].invoice_header[0].igm_date[0],
+      validationDate: element.old[0].invoice_header[0].validation_date[0] instanceof Object ? '' : element.old[0].invoice_header[0].validation_date[0],
+      scanDate: element.old[0].invoice_header[0].inv_scan_date[0] instanceof Object ? '' : element.old[0].invoice_header[0].inv_scan_date[0],
+      invoiceDueDate: element.old[0].invoice_header[0].inv_due_date[0] instanceof Object ? '' : element.old[0].invoice_header[0].inv_due_date[0],
+      erpDueDate: element.old[0].invoice_header[0].erp_due_date[0] instanceof Object ? '' : element.old[0].invoice_header[0].erp_due_date[0],
+      countryCode: element.old[0].invoice_header[0].country_code[0] instanceof Object ? '' : element.old[0].invoice_header[0].country_code[0],
+      city: element.old[0].invoice_header[0].city[0] instanceof Object ? '' : element.old[0].invoice_header[0].city[0],
+      name2: element.old[0].invoice_header[0].name2[0] instanceof Object ? '' : element.old[0].invoice_header[0].name2[0],
+      vendorRegion: element.old[0].invoice_header[0].region[0] instanceof Object ? '' : element.old[0].invoice_header[0].region[0],
+      street: element.old[0].invoice_header[0].street[0] instanceof Object ? '' : element.old[0].invoice_header[0].street[0],
+      addresseeDOA: element.old[0].invoice_header[0].addressee[0] instanceof Object ? '' : element.old[0].invoice_header[0].addressee[0],
+      addresseeOCC: element.old[0].invoice_header[0].addressee_name[0] instanceof Object ? '' : element.old[0].invoice_header[0].addressee_name[0],
+      DOACC: element.old[0].invoice_header[0].costcenter[0] instanceof Object ? '' : element.old[0].invoice_header[0].costcenter[0],
+      portCode: element.old[0].invoice_header[0].port_code[0] instanceof Object ? '' : element.old[0].invoice_header[0].port_code[0],
+      invoiceStatus: element.old[0].invoice_header[0].Invoice_Status[0] + '-' + element.old[0].invoice_header[0].keyword[0],
+      purchaseGroup: element.old[0].invoice_header[0].purchase_grp[0] instanceof Object ? '' : element.old[0].invoice_header[0].purchase_grp[0],
+      OCCRemarks: element.old[0].invoice_header[0].validator_remarks[0] instanceof Object ? '' : element.old[0].invoice_header[0].validator_remarks[0],
+      vendorAdd: element.old[0].invoice_header[0].vendor_address[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor_address[0],
+      billingAdd: '',
+      swissCode: element.old[0].invoice_header[0].bank_ref[0] instanceof Object ? '' : element.old[0].invoice_header[0].bank_ref[0],
+      placeOfSupply: element.old[0].invoice_header[0].place_supply[0] instanceof Object ? '' : element.old[0].invoice_header[0].place_supply[0],
+      sectionCode: element.old[0].invoice_header[0].secCode[0] instanceof Object ? '' : element.old[0].invoice_header[0].secCode[0],
+      transaction: element.old[0].invoice_header[0].inv_txn_type[0] instanceof Object ? '' : element.old[0].invoice_header[0].inv_txn_type[0],
+      docType: element.old[0].invoice_header[0].doc_type[0] instanceof Object ? '' : element.old[0].invoice_header[0].doc_type[0],
+      businessArea: element.old[0].invoice_header[0].businessArea[0] instanceof Object ? '' : element.old[0].invoice_header[0].businessArea[0],
+      bankKey: element.old[0].invoice_header[0].partner_bank_key[0] instanceof Object ? '' : element.old[0].invoice_header[0].partner_bank_key[0] == 'undefined' ? '' : element.old[0].invoice_header[0].partner_bank_key[0],
+      businessPlace: element.old[0].invoice_header[0].businessPlace[0] instanceof Object ? '' : element.old[0].invoice_header[0].businessPlace[0],
+      taxCode: element.old[0].invoice_header[0].taxcode[0] instanceof Object ? '' : element.old[0].invoice_header[0].taxcode[0]
+    });
+  }
+
+  responseDataManipulation(response, responseKey) {
+    const parseData = this.commonService.parseXML(response);
+    return parseData['__zone_symbol__value']['SOAP:Envelope']['SOAP:Body'][0][responseKey][0].tuple;
+
+  }
+
+  onChangeInvoiceClassification() {
+    const invoiceHeaderValue = this.invoiceHeaderForm.value.invoiceHeaderValue;
+    const invoiceClassification = this.invoiceHeaderForm.value.classification;
+    const doacc = this.invoiceHeaderForm.value.DOACC;
+    const invoiceDetailsTable = this.invoiceDataService.getInvoiceDetailTableData;
+    const invoiceHeaderLists = ['1', '5', '9', '10', '18', '20', '22'];
+    const invoiceRoleName = ['38', '32', '34', '2'];
+    const roleNameApTeam = ['34', '35', '36', '37', '48'];
+
+    // if((formInpBpmIn =="DOA" || formInpBpmIn =="ADDRESSEE") && is_ses == "Yes" && invoice_classf.getValue()=="PO"){ }
+    // else{ }
+
+    if (invoiceClassification === 'PO') {
+
+this.invoiceHeaderForm
+      // pending
+
+      // invoice_detailsTable.hideColumn(13);
+      // invoice_detailsTable.hideColumn(14);
+      // invoice_detailsTable.hideColumn(15);
+      // invoice_detailsTable.hideColumn(17);
+      // invoice_detailsTable.hideColumn(18);
+      // invoice_detailsTable.hideColumn(19);
+      // invoice_detailsTable.hideColumn(20);
+      // invoice_detailsTable.showColumn(2);
+      // invoice_detailsTable.showColumn(3);
+      // invoice_detailsTable.showColumn(4);
+      // invoice_detailsTable.showColumn(5);
+      // invoice_detailsTable.showColumn(11);
+      // invoice_detailsTable.showColumn(12);
+      //  invoice_detailsTable.hideColumn(5);
+      // threewaymatchinTab.show();
+      // igmDate.show();
+
+      //  purchaseGrp.show();
+      //   invoice_po.show();
+      //   syncPO.show();
+    } else {
+      // pending
+      // invoice_detailsTable.hideColumn(2);
+      // invoice_detailsTable.hideColumn(3);
+      // invoice_detailsTable.hideColumn(4);
+      // invoice_detailsTable.hideColumn(5);
+      // invoice_detailsTable.hideColumn(11);
+      // invoice_detailsTable.hideColumn(12);
+      // invoice_detailsTable.hideColumn(17);
+      // invoice_detailsTable.hideColumn(18);
+      // invoice_detailsTable.hideColumn(19);
+      // invoice_detailsTable.showColumn(13);
+      // invoice_detailsTable.showColumn(14);
+      // invoice_detailsTable.showColumn(15);
+      // invoice_detailsTable.showColumn(20);
+      // threewaymatchinTab.hide();
+      // igmDate.hide();
+      //  purchaseGrp.hide();
+      //   invoice_po.hide();
+      //   syncPO.hide();
+    }
+
+    if (invoiceHeaderLists.includes(invoiceHeaderValue)) {
+      this.showAddresseeDOA = false;
+      this.showCostCenter = false;
+    } else {
+      this.showAddresseeDOA = true;
+      this.showCostCenter = true;
+    }
+
+    if (invoiceClassification === 'Non-PO') {
+      this.showAddresseeDOA = true;
+      this.showCostCenter = true;
+
+    }
+    if (doacc !== '' && invoiceClassification === 'Non-PO') {
+      for (var t = 0; t <= invoiceDetailsTable.length; t++) {
+        invoiceHeaderValue.tbl_cc[t].patchValue(doacc);
+      }
+
+      invoiceHeaderValue.counter_chkpo = 1;
+    }
+
+    if (doacc != "" && invoiceClassification == "PO" && invoiceHeaderValue.counter_chkpo == 1) {
+      for (var t = 0; t <= invoiceDetailsTable.length; t++) {
+        invoiceHeaderValue.tbl_cc[t].patchValue("");
+      }
+    }
+
+    if (invoiceClassification == "Non-PO") {
+      //     pending
+      // roleValidation();
+      //     docTypeSel.setValue("KR");
+      //     invoice_po.hide();
+      //    syncPO.hide();
+      //     threewaymatchinTab.hide();
+      //    addFrieght.hide();
+      //     syncPO.hide();
+      //     Variance_group.hide();
+
+
+      if (invoiceRoleName.includes(this.userId)) {
+        // //pending
+        // approveBtn_bar.show();
+        // rejectBtn_bar.show();
+
+        // PostBtn.hide();
+        // CancelBtn.hide();
+
+        // submitBtn_bar.hide();
+      }
+    }
+    if (invoiceClassification === 'PO') {
+      this.invoiceHeaderForm.patchValue({
+        docType: 'RE'
+      });
+      // pending
+      //   syncPO.show();
+      //   invoice_po.show();
+
+      if (this.userId === '2') {
+        let btnObjec = {
+          postBtn: false,
+          cancelBtn:false,
+          submitBtn:true,
+          approveBtn:false,
+          rejectBtn:false
+        }
+        this.invoiceDataService.invoiceDetailHandler.next(btnObjec);
+        // pending
+        // PostBtn.hide();
+        // CancelBtn.hide();
+        // submitBtn_bar.show();
+        // approveBtn_bar.hide();
+        // rejectBtn_bar.hide();
+        // For Buyer Firing the Variance Service
+        // CheckIfPoQTyVarianceExistsModel.reset();
+      }
+      if (roleNameApTeam.includes(this.userId)) {
+        // pending
+        // CancelBtn.show();
+        // approveBtn_bar.hide();
+        // rejectBtn_bar.hide();
+
+        // submitBtn_bar.hide();
+
+
+        //     if (PriceResoln == "" && QtyResoln == "")
+        //     Variance_group.hide();
+
+
+        // if (PriceResoln != "" && QtyResoln == "") {
+        //     if (erpid != "JDE001")
+        //         Price_Resolution.show();
+        //     else {
+        //         if (roleName == "2" || roleName == "38" || roleName == "34" || roleName == "32")
+        //             Price_Resolution.show();
+        //         else
+        //             Price_Resolution.hide();
+        //     }
+        //     Qty_Resolution.hide();
+        // }
+        // if (PriceResoln == "" && QtyResoln != "") {
+        //     Price_Resolution.hide();
+        //     Qty_Resolution.show();
+        // }
+        // if (StatusCode.indexOf("PFP") > -1) {
+        //   if (roleName == "48")
+        //     if (mode != "ReadOnly" && formInpBpmIn != "QUERY")
+        //       PostBtn.show();
+
+        // }
+        // else
+        //   PostBtn.hide();
+      }
+
+    }
+    if (invoiceHeaderValue == "27" && invoiceClassification == "Non-PO") {
+      this.showCountry = true;
+      this.showCity = true;
+      this.showRegion = true;
+      this.showName2 = true;
+      this.showStreet = true;
+      this.showVendorPan = true;
+    }
+    else {
+      this.showCountry = false;
+      this.showCity = false;
+      this.showRegion = false;
+      this.showName2 = false;
+      this.showStreet = false;
+      this.showVendorPan = false;
+      this.invoiceHeaderForm.patchValue({
+        name2: ''
+      })
+    }
+    if (invoiceClassification == 'Non-PO') {
+      this.showDOACC = true;
+    }
+
+    // if(invoiceClassification=="Non-PO" && (formInpBpmIn=="ADDRESSEE" || formInpBpmIn=="DOA")){
+    //   tabpageForDoa.show();
+    //  }
+    //  else{
+    //   tabpageForDoa.hide();
+    //   }
+
+
+    if (invoiceHeaderLists.includes(invoiceHeaderValue) && (invoiceClassification == 'PO')) {
+      // pending
+      // tabpageForDoa.hide();
+    }
+    else {
+      //   pending
+      //   if(formInpBpmIn=="ADDRESSEE" || formInpBpmIn=="DOA")
+      //  tabpageForDoa.show();
+    }
+    //   pending
+    //   GetTaxdescbytaxcodeModel.reset();
+    //  if(hdrTax!=undefined && hdrTax!="")
+    //              taxCodeSelect.setValue(hdrTax);
+
+  }
+
+
+
+  onKey(event: any) {
+    let actionData={
+      event:event,
+      disSaveBtn:false
+    }
+    this.invoiceDataService.invoiceDetailHandler.next(actionData);
+    this.invoiceDataService.tabHandler.next("InvoiceHeader");
+    this.invoiceDataService.setInvoiceHeaderData(this.invoiceHeaderForm.value);
+  }
+
+
+  onAmountChange() {
+
+    let subTotal = +this.invoiceHeaderForm.value.basic;
+    let frieghtAmount = +this.invoiceHeaderForm.value.freight;
+    let taxTotal = +this.invoiceHeaderForm.value.taxAmt;
+    const totalAmt = subTotal + frieghtAmount + taxTotal;
+    this.invoiceHeaderForm.patchValue(
+      { total: totalAmt }
+    );
+  }
+
+  OnVendorCodeChange() {
+    const dataRequest = '<vendor_id>' + '' + '</vendor_id>';
+    // tslint:disable-next-line: max-line-length
+    const soapRequest = this.commonService.getSoapBody('GetBankDetailsForVendor', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
+    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+      const vendorBankInfo = this.responseDataManipulation(response, 'GetBankDetailsForVendorResponse');
+    });
+  }
+
+  OncompCodeChange() {
+
+    const companyCode = this.invoiceHeaderForm.value.company;
+    if (companyCode !== 'L001') {
+      this.showBusinessArea = false;
+    } else {
+      this.showBusinessArea = true;
+    }
+
+  }
+
+  onTaxCodeChange() {
+
+    const taxCode = this.invoiceHeaderForm.value.taxCode;
+    let taxCodeInfo = {
+      fieldName: 'taxCode',
+      value: taxCode
+    };
+    this.invoiceDataService.invoiceDetailHandler.next(taxCodeInfo);
+
+  }
+
+  onAddresseeDOAChange() {
+
+    const addresseeDOA = this.invoiceHeaderForm.value.addresseeDOA;
+
+    if (addresseeDOA !== '') {
+
+      const dataRequest = '<invoice_no>' + '' + '</invoice_no>' +
+        '<internal_doc_id>' + '' + '</internal_doc_id>' +
+        '<erp_id>' + '' + '</erp_id>' +
+        '<cost_center>' + '' + '</cost_center>' +
+        '<levels>' + '' + '</levels>' +
+        '<current_user>' + '' + '</current_user>';
+
+      this.getAllDoaLevels(dataRequest);
+
+    }
+  }
+
+  onDOACCChange() {
+    const DOACC = this.invoiceHeaderForm.value.DOACC;
+    const invoiceClassify = this.invoiceHeaderForm.value.classification;
+
+    if (DOACC !== '' && invoiceClassify === 'Non-PO') {
+
+    }
+
+  }
+
+
+  onDOACCFocusOut() {
+    const DOACC = this.invoiceHeaderForm.value.DOACC;
+
+    if (DOACC !== '') {
+      this.onAddresseeDOAChange();
+    }
+
+  }
+
+  onBillGSTNoChange() {
+    const billGSTNo = this.invoiceHeaderForm.value.billGST;
+    const businessPlace = this.gstNoLists.find((billGSTInfo: any) => billGSTInfo.value === billGSTNo).name.split('-')[1];
+    this.invoiceHeaderForm.patchValue({
+      businessPlace
+    });
+  }
+
+  setValueLocalStorage(element) {
+
+    localStorage.setItem('vendorCode ', element.old[0].invoice_header[0].vendor[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor[0]);
+    localStorage.setItem('batchId ', element.old[0].invoice_header[0].internal_doc_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].internal_doc_id[0],);
+
+  }
+
+
+}

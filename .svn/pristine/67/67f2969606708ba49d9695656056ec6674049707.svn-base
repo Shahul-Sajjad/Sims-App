@@ -1,0 +1,188 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
+import { CommonService } from 'src/app/services/common.service';
+import { VendorBankDetails } from 'src/app/models/invoice-item.model';
+import { InvoiceDataService } from 'src/app/services/invoice-data.service';
+import { error } from '@angular/compiler/src/util';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-invoice-actions',
+  templateUrl: './invoice-actions.component.html',
+  styleUrls: ['./invoice-actions.component.scss']
+})
+export class InvoiceActionsComponent implements OnInit {
+
+  step = 1;
+  saveOnModify = 1;
+  EditTableData: boolean;
+  dataRequest = '';
+  soapupdateRequest = '';
+  vendorBankDetail: VendorBankDetails[] = [];
+  invoiceNo: string;
+  internalDocId: string;
+  line_id :string;
+  actionComplete: string;
+  actionStop: string;
+  @Input() taskInfo;
+  enbReverseExit = true;
+  enbCommentBtn = true;
+  endSaveBtn = true;
+  slno: string;
+  documentId: string;
+  batchId: string;
+  commentBy: string;
+  taskId;
+  selectedTab;
+  soapRequest: string;
+  constructor(
+    private simsHttpCoreServices: SimsHttpCoreServices,
+    private commonService: CommonService,
+    private invoiceDataService: InvoiceDataService,
+    private _snackBar: MatSnackBar,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.EditTableData = true;
+    this.invoiceNo = this.taskInfo.invoiceNumber;
+    this.internalDocId = this.taskInfo.internalId;
+    this.taskId=this.taskInfo.taskId;
+    this.line_id = this.taskInfo.line_id;
+    this.actionComplete = "COMPLETE";
+    this.actionStop = "STOP";
+    this.slno = "1";
+    this.documentId = "32233";
+    this.batchId = "231";
+    this.commentBy = "sameer";
+    
+
+
+this.endSaveBtn = true;
+this.endSaveBtn = true;
+this.invoiceDataService.tabHandler.subscribe(x=>{
+  this.selectedTab=x;
+})
+
+    this.invoiceDataService.invoiceDetailHandler.subscribe((x: any) => {
+      if (x instanceof Object) {
+        this.endSaveBtn = x["disSaveBtn"]
+      }
+      else{
+        this.enbCommentBtn=x;
+      }
+    });
+  }
+  saveData() {
+    // let formaData = this.invoiceDataService.getInvoiceHeaderData();
+    // this.dataRequest = "<tuple><old><invoice_header qConstraint=\"0\"><invoice_no>" + this.invoiceNo + "</invoice_no><internal_doc_id>" + this.internalDocId + "</internal_doc_id></invoice_header></old><new><invoice_header qAccess=\"0\" qConstraint=\"0\" qInit=\"0\" qValues=\"\"><invoice_no>" + this.invoiceNo + "</invoice_no><internal_doc_id>" + this.internalDocId + "</internal_doc_id><invoice_date>" + formaData.invoiceDate + "</invoice_date><invoice_po>" + formaData.poNumber + "</invoice_po><invoice_status>" + formaData.invoiceStatus + "</invoice_status><vendor>" + formaData.vendorCode + "</vendor><costcenter>" + formaData.DOACC + "</costcenter><currency>" + formaData.currency + "</currency><entity_id>" + formaData.country + "</entity_id><validator_remarks>" + formaData.OCCRemarks + "</validator_remarks><frieght_amount>" + formaData.freight + "</frieght_amount><lang>" + formaData.language + "</lang><billing_to>" + formaData.billingAdd + "</billing_to><sub_total>" + formaData.basic + "</sub_total><tax_total>" + formaData.taxAmt + "</tax_total><grand_total>" + formaData.total + "</grand_total><invoice_recieved_date>" + formaData.invoiceRcptDate + "</invoice_recieved_date><invoice_type>" + formaData.invoiceType + "</invoice_type><vendor_name>" + formaData.vendorName + "</vendor_name><invoice_category>" + formaData.classification + "</invoice_category><exchange_rate>" + formaData.exchangeRate + "</exchange_rate><local_curr_amt>" + formaData.localAmt + "</local_curr_amt><vendor_gstNo>" + formaData.vendorGST + "</vendor_gstNo><billToGstNo>" + formaData.billGST + "</billToGstNo><igm_date>" + formaData.igmDate + "</igm_date><port_code>" + formaData.portCode + "</port_code><vendor_pan>" + formaData.vendorPan + "</vendor_pan><vendor_payment_method>" + formaData.payMethod + "</vendor_payment_method><house_bankid>" + formaData.houseBankId + "</house_bankid><location>" + formaData.location + "</location><validation_date>" + formaData.validationDate + "</validation_date><vendor_address>" + formaData.vendorAdd + "</vendor_address><addressee_name>" + formaData.addresseeDOA + "</addressee_name><bill_of_entry>" + formaData.billOfEntry + "</bill_of_entry><validation_digital_sign>" + formaData.digitalSign + "</validation_digital_sign><inv_due_date>" + formaData.invoiceDueDate + "</inv_due_date><inv_scan_date>" + formaData.scanDate + "</inv_scan_date><partner_bank_key>" + formaData.bankKey + "</partner_bank_key><is_original>" + formaData.original + "</is_original><place_supply>" + formaData.placeOfSupply + "</place_supply><erp_due_date>" + formaData.erpDueDate + "</erp_due_date><purchase_grp>" + formaData.purchaseGroup + "</purchase_grp><comp_code>" + formaData.companyCode + "</comp_code><region>" + formaData.vendorRegion + "</region><city>" + formaData.city + "</city><street>" + formaData.street + "</street><name2>" + formaData.name2 + "</name2><bank_ref>" + formaData.swissCode + "</bank_ref></invoice_header></new></tuple>";
+    // this.soapupdateRequest = this.commonService.getSoapBody("UpdateInvoice_header", "http://schemas.cordys.com/WINDatabaseMetadata", this.dataRequest);
+    // this.simsHttpCoreServices.httpPost(this.soapupdateRequest).subscribe(saveDetails => {
+    //   this.openSnackBar("Saved successfully", "");
+    // }) ;
+    
+      
+      if (this.selectedTab == "InvoiceHeader") {
+        let formaData = this.invoiceDataService.getInvoiceHeaderData();
+        this.dataRequest = "<tuple><old><invoice_header qConstraint=\"0\"><invoice_no>" + this.invoiceNo + "</invoice_no><internal_doc_id>" + this.internalDocId + "</internal_doc_id></invoice_header></old><new><invoice_header qAccess=\"0\" qConstraint=\"0\" qInit=\"0\" qValues=\"\"><invoice_no>" + this.invoiceNo + "</invoice_no><internal_doc_id>" + this.internalDocId + "</internal_doc_id><invoice_date>" + formaData.invoiceDate + "</invoice_date><invoice_po>" + formaData.poNumber + "</invoice_po><invoice_status>" + formaData.invoiceStatus + "</invoice_status><vendor>" + formaData.vendorCode + "</vendor><costcenter>" + formaData.DOACC + "</costcenter><currency>" + formaData.currency + "</currency><entity_id>" + formaData.country + "</entity_id><validator_remarks>" + formaData.OCCRemarks + "</validator_remarks><frieght_amount>" + formaData.freight + "</frieght_amount><lang>" + formaData.language + "</lang><billing_to>" + formaData.billingAdd + "</billing_to><sub_total>" + formaData.basic + "</sub_total><tax_total>" + formaData.taxAmt + "</tax_total><grand_total>" + formaData.total + "</grand_total><invoice_recieved_date>" + formaData.invoiceRcptDate + "</invoice_recieved_date><invoice_type>" + formaData.invoiceType + "</invoice_type><vendor_name>" + formaData.vendorName + "</vendor_name><invoice_category>" + formaData.classification + "</invoice_category><exchange_rate>" + formaData.exchangeRate + "</exchange_rate><local_curr_amt>" + formaData.localAmt + "</local_curr_amt><vendor_gstNo>" + formaData.vendorGST + "</vendor_gstNo><billToGstNo>" + formaData.billGST + "</billToGstNo><igm_date>" + formaData.igmDate + "</igm_date><port_code>" + formaData.portCode + "</port_code><vendor_pan>" + formaData.vendorPan + "</vendor_pan><vendor_payment_method>" + formaData.payMethod + "</vendor_payment_method><house_bankid>" + formaData.houseBankId + "</house_bankid><location>" + formaData.location + "</location><validation_date>" + formaData.validationDate + "</validation_date><vendor_address>" + formaData.vendorAdd + "</vendor_address><addressee_name>" + formaData.addresseeDOA + "</addressee_name><bill_of_entry>" + formaData.billOfEntry + "</bill_of_entry><validation_digital_sign>" + formaData.digitalSign + "</validation_digital_sign><inv_due_date>" + formaData.invoiceDueDate + "</inv_due_date><inv_scan_date>" + formaData.scanDate + "</inv_scan_date><partner_bank_key>" + formaData.bankKey + "</partner_bank_key><is_original>" + formaData.original + "</is_original><place_supply>" + formaData.placeOfSupply + "</place_supply><erp_due_date>" + formaData.erpDueDate + "</erp_due_date><purchase_grp>" + formaData.purchaseGroup + "</purchase_grp><comp_code>" + formaData.companyCode + "</comp_code><region>" + formaData.vendorRegion + "</region><city>" + formaData.city + "</city><street>" + formaData.street + "</street><name2>" + formaData.name2 + "</name2><bank_ref>" + formaData.swissCode + "</bank_ref></invoice_header></new></tuple>";
+        this.soapupdateRequest = this.commonService.getSoapBody("UpdateInvoice_header", "http://schemas.cordys.com/WINDatabaseMetadata", this.dataRequest);
+        this.simsHttpCoreServices.httpPost(this.soapupdateRequest).subscribe(saveDetails => {
+          this.openSnackBar("Saved successfully", "");
+        }), () => { },
+          error => { }
+      }
+
+      else if (this.selectedTab == "InvoiceDetailTab") {
+        let tableValues = this.invoiceDataService.getInvoiceHeaderData();
+        let tableIndex = tableValues.index;
+        let tableData = tableValues.data.filteredData[tableIndex];
+        this.dataRequest = "<tuple><old><invoice_details qConstraint=\"0\"><line_id>" + tableData.line_id + "</line_id><invoice_no>" + this.invoiceNo + "</invoice_no><internal_doc_id>" + this.internalDocId + "</internal_doc_id><line_no>" + tableData.inv_line + "</line_no></invoice_details></old><new><invoice_details qAccess=\"0\" qConstraint=\"0\" qInit=\"0\" qValues=\"\"><line_id>" + tableData.line_id + "</line_id><invoice_no>" + this.invoiceNo + "</invoice_no><internal_doc_id>" + this.internalDocId + "</internal_doc_id><line_no>" + tableData.inv_line + "</line_no><po_line_no>" + tableData.po_line + "</po_line_no><material>" + tableData.material + "</material><material_desc>" + tableData.material_desc + "</material_desc><qty>" + tableData.qty + "</qty><rate>" + tableData.rate + "</rate><curr>" + tableData.local_curr + "</curr><glcode>" + tableData.gl_code + "</glcode><costcenter>" + tableData.cost_center + "</costcenter><po_no>" + tableData.po + "</po_no><validator_remarks>" + tableData.validator_remarks + "</validator_remarks><uom>" + tableData.UOM + "</uom><discount>" + tableData.discount + "</discount><gross_amount>" + tableData.gross_value + "</gross_amount><remarks>" + tableData.remarks + "</remarks><grn_no>" + tableData.grn + "</grn_no><approver>" + tableData.approver + "</approver><po_material_code>" + tableData.po_material + "</po_material_code><po_material_desc>" + tableData.po_marterial_desc + "</po_material_desc><po_material_price>" + tableData.po_price + "</po_material_price><requestor>" + tableData.requestor + "</requestor><comp_code>" + tableData.trading_part_code + "</comp_code><order_id>" + tableData.order_id + "</order_id><temp1>" + tableData.vp + "</temp1><profitCenter>" + tableData.profit_center + "</profitCenter><lr_no>" + tableData.lr_no + "</lr_no><lr_date>" + tableData.delivery_date + "</lr_date><hsn_no>" + tableData.hsn_sac + "</hsn_no><wbs>" + tableData.wbs + "</wbs></invoice_details></new></tuple>";
+        this.soapRequest = this.commonService.getSoapupdateBody("UpdateInvoice_details", "http://schemas.cordys.com/WINDatabaseMetadata", this.dataRequest);
+        this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(saveInvoiceDetails => {
+          this.openSnackBar("Table data saved successfully", "");
+
+        }), () => { },
+          error => { }
+
+      }
+    }
+  
+  approveReject() {
+    let formaData = this.invoiceDataService.getInvoiceHeaderData();
+    this.dataRequest = '<TaskId>' + this.taskId + '</TaskId><Action>' + this.actionComplete + '</Action>';
+    this.soapupdateRequest = this.commonService.getSoapBody('PerformTaskAction', 'http://schemas.cordys.com/notification/workflow/1.0', this.dataRequest);
+    this.simsHttpCoreServices.httpPost(this.soapupdateRequest).subscribe(saveDetails => {
+      this.openSnackBar('Approved successfully', '');
+      this.router.navigate(['/inbox']);
+
+    }), () => { },
+      error => { }
+
+  }
+
+  saveComment() {
+    let invoiceCommentForm = this.invoiceDataService.getInvoiceCommentsData();
+    this.dataRequest = '<tuple><old><ap_comments qConstraint="0"><slno>' + this.slno + '</slno><document_id>' + this.documentId + '</document_id><batch_id>' + this.batchId + '</batch_id><comment_by>' + this.commentBy + '</comment_by></ap_comments></old><new><ap_comments qAccess="0" qConstraint="0" qInit="0" qValues=""><comment>' + invoiceCommentForm.comments + '</comment></ap_comments></new></tuple>';
+    this.soapupdateRequest = this.commonService.getSoapBody('UpdateAp_comments', 'http://schemas.cordys.com/WINDatabaseMetadata', this.dataRequest);
+    this.simsHttpCoreServices.httpPost(this.soapupdateRequest).subscribe(invoiceUpdatedComment => {
+      var lists = this.commonService.parseXML(invoiceUpdatedComment);
+
+      this.openSnackBar("Comment Saved successfully....", "");
+      this.enbCommentBtn = true;
+    }), () => { },
+      error => { }
+  }
+
+  pullPO_GR() {
+    this.openSnackBar('Pull PO/GR is in progress ...', '');
+  }
+
+  postToSAP() {
+    this.openSnackBar('Post to SAP is in progress ...', '');
+  }
+
+  cancelInvoice() {
+    this.openSnackBar('Invoice cancellation is in progress ...', '');
+    }
+
+  downloadInvoice() {
+    this.openSnackBar('Invoice downloaded successfully', '');
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: ['snackBarColor']
+    });
+  }
+
+  reverese_post() {
+    this.openSnackBar('Reverse and Post in progress ...', '');
+    this.enbReverseExit = false;
+  }
+
+  reverese_exit() {
+   
+  }
+
+  //To modify inovice deatils expand the panel
+  modifyInvoiceDetails() {
+    this.saveOnModify = 0;
+
+    if ((this.step) % 2 == 0) {
+      this.step++;
+    }
+    else {
+      this.step = 0;
+    }
+    let dataValue = {
+      step: this.step,
+      editTable: this.EditTableData
+    };
+
+    this.invoiceDataService.invoiceDetailHandler.next(dataValue);
+  }
+}

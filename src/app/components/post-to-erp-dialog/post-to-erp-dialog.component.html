@@ -1,0 +1,56 @@
+<div [mat-dialog-close]="" class="top">
+    <mat-icon>close</mat-icon>
+</div>
+<form [formGroup]="invoiceSummaryForm">
+    <div style="height: 250px;" fxLayout="column" fxLayoutAlign="space-between start">
+        <div fxLayout="column" fxLayoutAlign="space-between start">
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field appearance="outline">
+                    <mat-label>Invoice Date</mat-label>
+                    <input matInput formControlName="InvoiceDate" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Received Date</mat-label>
+                    <input matInput formControlName="ReceivedDate" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Vendor Pay Terms</mat-label>
+                    <input matInput formControlName="VendorPayTerms">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Inv Pay Terms</mat-label>
+                    <input matInput formControlName="InvPayTerms">
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field style="width: 197px;" appearance="outline">
+                    <mat-label>Posting Date</mat-label>
+                    <input matInput formControlName="PostingDate" [matDatepicker]="picker4" placeholder="Posting Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker4">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker4></mat-datepicker>
+                </mat-form-field>
+                <!-- <label for="exampleInputEmail1">To Invoice Date</label> -->
+                <mat-form-field style="width: 197px;" appearance="outline">
+                    <mat-label>Baseline Date</mat-label>
+                    <input matInput formControlName="BaselineDate" [matDatepicker]="picker3"
+                        placeholder="Baseline Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker3">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Item Text</mat-label>
+                    <textarea matInput type="text" value="" (focusout)="onKey($event)"
+                    formControlName="ItemText"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <button mat-raised-button color="accent" (click)="submitForPosting()">Show Advances</button>
+            <button mat-raised-button color="accent" (click)="submitForPosting()">Submit For
+                Posting</button>
+            <button mat-raised-button color="accent" [mat-dialog-close]="">Close</button>
+        </div>
+    </div>
+</form>

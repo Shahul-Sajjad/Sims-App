@@ -1,0 +1,64 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { InboxComponent } from './components/inbox/inbox.component';
+import { InvoiceSummaryComponent } from './components/invoice-summary/invoice-summary.component';
+import { InvoiceDetailsComponent } from './components/invoice-details/invoice-details.component';
+import { TestFeatureComponent } from './components/test-feature-component/test-feature-component.component';
+import { from } from 'rxjs';
+import { InvoiceInfoDetailsComponent } from './components/invoice-info-details/invoice-info-details.component';
+import { InvoiceHeaderComponent } from './components/invoice-header/invoice-header.component';
+
+const cordys_url = '';
+const routes: Routes = [
+  {
+    path: cordys_url,
+    component: HomeComponent
+  },
+  {
+    path: cordys_url + 'home',
+    component: HomeComponent
+  },
+  {
+  path: cordys_url + 'invoice-details',
+  component: InvoiceDetailsComponent
+  },
+  {
+    path: cordys_url + 'invoice-header',
+    component: InvoiceHeaderComponent
+    },
+  {
+    path: cordys_url + 'inbox',
+    component: InboxComponent
+  },
+  {
+    path: cordys_url + 'invoice-summary',
+    component: InvoiceSummaryComponent
+  },
+  {
+    path: cordys_url + 'inbox/:id',
+    component: InboxComponent
+  },
+  {
+    path: 'test-component',
+    component: TestFeatureComponent
+  },
+  {
+    path: cordys_url + 'user-master',
+    loadChildren: () => import('./modules/master-module/user-master-module/user.module').then(mod => mod.UserMasterModule)
+  },
+  {
+    path: cordys_url + 'vendor-master',
+    loadChildren: () => import('./modules/master-module/vendor-master-module/vendor.module').then(mod => mod.VendorMasterModule)
+  },
+  {
+    path: cordys_url + 'feature',
+    loadChildren: () => import('./modules/feature-module/feature.module').then(mod => mod.FeatureModule)
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

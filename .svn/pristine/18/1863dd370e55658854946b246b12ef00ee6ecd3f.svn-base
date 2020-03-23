@@ -1,0 +1,44 @@
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class InvoiceDataService {
+
+  invoiceDetailHandler=new Subject();
+
+  private invoiceHeaderInfo;
+  private invoiceDetailTableInfo;
+  private invoiceCommentInfo;
+
+  constructor() { }
+
+setInvoiceHeaderData(val) {
+
+  this.invoiceHeaderInfo = val;
+
+}
+
+getInvoiceHeaderData() {
+  return this.invoiceHeaderInfo;
+}
+setInvoiceDetailTableData(val:any){
+  this.invoiceDetailTableInfo=val
+}
+getInvoiceDetailTableData(){
+  return this.invoiceDetailTableInfo;
+
+}
+// Setter getter For Comments
+setInvoiceCommentData(val:any)
+{
+   this.invoiceCommentInfo=val;
+   
+}
+getInvoiceCommentsData()
+{
+return this.invoiceCommentInfo;
+}
+
+}

@@ -1,0 +1,17 @@
+
+    
+<div fxLayout="row" fxLayoutAlign="space-around center">
+<button mat-raised-button color="accent" (click)="saveData()">Save Data</button>
+<button mat-raised-button color="accent">Submit Invoice</button>
+<button mat-raised-button color="accent">Cancel Invoice</button>
+<button mat-raised-button color="accent">Download Invoice</button>
+<button mat-raised-button color="accent">Preview Invoice</button>
+<button mat-raised-button color="accent"(click)="saveComments()">Save Comments</button>
+<button mat-raised-button color="accent">Rescan</button>
+<button mat-raised-button color="accent">Modify Invoice Lines</button>
+<button mat-raised-button color="accent">Pull PO</button>
+<button mat-raised-button color="accent">Refresh Addressee</button>
+<button mat-raised-button color="accent">Send For Clarification</button>
+</div>
+    
+   

@@ -1,0 +1,59 @@
+<div class="card mt-15">
+    <div class="card-header header-font" style="background-color:aliceblue;">
+        <div class="col" style="margin-left:10px;margin-top: 10px;margin-bottom: 5px;">
+            <b>Vendor Bank Details</b>
+            <span class="float-right close" (click)="onNoClickb()" matTooltip="Close">x</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div [style.display]="!loadInboxSpinner ? 'none' : '
+        block'">
+            <app-saw-loader></app-saw-loader>
+        </div>
+        <!-- <div class="{{collapsed ? 'table-wrap' : '' }} table-responsive"> -->
+        <div [style.display]="loadInboxSpinner ? 'none' : 'block'">
+            <table mat-table [dataSource]="vendorBankdata" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="bankName" class="math">
+                    <th mat-header-cell *matHeaderCellDef> Bank Name </th>
+                    <td mat-cell *matCellDef="let element" class="task-td" [style.background-color]="element.color"
+                        (dblclick)="vendorDetailDialog(element)"> {{element.bankName}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="accountNumber" class="math">
+                    <th mat-header-cell *matHeaderCellDef> Account Number </th>
+                    <td mat-cell *matCellDef="let element" class="task-td" [style.background-color]="element.color"
+                        (dblclick)="vendorDetailDialog(element)"> {{element.accountNumber}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="beneficary" class="math">
+                    <th mat-header-cell *matHeaderCellDef fxFlex> Beneficary </th>
+                    <td mat-cell *matCellDef="let element" class="task-td" [style.background-color]="element.color"
+                        (dblclick)="vendorDetailDialog(element)"> {{element.beneficary}} </td>
+                </ng-container>
+                                              <!-- <thead>
+                            <th>Bank Name</th>
+                            <th>Account Number</th>
+                            <th>Beneficary</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of vendorBankdata">
+                                <td>{{row.bankName}}</td>
+                                <td>{{row.accountNumber}}</td>
+                                <td>{{row.beneficary}}</td>
+                      
+                            </tr>
+                        </tbody> -->
+                <tr mat-header-row *matHeaderRowDef="displayvendorColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayvendorColumns;"></tr>
+            </table>
+
+
+        </div>
+
+
+
+    </div>
+</div>

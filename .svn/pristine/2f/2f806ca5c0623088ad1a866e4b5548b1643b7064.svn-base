@@ -1,0 +1,118 @@
+.topnav {
+    overflow: hidden;
+    background-color: white;
+  }
+  
+  .topnav a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 10px 12px;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: bolder;
+  }
+  
+  .topnav a:hover {
+    background-color: #a3a3a3;
+    color: white;
+  }
+  
+  .topnav a.active {
+    background-color: #4a80ff;
+    color: white;
+  }
+  
+  .topnav-right {
+    float: right;
+  }
+  .side-drawer {
+    background-color: #2d2f73;
+    color: white;
+  }
+
+  .invoice-nav {
+    overflow: hidden;
+    background-color: #c7c7c7;
+  }
+
+  .invoice-nav div {
+    width: 18%;
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 10px 12px;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  .quicklink-nav {
+       // border-bottom: 1px solid grey ;
+  }
+  .quicklink-nav div {
+    width: 14%;
+    height: 110px;
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 0px 12px;
+    text-decoration: none;
+    
+  }
+  .quicklink-nav-counts {
+    font-size: 48px;
+    color: black;
+  }
+  .quicklink-text {
+      font-size: 16px;
+  }
+
+  .breakline {
+      width: 100%;
+      border-bottom: 2px solid #c9c9c9;
+      margin-top:8px;
+  }
+
+  .vertical-line {
+    border-right: 1px solid #c9c9c9;
+    margin-top:10px;
+  }
+
+  .red-text {
+      color: #d91818;
+  }
+
+  .companylogo {
+      color: white;
+  }
+
+  .chartList div {
+    width: 32%;
+    // height: 250px;
+    float: left;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 20px;
+    text-decoration: none;
+  }
+  .chartList {
+    padding: 10px 10px 0 10px;
+  }
+  .chart {
+    height: 250px;
+  }
+
+  .menu-spacer {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+
+  mat-toolbar-row div a{
+    color: white;
+    font-weight: bolder;
+  }
+  .top-menu-bar {
+    color: white;
+    font-weight: bolder;
+  }

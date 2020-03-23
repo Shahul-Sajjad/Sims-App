@@ -1,0 +1,303 @@
+<form [formGroup]="invoiceHeaderForm" (ngSubmit)="onSubmit()">
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Invoice Number</label>
+            <input matInput type="text" formControlName="invoiceNumber">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Task Id</label>
+            <input matInput type="text" formControlName="taskId">
+        </mat-form-field>
+        <mat-form-field flex>
+            <label>Classification</label>
+            <mat-select formControlName="classification">
+                <mat-option value="PO">PO</mat-option>
+                <mat-option value="Non-PO">Non-PO</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Invoice Date</label>
+            <input matInput [matDatepicker]="invoiceDate" formControlName="invoiceDate">
+            <mat-datepicker-toggle matSuffix [for]="invoiceDate"></mat-datepicker-toggle>
+            <mat-datepicker #invoiceDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Invoice Rcpt Date</label>
+            <input matInput [matDatepicker]="invoiceRcptDate" formControlName="invoiceRcptDate">
+            <mat-datepicker-toggle matSuffix [for]="invoiceRcptDate"></mat-datepicker-toggle>
+            <mat-datepicker #invoiceRcptDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Invoice Type</label>
+            <mat-select formControlName="invoiceType">
+                <mat-option *ngFor="let type of invoiceTypeList" value={{type.slNo}}>
+                    {{type.invoiceType}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Vendor Code</label>
+            <input matInput type="text" value="" formControlName="vendorCode">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Vendor Name</label>
+            <input matInput type="text" value="" formControlName="vendorName">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Vendor Pan</label>
+            <input matInput type="text" value="" formControlName="vendorPan">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>PO Number</label>
+            <input matInput type="text" value="" formControlName="poNumber">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Company & Code</label>
+            <input matInput type="text" value="" formControlName="companyCode">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Curreny</label>
+            <mat-select formControlName="currency">
+                <mat-option *ngFor="let list of currencyLists" value={{list.value}}>
+                    {{list.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Language</label>
+            <input matInput type="text" value="" formControlName="language">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Company</label>
+            <mat-select formControlName="company">
+                <mat-option *ngFor="let list of companyList" value={{list.compCode}}>
+                    {{list.compName}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Country</label>
+            <input matInput type="text" value="" formControlName="country">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Local Amt</label>
+            <input matInput type="text" value="" formControlName="localAmt">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Basic</label>
+            <input matInput type="text" value="" formControlName="basic">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Freight</label>
+            <input matInput type="text" value="" formControlName="freight">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Tax Amt</label>
+            <input matInput type="text" value="" formControlName="taxAmt">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Total</label>
+            <input matInput type="text" value="" formControlName="total">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Difference</label>
+            <input matInput type="text" value="" formControlName="difference">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Pay Method</label>
+            <input matInput type="text" value="" formControlName="payMethod">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Region Description</label>
+            <input matInput type="text" value="" formControlName="regionDes">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Exchange Rate</label>
+            <input matInput type="text" value="" formControlName="exchangeRate">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Vendor GST No</label>
+            <input matInput type="text" value="" formControlName="vendorGST">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Bill To GST No</label>
+            <input matInput type="text" value="" formControlName="billGST">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>House Bank ID</label>
+            <input matInput type="text" value="" formControlName="houseBankId">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+        <mat-form-field fxFlex>
+            <label>Digital Sign</label>
+            <mat-select formControlName="digitalSign">
+                <mat-option value="true">True</mat-option>
+                <mat-option value="false">False</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Original</label>
+            <mat-select formControlName="original">
+                <mat-option value="Yes">Yes</mat-option>
+                <mat-option value="No">No</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>DS Valid</label>
+            <mat-select formControlName="dsValid">
+                <mat-option value="valid">Valid</mat-option>
+                <mat-option value="invalid">Invalid</mat-option>
+                <mat-option value="NA">NA</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Bill Of Entry</label>
+            <input matInput type="text" value="" formControlName="billOfEntry">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Location</label>
+            <mat-select formControlName="location">
+                <mat-option *ngFor="let list of locationLists" value={{list.location}}>
+                    {{list.location}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Batch ID</label>
+            <input matInput type="text" value="" formControlName="batchId">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>IGM Date</label>
+            <input matInput [matDatepicker]="igmDate" formControlName="igmDate">
+            <mat-datepicker-toggle matSuffix [for]="igmDate"></mat-datepicker-toggle>
+            <mat-datepicker #igmDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Validation Date</label>
+            <input matInput [matDatepicker]="validationDate" formControlName="validationDate">
+            <mat-datepicker-toggle matSuffix [for]="validationDate"></mat-datepicker-toggle>
+            <mat-datepicker #validationDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Scan Date</label>
+            <input matInput [matDatepicker]="scanDate" formControlName="scanDate">
+            <mat-datepicker-toggle matSuffix [for]="scanDate"></mat-datepicker-toggle>
+            <mat-datepicker #scanDate></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Invoice Due Date</label>
+            <input matInput [matDatepicker]="invoiceDueDate" formControlName="invoiceDueDate">
+            <mat-datepicker-toggle matSuffix [for]="invoiceDueDate"></mat-datepicker-toggle>
+            <mat-datepicker #invoiceDueDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>ERP Due Date</label>
+            <input matInput [matDatepicker]="erpDueDate" formControlName="erpDueDate">
+            <mat-datepicker-toggle matSuffix [for]="erpDueDate"></mat-datepicker-toggle>
+            <mat-datepicker #erpDueDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Country Code</label>
+            <input matInput type="text" value="" formControlName="countryCode">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>City</label>
+            <input matInput type="text" value="" formControlName="city">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Name 2</label>
+            <input matInput type="text" value="" formControlName="name2">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Vendor Region</label>
+            <input matInput type="text" value="" formControlName="vendorRegion">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Street</label>
+            <input matInput type="text" value="" formControlName="street">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Addressee DOA</label>
+            <input matInput type="text" value="" formControlName="addresseeDOA">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>DOA CC</label>
+            <input matInput type="text" value="" formControlName="DOACC">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Port Code</label>
+            <input matInput type="text" value="" formControlName="portCode">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Invoice Status</label>
+            <input matInput type="text" value="" formControlName="invoiceStatus">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Partner Bank</label>
+            <input matInput type="text" value="" formControlName="partnerBank">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Purchase Group</label>
+            <input matInput type="text" value="" formControlName="purchaseGroup">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>OCC Remarks</label>
+            <input matInput type="text" value="" formControlName="OCCRemarks">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Vendor Address</label>
+            <input matInput type="text" value="" formControlName="vendorAdd">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Billing To</label>
+            <input matInput type="text" value="" formControlName="billingAdd">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex>
+            <label>Swiss Code</label>
+            <input matInput type="text" value="" formControlName="swissCode">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+            <label>Place of Supply</label>
+            <input matInput type="text" value="" formControlName="placeOfSupply">
+        </mat-form-field>
+    </div>
+    <button type="submit">Submit</button>
+</form>

@@ -1,0 +1,407 @@
+<div class="invoiceHeader">
+    <form [formGroup]="invoiceHeaderForm">
+        <div fxLayout="row" fxLayoutAlign="space-around center" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Invoice Number</mat-label>
+                <input matInput type="text" (focusout)="onKey($event)" formControlName="invoiceNumber">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Task Id</mat-label>
+                <input matInput type="text" (focusout)="onKey($event)" formControlName="taskId">
+            </mat-form-field>
+
+            <mat-form-field flex appearance="outline">
+                <mat-label>Classification</mat-label>
+
+                <mat-select formControlName="classification" (selectionChange)="onKey($event)">
+                    <mat-option value="PO">PO</mat-option>
+                    <mat-option value="Non-PO">Non-PO</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Invoice Date</mat-label>
+                <input matInput [matDatepicker]="invoiceDate" (dateChange)="onKey($event)" formControlName="invoiceDate">
+                <mat-datepicker-toggle (focusout)="onKey($event)" matSuffix [for]="invoiceDate"></mat-datepicker-toggle>
+                <mat-datepicker #invoiceDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Invoice Rcpt Date</mat-label>
+                <input matInput [matDatepicker]="invoiceRcptDate" formControlName="invoiceRcptDate" (dateChange)="onKey($event)">
+                <mat-datepicker-toggle matSuffix [for]="invoiceRcptDate"></mat-datepicker-toggle>
+                <mat-datepicker #invoiceRcptDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Invoice Type</mat-label>
+                <mat-select formControlName="invoiceType" (selectionChange)="onKey($event)">
+                    <mat-option *ngFor="let type of invoiceTypeList" value={{type.slNo}}>
+                        {{type.invoiceType}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Vendor Code</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="vendorCode">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Vendor Name</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="vendorName">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline" *ngIf="showVendorPan">
+                <mat-label>Vendor Pan</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="vendorPan">
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+            <mat-form-field fxFlex appearance="outline" *ngIf="showPoNumber">
+                <mat-label>PO Number</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="poNumber">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Company & Code</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="companyCode">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Curreny</mat-label>
+                <mat-select formControlName="currency" (selectionChange)="onKey($event)">
+                    <mat-option *ngFor="let list of currencyLists" value={{list.value}}>
+                        {{list.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Language</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="language">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Company</mat-label>
+                <mat-select formControlName="company" (selectionChange)="onKey($event)">
+                    <mat-option *ngFor="let list of companyList" value={{list.compCode}}>
+                        {{list.compName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline" *ngIf="showCountry">
+                <mat-label>Country</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="country">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Local Amt</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="localAmt">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Basic</mat-label>
+                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);" formControlName="basic">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Freight</mat-label>
+                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);" formControlName="freight">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Tax Amt</mat-label>
+                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);" formControlName="taxAmt">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Total</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="total">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Difference</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="difference">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Pay Method</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="payMethod">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Region Description</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="regionDes">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Exchange Rate</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="exchangeRate">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Vendor GST No</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="vendorGST">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Bill To GST No</mat-label>
+                <mat-select formControlName="billGST" (selectionChange)="onBillGSTNoChange(); onKey($event)">
+                    <mat-option *ngFor="let list of gstNoLists" value={{list.value}}>
+                        {{list.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>House Bank ID</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="houseBankId">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Digital Sign</mat-label>
+                <mat-select formControlName="digitalSign" (selectionChange)="onKey($event)">
+                    <mat-option value="true">True</mat-option>
+                    <mat-option value="false">False</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Original</mat-label>
+                <mat-select formControlName="original" (selectionChange)="onKey($event)">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>DS Valid</mat-label>
+                <mat-select formControlName="dsValid" (selectionChange)="onKey($event)">
+                    <mat-option value="valid">Valid</mat-option>
+                    <mat-option value="invalid">Invalid</mat-option>
+                    <mat-option value="NA">NA</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Bill Of Entry</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="billOfEntry">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Location</mat-label>
+                <mat-select formControlName="location" (selectionChange)="onKey($event)">
+                    <mat-option *ngFor="let list of locationLists" value={{list.location}}>
+                        {{list.location}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline" *ngIf="showBatchId">
+                <mat-label>Batch ID</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="batchId">
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>IGM Date</mat-label>
+                <input matInput [matDatepicker]="igmDate" (dateChange)="onKey($event)" formControlName="igmDate">
+                <mat-datepicker-toggle matSuffix [for]="igmDate"></mat-datepicker-toggle>
+                <mat-datepicker #igmDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Validation Date</mat-label>
+                <input matInput [matDatepicker]="validationDate" (dateChange)="onKey($event)" formControlName="validationDate">
+                <mat-datepicker-toggle matSuffix [for]="validationDate"></mat-datepicker-toggle>
+                <mat-datepicker #validationDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Scan Date</mat-label>
+                <input matInput [matDatepicker]="scanDate" (dateChange)="onKey($event)" formControlName="scanDate">
+                <mat-datepicker-toggle matSuffix [for]="scanDate"></mat-datepicker-toggle>
+                <mat-datepicker #scanDate></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Invoice Due Date</mat-label>
+                <input matInput [matDatepicker]="invoiceDueDate" (dateChange)="onKey($event)" formControlName="invoiceDueDate">
+                <mat-datepicker-toggle matSuffix [for]="invoiceDueDate"></mat-datepicker-toggle>
+                <mat-datepicker #invoiceDueDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>ERP Due Date</mat-label>
+                <input matInput [matDatepicker]="erpDueDate" (dateChange)="onKey($event)" formControlName="erpDueDate">
+                <mat-datepicker-toggle matSuffix [for]="erpDueDate"></mat-datepicker-toggle>
+                <mat-datepicker #erpDueDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Country Code</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="countryCode">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline" *ngIf="showCity">
+                <mat-label>City</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="city">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline" *ngIf="showName2">
+                <mat-label>Name 2</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="name2">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline" *ngIf="showRegion">
+                <mat-label>Vendor Region</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="vendorRegion">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+
+            <mat-form-field fxFlex appearance="outline" *ngIf="showAddresseeDOA">
+                <mat-label>Addressee OCC</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="addresseeOCC">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline" *ngIf="showAddresseeDOA">
+                <mat-label>Addressee DOA</mat-label>
+                <input matInput type="text" value="" (focusout)="onAddresseeDOAChange(); onKey($event);" formControlName="addresseeDOA">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>DOA CC</mat-label>
+                <input matInput type="text" value="" (focusout)="onDOACCFocusOut(); onDOACCChange(); onKey($event);" formControlName="DOACC">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Port Code</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="portCode">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline" *ngIf="showStreet">
+                <mat-label>Street</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="street">
+            </mat-form-field>
+
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Invoice Status</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="invoiceStatus">
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Purchase Group</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="purchaseGroup">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>OCC Remarks</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="OCCRemarks">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Section Code</mat-label>
+                <mat-select formControlName="sectionCode" (selectionChange)="onKey($event)">
+                    <mat-option *ngFor="let list of sectionCodeLists" value={{list.value}}>
+                        {{list.description}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Doc Type</mat-label>
+                <mat-select formControlName="docType" (selectionChange)="onKey($event)">
+                    <mat-option *ngFor="let list of docTypeLists" value={{list.value}}>
+                        {{list.description}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Transaction</mat-label>
+                <mat-select formControlName="transaction" (selectionChange)="onKey($event)">
+                    <mat-option *ngFor="let list of transactionLists" value={{list.value}}>
+                        {{list.description}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline" *ngIf="showBusinessArea">
+                <mat-label>Business Area</mat-label>
+                <mat-select formControlName="businessArea" (selectionChange)="onKey($event)">
+                    <mat-option *ngFor="let list of businessAreaLists" value={{list.businessArea}}>
+                        {{list.description}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Vendor Address</mat-label>
+                <textarea matInput type="text" value="" (focusout)="onKey($event)" formControlName="vendorAdd"></textarea>
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Billing To</mat-label>
+                <textarea matInput type="text" value="" (focusout)="onKey($event)" formControlName="billingAdd"></textarea>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Tax Code</mat-label>
+                <mat-select formControlName="taxCode" (selectionChange)="onTaxCodeChange(); onKey($event)">
+                    <mat-option *ngFor="let list of taxCodeLists" value={{list.win_tx_code}}>
+                        {{list.tax}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Business Place</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="businessPlace">
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Bank Key</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="bankKey">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Swiss Code</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="swissCode">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Place of Supply</mat-label>
+                <input matInput type="text" value="" (focusout)="onKey($event)" formControlName="placeOfSupply">
+            </mat-form-field>
+
+        </div>
+    </form>
+</div>

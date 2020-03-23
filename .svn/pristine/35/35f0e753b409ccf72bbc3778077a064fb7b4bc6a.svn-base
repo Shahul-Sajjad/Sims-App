@@ -1,0 +1,57 @@
+import { Component, OnInit } from '@angular/core';
+import { PDFSource } from 'ng2-pdf-viewer';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-invoice-details',
+  templateUrl: './invoice-details.component.html',
+  styleUrls: ['./invoice-details.component.scss']
+})
+export class InvoiceDetailsComponent implements OnInit {
+  pdfSrc: string | PDFSource | ArrayBuffer;
+  taskInfo;
+  isOverLayMode = true;
+  taskRespectedClass = 'alf-am-task-container';
+  detailsRespectedClass = 'alf-am-task-details-container';
+  showViewerStatus = false;
+
+
+  constructor(
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit() {
+    this.pdfSrc = './assets/invoice.pdf';
+    this.setDocumentViewer(true);
+    this.route.queryParams.subscribe((param) => {
+      this.taskInfo = param;
+    });
+
+  }
+
+  public fullScreenMode(): void {
+    this.isOverLayMode = false;
+    this.taskRespectedClass = 'task-container ';
+    this.detailsRespectedClass = 'view-container';
+  }
+
+  public defaultLayoutMode(): void {
+    this.isOverLayMode = true;
+    this.taskRespectedClass = 'alf-am-task-form-container';
+    this.detailsRespectedClass = 'alf-am-task-details-container';
+  }
+
+  public setDocumentViewer(status: boolean): void {
+    this.showViewerStatus = status;
+    if (!this.showViewerStatus) {
+      this.taskRespectedClass = 'alf-am-task-container';
+    } else {
+      this.taskRespectedClass = 'alf-am-task-form-container';
+    }
+  }
+
+  get getViewerStatus(): boolean {
+    return this.showViewerStatus;
+  }
+
+}

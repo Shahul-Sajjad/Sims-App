@@ -1,0 +1,275 @@
+<div class="tableAlign">
+    <table mat-table [dataSource]="invoiceDetailsDataSource">
+        <ng-container matColumnDef="statuIcon">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let element"><mat-icon *ngIf="element.statuIcon" style="color: red;">cancel</mat-icon>
+                                                   <mat-icon *ngIf="!element.statuIcon"
+                                                   style="color: white;
+                                                   background: green;
+                                                   border-radius: 50%;">check</mat-icon>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="inv_line">
+            <th mat-header-cell *matHeaderCellDef>Inv Line #</th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.inv_line" (focusout)="onKey($event)" [(ngModel)]="element.inv_line">
+                <b *ngIf="!showTableData">{{element.inv_line}}</b></td>
+        </ng-container>
+
+        <ng-container matColumnDef="po_line">
+            <th mat-header-cell *matHeaderCellDef>PO Line #</th>
+            <td mat-cell *matCellDef="let element ; let i = index;">
+                <input *ngIf="showTableData" matInput [value]="element.po_line" (focusout)="onKey($event,i)" [(ngModel)]="element.po_line">
+                <b  *ngIf="!showTableData"> {{element.po_line}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="po">
+            <th mat-header-cell *matHeaderCellDef>PO #</th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.po" (focusout)="onKey($event)" [(ngModel)]="element.po">
+                <b *ngIf="!showTableData"> {{element.po}}</b>
+                <mat-icon (click)="getTempAsnnumberfromPoLine()">search</mat-icon>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="grn">
+            <th mat-header-cell *matHeaderCellDef>GRN #</th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.grn" (focusout)="onKey($event)" [(ngModel)]="element.grn">
+                <b *ngIf="!showTableData"> {{element.grn}}</b></td>
+        </ng-container>
+
+        <ng-container matColumnDef="buyerapprover">
+            <th mat-header-cell *matHeaderCellDef>Buyer/Approver</th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.buyerapprover" (focusout)="onKey($event)" [(ngModel)]="element.buyerapprover">
+                <b *ngIf="!showTableData"> {{element.po}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="material">
+            <th mat-header-cell *matHeaderCellDef> Material</th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.material" (focusout)="onKey($event)" [(ngModel)]="element.material">
+                <b *ngIf="!showTableData"> {{element.material}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="material_desc">
+            <th mat-header-cell *matHeaderCellDef> Material Desc </th>
+            <td style="word-break: break-all;
+          width: 6%;" mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.material_desc" (focusout)="onKey($event)" [(ngModel)]="element.material_desc">
+                <b matTooltip={{element.material_desc}} *ngIf="!showTableData"> {{truncated(element.material_desc)}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="qty">
+            <th mat-header-cell *matHeaderCellDef>Qty</th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.qty" (focusout)="onKey($event)" [(ngModel)]="element.qty">
+                <b *ngIf="!showTableData"> {{element.qty}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rate">
+            <th mat-header-cell *matHeaderCellDef> Rate </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.rate" (focusout)="onKey($event)" [(ngModel)]="element.rate">
+                <b *ngIf="!showTableData"> {{element.rate | number : '1.2-2'}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="UOM">
+            <th mat-header-cell *matHeaderCellDef> UOM </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.rate" (focusout)="onKey($event)" [(ngModel)]="element.rate">
+                <b *ngIf="!showTableData"> {{element.UOM}}</b> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="doc_curr">
+            <th mat-header-cell *matHeaderCellDef> Doc. Curr </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.doc_curr" (focusout)="onKey($event)" [(ngModel)]="element.doc_curr">
+                <b *ngIf="!showTableData"> {{element.doc_curr}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="local_curr">
+            <th mat-header-cell *matHeaderCellDef> Local Curr </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.local_curr" (focusout)="onKey($event)" [(ngModel)]="element.local_curr">
+                <b *ngIf="!showTableData"> {{element.local_curr}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gl_code">
+            <th mat-header-cell *matHeaderCellDef> Gl code </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.gl_code" (focusout)="onKey($event)" [(ngModel)]="element.gl_code">
+                <b *ngIf="!showTableData"> {{element.gl_code}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cost_center">
+            <th mat-header-cell *matHeaderCellDef> Center code </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.cost_center" (focusout)="onKey($event)" [(ngModel)]="element.cost_center">
+                <b *ngIf="!showTableData"> {{element.cost_center }}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="wbs">
+            <th mat-header-cell *matHeaderCellDef> WBS</th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.wbs" (focusout)="onKey($event)" [(ngModel)]="element.wbs">
+                <b *ngIf="!showTableData"> {{element.wbs}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="requestor">
+            <th mat-header-cell *matHeaderCellDef> Requestor </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.requestor" (focusout)="onKey($event)" [(ngModel)]="element.requestor">
+                <b *ngIf="!showTableData"> {{element.requestor}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="approver">
+            <th mat-header-cell *matHeaderCellDef> Approver </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.approver" (focusout)="onKey($event)" [(ngModel)]="element.approver">
+                <b *ngIf="!showTableData"> {{element.approver}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gross_value">
+            <th mat-header-cell *matHeaderCellDef> Gross Value </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.gross_value" (focusout)="onKey($event)" [(ngModel)]="element.gross_value">
+                <b *ngIf="!showTableData"> {{element.approver}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="discount">
+            <th mat-header-cell *matHeaderCellDef> Discount </th>
+            <td mat-cell *matCellDef="let element"> <input *ngIf="showTableData" matInput [value]="element.discount" (focusout)="onKey($event)" [(ngModel)]="element.discount">
+                <b *ngIf="!showTableData"> {{element.discount}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delivery_date">
+            <th mat-header-cell *matHeaderCellDef> Delivery Date </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.delivery_date" (focusout)="onKey($event)" [(ngModel)]="element.delivery_date">
+                <b *ngIf="!showTableData"> {{element.delivery_date}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.status" (focusout)="onKey($event)" [(ngModel)]="element.status">
+                <b *ngIf="!showTableData"> {{element.status}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="po_material">
+            <th mat-header-cell *matHeaderCellDef> PO Material </th>
+            <td mat-cell *matCellDef="let element"> <input *ngIf="showTableData" matInput [value]="element.po_material" (focusout)="onKey($event)" [(ngModel)]="element.po_material">
+                <b *ngIf="!showTableData"> {{element.po_material}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="po_marterial_desc">
+            <th mat-header-cell *matHeaderCellDef> PO Material Desc </th>
+            <td mat-cell *matCellDef="let element"> <input *ngIf="showTableData" matInput [value]="element.po_marterial_desc" (focusout)="onKey($event)" [(ngModel)]="element.po_marterial_desc">
+                <b *ngIf="!showTableData"> {{element.po_marterial_desc}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="po_price">
+            <th mat-header-cell *matHeaderCellDef> PO Price </th>
+            <td mat-cell *matCellDef="let element"> <input *ngIf="showTableData" matInput [value]="element.po_price" (focusout)="onKey($event)" [(ngModel)]="element.po_price">
+                <b *ngIf="!showTableData"> {{element.po_price}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="trading_part_code">
+            <th mat-header-cell *matHeaderCellDef> Trading Part Code </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.trading_part_code" (focusout)="onKey($event)" [(ngModel)]="element.trading_part_code">
+                <b *ngIf="!showTableData"> {{element.trading_part_code}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="order_id">
+            <th mat-header-cell *matHeaderCellDef> Order ID </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.order_id" (focusout)="onKey($event)" [(ngModel)]="element.order_id">
+                <b *ngIf="!showTableData"> {{element.order_id}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef> Remarks </th>
+            <td style="word-break: break-all;
+          width: 6%;" mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.remarks" (focusout)="onKey($event)" [(ngModel)]="element.remarks">
+                <b *ngIf="!showTableData"> {{element.remarks}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="validator_remarks">
+            <th mat-header-cell *matHeaderCellDef> Validator Remarks </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.validator_remarks" (focusout)="onKey($event)" [(ngModel)]="element.validator_remarks">
+                <b *ngIf="!showTableData"> {{element.validator_remarks}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tax_code">
+            <th mat-header-cell *matHeaderCellDef> Tax Code </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.tax_code" (focusout)="onKey($event)" [(ngModel)]="element.tax_code">
+                <b *ngIf="!showTableData"> {{element.tax_code}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="vp">
+            <th mat-header-cell *matHeaderCellDef> VP </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.vp" (focusout)="onKey($event)" [(ngModel)]="element.vp">
+                <b *ngIf="!showTableData"> {{element.vp}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="profit_center">
+            <th mat-header-cell *matHeaderCellDef> Profit Center </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.profit_center" (focusout)="onKey($event)" [(ngModel)]="element.profit_center">
+                <b *ngIf="!showTableData"> {{element.profit_center}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hsn_sac">
+            <th mat-header-cell *matHeaderCellDef> HSN SAC </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.hsn_sac" (focusout)="onKey($event)" [(ngModel)]="element.hsn_sac">
+                <b *ngIf="!showTableData"> {{element.hsn_sac}}</b>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lr_no">
+            <th mat-header-cell *matHeaderCellDef> LR No </th>
+            <td mat-cell *matCellDef="let element">
+                <input *ngIf="showTableData" matInput [value]="element.lr_no" (focusout)="onKey($event)" [(ngModel)]="element.lr_no">
+                <b *ngIf="!showTableData"> {{element.lr_no}}</b>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedInvoiceColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedInvoiceColumns;"></tr>
+    </table>
+</div>

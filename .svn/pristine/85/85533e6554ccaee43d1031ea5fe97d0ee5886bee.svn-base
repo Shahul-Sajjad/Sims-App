@@ -1,0 +1,13 @@
+mat-form-field {
+    padding-right: 5px;
+    width: 180px;
+}
+.invoiceHeader{
+    margin-top: 2%;
+    height: 74vh;
+    overflow:hidden;
+    margin-bottom: 2%;
+}
+.invoiceHeader:hover{
+    overflow-y: auto;
+}

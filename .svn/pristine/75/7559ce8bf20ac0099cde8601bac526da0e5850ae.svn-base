@@ -1,0 +1,51 @@
+html,body{
+    height:100%;margin:0;padding:0;
+    
+    
+}
+.login-wrapper{
+    height:100%;
+    background-image: url('../../../assets/icons/Sky-Wallpaper.jpg') !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important; 
+}
+.login-wrapper .example-form{min-width:100%;max-width:300px;width:100%;}
+.login-wrapper .example-full-width,
+.login-wrapper .btn-block
+{
+    width:100%;
+    border-block-color: black;
+    
+    
+}
+
+.login-wrapper .mat-card{
+    border-radius: 20px;
+}
+.login-wrapper .mat-card .mat-card-content{
+width: 70%;
+}
+.login-wrapper .mat-stroked-button{
+    line-height:40px;
+    background:#17a2b8;
+    color: #fff;
+    width: 70%;
+}
+// .login-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix{padding:0.8375em 0;}
+.company-logo {
+width: 50%;
+  }
+  .box{
+      width: 50%;
+  }
+  .boxCard{
+    margin-right: 12%;
+    height: 50%;
+    background: #ffffffb3;
+  }
+  .mat-form-field-appearance-outline.mat-form-field-flex {
+    color: white;
+  }
+.formValue{
+    margin-top: 16% !important;
+}

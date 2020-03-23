@@ -1,0 +1,50 @@
+table {
+    width: 100%;
+  }
+.table-form{
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-top: 10px;
+  color:#263239;
+  // margin-bottom: 500px;
+  }
+.title-heading{
+    background-color:white;
+    padding-top: 0px;
+    /* padding-bottom: 10px; */
+    /* margin-top:20px ; */
+  }
+  
+.mat-row:nth-child(even){
+    background-color:rgb(240, 247, 246);
+  }
+
+.mat-row:nth-child(odd){
+    background-color:white;
+    }
+.mat-header-row{
+    background-color:aliceblue;
+    color:#263239; 
+  }
+    
+button {
+        padding: 5px;
+        border-radius: 5px;
+        /* margin-right: 50px;
+        margin-left:50px; */
+        margin:50px;
+        width:10%;
+        }    
+
+.close {
+      margin-right: 15px; 
+      font-weight: 600;
+      cursor: pointer;
+    }
+.card {
+        height:250px;
+    }
+.card-header {
+      padding:3px;
+    }

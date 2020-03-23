@@ -1,0 +1,14 @@
+<app-invoice-actions [taskInfo]="taskInfo"></app-invoice-actions>
+<div fxLayout="row" fxlayoutgap="0.25% grid">
+    <div class="main" fxflex="40" style="width: 50%;" fxFlex fxLayout="column">
+        <mat-card>
+            <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block;" [fit-to-page]="true"></pdf-viewer>
+        </mat-card>
+    </div>
+    <div class="main" fxFlex fxLayout="column">
+        <mat-card style="width: 49vw;">
+            <app-invoice-info-details [taskDetails]="taskInfo"></app-invoice-info-details>
+        </mat-card>
+
+    </div>
+</div>

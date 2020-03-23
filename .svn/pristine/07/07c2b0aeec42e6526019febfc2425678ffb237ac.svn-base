@@ -1,0 +1,185 @@
+<div class="wrapper-1">
+    <div id="content" class="">
+        <div class="page right-content">
+
+            <div class="mt-10 ">
+                <div class="common card-base-1 bg-light ml-10 mr-10">
+                    <div class="card">
+                        <div class="card-header header-font container-fluid" style="background-color:aliceblue;">
+                            <div class="row">
+                                <div class="col" style="margin-left:22px;margin-top: 10px;">
+                                    <b>User Details</b>
+                                </div>
+                                <div class="col-8">
+                                    
+                                </div>
+                                <div class="col-2 float-right">
+                                    <a mat-icon-button class="float-right">
+                                        <mat-icon (click)="search(form.value)">search</mat-icon>
+                                    </a>
+                                    <a mat-icon-button class="float-right">
+                                        <mat-icon data-toggle="collapse" data-target="#collapsibleBody">arrow_drop_down
+                                        </mat-icon>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="collapsibleBody" class=".collapse.show">
+                            <div class="card-body">
+                                <form class="row" [formGroup]="form">
+                                        
+                                <mat-form-field appearance="outline">
+                                    <mat-label>User Id</mat-label> 
+                                    <input matInput formControlName="userId"  placeholder="UserId">
+                                </mat-form-field>  
+                        
+                                <mat-form-field appearance="outline">
+                                    <mat-label>First Name</mat-label>
+                                    <input  matInput formControlName="firstName" placeholder="FirstName">
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Last Name</mat-label>
+                                    <input  matInput formControlName="lastName" placeholder="LastName">
+                                </mat-form-field>
+                            
+                                <br>   
+                                <div class="example-button-row">
+                                    <button mat-raised-button (click)="userTableDetailComments()">Search</button>
+                                    <button mat-raised-button (click)="resetForm()">Clear</button>
+                                </div> 
+                          
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+<div class="card mt-15">
+    <div class="card-header header-font" style="background-color:aliceblue;">
+        <div class="col" style="margin-left:10px;margin-top: 10px;margin-bottom: 5px;">
+       <b>User List</b>
+        </div>
+    </div>
+    
+    <div class="card-body"> 
+        <div class="{{collapsed ? 'table-wrap' : '' }} table-responsive">
+
+            <div [style.display]="!loadUserMasterSpinner? 'none':'block'">
+                <app-saw-loader></app-saw-loader>
+            </div>
+
+         <div [style.display]="loadUserMasterSpinner? 'none':'block'"></div>
+
+                <table mat-table [dataSource]="dataSource" #mytable class="mat-elevation-z8">
+
+                    <ng-container matColumnDef="userId">
+                        <th mat-header-cell *matHeaderCellDef> User Id </th>
+                        <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="userName">
+                        <th mat-header-cell *matHeaderCellDef> User Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef> First Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="middleName">
+                        <th mat-header-cell *matHeaderCellDef> Middle Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.middleName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="role">
+                        <th mat-header-cell *matHeaderCellDef> Role </th>
+                        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="emailId">
+                        <th mat-header-cell *matHeaderCellDef> Email Id </th>
+                        <td mat-cell *matCellDef="let element"> {{element.emailId}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="state">
+                        <th mat-header-cell *matHeaderCellDef> State </th>
+                        <td mat-cell *matCellDef="let element"> {{element.state}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="country">
+                        <th mat-header-cell *matHeaderCellDef> Country </th>
+                        <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contactNumber">
+                        <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+                        <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef> Address </th>
+                        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="pinCode">
+                        <th mat-header-cell *matHeaderCellDef> Pin Code </th>
+                        <td mat-cell *matCellDef="let element"> {{element.pinCode}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="costCenter">
+                        <th mat-header-cell *matHeaderCellDef> Cost Center </th>
+                        <td mat-cell *matCellDef="let element"> {{element.costCenter}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="supervisorCode">
+                        <th mat-header-cell *matHeaderCellDef> Supervisor Code </th>
+                        <td mat-cell *matCellDef="let element"> {{element.supervisorCode}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="supervisorEmail">
+                        <th mat-header-cell *matHeaderCellDef> Supervisor Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.supervisorEmail}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="location">
+                        <th mat-header-cell *matHeaderCellDef> Location </th>
+                        <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="reportingTo">
+                        <th mat-header-cell *matHeaderCellDef> ReportingTo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.reportingTo}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; let index=index; columns: displayedColumns;"
+                     (dblclick)="addOpenUpdateDialog(row, index)"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+        </div>
+    </div>
+</div>
+    <div class="table-button" style="margin-left: 700px; margin-top: 10px; margin-bottom: 10px;">
+        <button mat-raised-button (click)="addOpenDialog()">Add User</button>
+        <!-- <button mat-raised-button (click)="addOpenDialog()">Edit User</button> -->
+    </div>
+<mat-card class="footer">
+<div style="margin-left:2%; color:#0d47a1">Copyright Muraai Information Technologies Pvt Ltd    &copy; 2020-2021</div>
+</mat-card>

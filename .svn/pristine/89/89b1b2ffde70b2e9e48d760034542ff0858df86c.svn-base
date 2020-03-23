@@ -1,0 +1,26 @@
+import { Component, OnInit } from '@angular/core';
+import { PDFSource } from 'ng2-pdf-viewer';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-invoice-details',
+  templateUrl: './invoice-details.component.html',
+  styleUrls: ['./invoice-details.component.scss']
+})
+export class InvoiceDetailsComponent implements OnInit {
+  pdfSrc: string | PDFSource | ArrayBuffer;
+  taskInfo;
+
+  constructor(
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit() {
+    this.pdfSrc = './assets/invoice.pdf';
+    this.route.queryParams.subscribe((param) => {
+      this.taskInfo = param;
+    });
+
+  }
+
+}

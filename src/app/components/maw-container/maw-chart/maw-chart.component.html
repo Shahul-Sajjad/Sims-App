@@ -1,0 +1,92 @@
+<div class="chartList">
+    <div class="align">
+        <dx-chart id="chart" [dataSource]="dataSource">
+            <dxo-size [height]="280" [width]="350">
+            </dxo-size>
+            <dxo-title text="Invoices verified by month">
+                <dxo-font size="18"></dxo-font>
+            </dxo-title>
+            <dxi-series valueField="young" name="PO"></dxi-series>
+            <dxi-series valueField="middle" name="Non-PO"></dxi-series>
+            <dxo-common-series-settings argumentField="state" type="stackedBar">
+            </dxo-common-series-settings>
+
+            <dxo-tooltip [enabled]="true" location="edge" [customizeTooltip]="customizeTooltip">
+            </dxo-tooltip>
+        </dx-chart>
+    </div>
+
+    <div class="align">
+        <dx-chart id="chart" [dataSource]="userData" palette="soft">
+            <dxo-size [height]="280" [width]="350">
+            </dxo-size>
+            <dxo-title text="Invoices processing time by vendor">
+                <dxo-font size="18">
+                </dxo-font>
+            </dxo-title>
+            <dxo-common-series-settings argumentField="age" type="bar" valueField="number" [ignoreEmptyPoints]="true">
+            </dxo-common-series-settings>
+            <dxo-series-template nameField="age"></dxo-series-template>
+        </dx-chart>
+    </div>
+    <div class="align">
+        <dx-pie-chart id="pie" palette="bright" [dataSource]="areas" (onPointClick)="pointClickHandler($event)"
+            (onLegendClick)="legendClickHandler($event)">
+            <dxo-title text="Invoices processing time by month">
+                <dxo-font size="18">
+                </dxo-font>
+            </dxo-title>
+            <dxi-series argumentField="country" valueField="area">
+                <dxo-label [visible]="true">
+                    <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+                </dxo-label>
+            </dxi-series>
+            <dxo-size [width]="350" [height]="280"></dxo-size>
+        </dx-pie-chart>
+    </div>
+    <div class="align">
+        <dx-chart id="chart" [dataSource]="userData" palette="soft">
+            <dxo-size [height]="280" [width]="350">
+            </dxo-size>
+            <dxo-title text="Invoices pending by vendor">
+                <dxo-font size="18">
+                </dxo-font>
+            </dxo-title>
+            <dxo-common-series-settings argumentField="age" type="bar" valueField="number" [ignoreEmptyPoints]="true">
+            </dxo-common-series-settings>
+            <dxo-series-template nameField="age"></dxo-series-template>
+        </dx-chart>
+    </div>
+    <div class="align">
+        <dx-pie-chart id="pie" palette="bright" [dataSource]="areas" (onPointClick)="pointClickHandler($event)"
+            (onLegendClick)="legendClickHandler($event)">
+            <dxo-title text="Invoices pending by approver">
+                <dxo-font size="18">
+                </dxo-font>
+            </dxo-title>
+            <dxi-series argumentField="country" valueField="area">
+                <dxo-label [visible]="true">
+                    <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+                </dxo-label>
+            </dxi-series>
+            <dxo-size [width]="350" [height]="280"></dxo-size>
+        </dx-pie-chart>
+    </div>
+
+    <div class="align">
+        <dx-chart id="chart" [dataSource]="processingVendor">
+            <dxo-size [height]="280" [width]="350">
+            </dxo-size>
+            <dxo-title text="Average processing time by vendor">
+                <dxo-font size="18">
+                </dxo-font>
+            </dxo-title>
+            <dxi-series valueField="young" name="Average Time" position="below"></dxi-series>
+            <dxo-common-series-settings argumentField="state" type="stackedBar">
+            </dxo-common-series-settings>
+
+            <dxo-tooltip [enabled]="true" location="edge" [customizeTooltip]="customizeTooltip">
+            </dxo-tooltip>
+        </dx-chart>
+    </div>
+</div>

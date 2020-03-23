@@ -1,0 +1,235 @@
+<div class="wrapper-1">
+  <div id="content">
+    <!-- <div> -->
+    <div class="mt-10 ">
+      <div class="common card-base-1">
+        <div class="body">
+          <div class="card" fxLayout="column" fxLayoutAlign="space-between center">
+            <div class="card-header header-font container-fluid" style="background-color:aliceblue;" ffxLayout="row"
+              fxLayoutAlign="space-between">
+              <div class="row">
+                <div class="col" style="margin-left:22px;margin-top: 10px;">
+                  <b>SEARCH</b>
+                </div>
+
+                <div class="col-2 float-right">
+                  <a mat-icon-button class="float-right">
+                    <mat-icon (click)="getvendormasterdetails(vendorSearchInputform.value)" matTooltip="Search">search
+                    </mat-icon>
+                  </a>
+                  <!-- <a
+                      mat-icon-button
+                      class="float-right"
+                      (click)="modifyCollapse($event)"
+                    >
+                      <mat-icon
+                        data-toggle="collapse"
+                        data-target="#collapsibleBody"
+                        >arrow_drop_down
+                      </mat-icon>
+                    </a> -->
+                </div>
+              </div>
+            </div>
+
+            <div id="collapsibleBody" class=".collapse.open">
+              <div class="card-body">
+                <form class="row" [formGroup]="vendorSearchInputform">
+                  <div class="form" fxLayout="row" fxLayoutAlign="space-evenly center">
+                    <mat-form-field appearance="outline" fxFlex>
+                      <mat-label>Code</mat-label>
+                      <input matInput formControlName="code"
+                        (keydown.enter)="getvendormasterdetails(vendorSearchInputform.value)" placeholder="Code" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Name</mat-label>
+
+                      <input matInput formControlName="name"
+                        (keydown.enter)="getvendormasterdetails(vendorSearchInputform.value)" placeholder="name" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Location</mat-label>
+                      <input matInput formControlName="location"
+                        (keydown.enter)="getvendormasterdetails(vendorSearchInputform.value)" placeholder="Location" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Status</mat-label>
+                      <mat-select formControlName="status"
+                        (selectionChange)="getvendormasterdetails(vendorSearchInputform.value)">
+                        <mat-option value="">---Select---</mat-option>
+                        <mat-option value="Active">Active</mat-option>
+                        <mat-option value="InActive">In-Active</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <!-- <div class="btndiv"> -->
+                      <button class="searchBtn1" mat-raised-button
+                        (click)="getvendormasterdetails(vendorSearchInputform.value)">
+                        Search
+                      </button>
+                      <button class="searchBtn1" mat-raised-button (click)="resetForm()">
+                        Clear
+                      </button>
+                    <!-- </div> -->
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vendor Table Details -->
+
+          <div class="card mt-15">
+            <div class="card-header header-font" style="background-color:aliceblue;">
+              <div class="col" style="margin-left:10px;margin-top: 10px;margin-bottom: 5px;">
+                <b>Vendor Details</b>
+              </div>
+            </div>
+            <div [style.display]="!loadVendorSpinner ? 'none' : 'block'">
+              <app-saw-loader></app-saw-loader>
+            </div>
+            <!-- removed class="card-body"  -->
+            <div [style.display]="loadVendorSpinner ? 'none' : 'block'">
+              <!-- <div class="{{collapsed ? 'table-wrap' : '' }} table-responsive"> -->
+              <table mat-table [dataSource]="vendorDataSource" matSort class="mat-elevation-z8">
+                <!-- Position Column -->
+                <ng-container matColumnDef="bank">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-icon matTooltip="Bank Detail" class="pointer" (click)="openDialog()">account_balance
+                    </mat-icon>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="code" class="math">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Code
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="task-td" [style.background-color]="element.color">
+                    {{ element.code }}
+                  </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="erpName">
+                  <th mat-header-cell *matHeaderCellDef fxFlex="20">
+                    Erp Name
+                  </th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.erpName }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="erpId">
+                  <th mat-header-cell *matHeaderCellDef fxFlex="20">
+                    Erp Id
+                  </th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.erpId }}
+                  </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header asc>
+                    Name
+                  </th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.name }}
+                  </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="houseNo">
+                  <th mat-header-cell *matHeaderCellDef>House No</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.houseNo }}
+                  </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="location">
+                  <th mat-header-cell *matHeaderCellDef>Location</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.location }}
+                  </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="streetName">
+                  <th mat-header-cell *matHeaderCellDef>Street Name</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.streetName }}
+                  </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="postalCode">
+                  <th mat-header-cell *matHeaderCellDef>Postal Code</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.postalCode }}
+                  </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="telephone">
+                  <th mat-header-cell *matHeaderCellDef>Telephone</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.telephone }}
+                  </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="tds">
+                  <th mat-header-cell *matHeaderCellDef>TDS</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.tds }}
+                  </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="regionalManager">
+                  <th mat-header-cell *matHeaderCellDef>Regional Manager</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.regionalManager }}
+                  </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="glCode">
+                  <th mat-header-cell *matHeaderCellDef>GL CODE</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.glCode }}
+                  </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>STATUS</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.status">
+                    {{ element.status }}
+                  </td>
+                </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="emailId">
+                  <th mat-header-cell *matHeaderCellDef>EMAIL ID</th>
+                  <td mat-cell *matCellDef="let element" [style.background-color]="element.color">
+                    {{ element.emailId }}
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns,sticky: true;"></tr>
+                <tr mat-row *matRowDef="let row; let index=index; columns: displayedColumns"
+                  (dblclick)="vendorDetailDialog(row, index)"></tr>
+              </table>
+
+              <mat-paginator [pageSizeOptions]="[10, 20, 30, 40, 50]" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+</div>
+
+<!-- <mat-card class="footer">
+      <div style="margin-left:2%; color:#0d47a1">Copyright Muraai Information Technologies Pvt Ltd 	&copy; 2020-2021</div>
+  </mat-card> -->

@@ -1,0 +1,109 @@
+<div fxLayout="row" style="margin-top: 50px;">
+    <div fxFlex="10"></div>
+    <div fxFlex="25">
+        <mat-card>
+            <mat-card-content>
+                <img src="../../../assets/images/profile.jpg">
+                <div class="details">
+                    <h6>Deepak Prabhudayal Pande</h6>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex="55" fxLayout="column">
+        <mat-card>
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="20px" class="details">
+                    <div fxLayout>
+                        <span><h6>Profile</h6></span>
+                        <span><a href="javascript:;" matToolt6ip="Edit" (click)="openEditBasicInfoDialog()"><mat-icon>edit</mat-icon></a></span>
+                    </div>
+                    <div fxLayout>
+                        <span>NAME</span>
+                        <span>Deepak Pande</span>
+                    </div>
+                    <div fxLayout>
+                        <span>GENDER</span>
+                        <span>Male</span>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="20px" class="details">
+                    <div fxLayout>
+                        <h6>Login Details</h6>
+                    </div>
+                    <div fxLayout>
+                        <span>MOBILE NUMBER</span>
+                        <span>9840789553</span>
+                    </div>
+                    <div fxLayout>
+                        <span>EMAIL ID</span>
+                        <span>deepak.pande@muraai.com</span>
+                    </div>
+                    <div fxLayout>
+                        <span>PASSWORD</span>
+                        <div fxLayout fxFlex="50%">
+                            <span>*******</span>
+                            <span><a href="javascript:;" matTooltip="Change Password" (click)="openEditContactInfoDialog()">Change Password?</a></span>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="20px" class="details">
+                    <div fxLayout>
+                        <h6>Role</h6>
+                    </div>
+                    <div fxLayout>
+                        <mat-list role="list">
+                            <mat-list-item role="listitem">Buyer</mat-list-item>
+                            <mat-list-item role="listitem">Approver</mat-list-item>
+                            <mat-list-item role="listitem">Vendor</mat-list-item>
+                        </mat-list>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="20px" class="details">
+                    <div fxLayout>
+                        <h6>Assign My Role</h6>
+                    </div>
+                    <div fxLayout>
+                        <mat-form-field>
+                            <mat-label>From</mat-label>
+                            <input matInput [matDatepicker]="fromPicker" placeholder="Choose a date">
+                            <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #fromPicker></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>To</mat-label>
+                            <input matInput [matDatepicker]="toPicker" placeholder="Choose a date">
+                            <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #toPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout>
+                        <div fxLayout>
+                            <mat-form-field>
+                                <mat-label>Email Id</mat-label>
+                                <mat-select>
+                                    <mat-option value="1">
+                                        deepak.pande@muraai.com
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex></div>
+</div>

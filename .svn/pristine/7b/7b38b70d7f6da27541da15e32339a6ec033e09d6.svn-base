@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-invoice-three-way-matching',
+  templateUrl: './invoice-three-way-matching.component.html',
+  styleUrls: ['./invoice-three-way-matching.component.scss']
+})
+export class InvoiceThreeWayMatchingComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

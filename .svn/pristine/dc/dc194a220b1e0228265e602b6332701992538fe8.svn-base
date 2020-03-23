@@ -1,0 +1,4 @@
+.mat-raised-button:not([class*=mat-elevation-z]) {
+    margin: 5px;
+    font-size: 12px;
+}

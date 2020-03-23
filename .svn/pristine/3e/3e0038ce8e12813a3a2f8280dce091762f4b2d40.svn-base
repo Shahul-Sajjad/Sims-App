@@ -1,0 +1,25 @@
+<div class="login-wrapper" fxLayout="row">
+<div class="company-logo" fxLayout="row" fxLayoutAlign="start start">
+ <img style="margin: 5%;" src="http://111.93.191.82:96/home/Muraai/com/opentext/portal/sims-app/assets/icons/muraai-logo.png" >
+</div>
+<div class="box" fxLayout="row" fxLayoutAlign="end center">      
+ <mat-card class="boxCard">
+
+        <form  class="formValue" fxLayout="column" fxLayoutAlign="center center" >
+            <mat-card-content >
+                <mat-form-field appearance="outline"  style="color:white;" class="example-full-width" >
+                    <mat-label>User Name</mat-label>
+                    <input matInput placeholder="Username">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="outline" style="color:white;">
+                    <mat-label>Password</mat-label>
+                    <input matInput placeholder="Password">
+                </mat-form-field>
+            </mat-card-content>
+            <button mat-stroked-button color="accent" class="btn-block">Log in</button>
+        </form>
+    </mat-card>
+</div>
+
+</div>

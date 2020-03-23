@@ -1,0 +1,93 @@
+<mat-card-content>
+    <mat-toolbar>
+        
+    </mat-toolbar>
+    <app-invoice-header [invNum]="invoiceNumber" [internalId]="internalId" [taskId]="taskId" [mode]="mode"></app-invoice-header>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Invoice Details
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-invoice-detail-tab></app-invoice-detail-tab>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Bank Details
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Invoice Bank Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-invoice-bank-detail-tab></app-invoice-bank-detail-tab>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <br>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Vendor Bank Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-vendor-bank-detail-tab></app-vendor-bank-detail-tab>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Tax & Freight
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-tax-freight-detail-tab></app-tax-freight-detail-tab>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Comments
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-invoice-comment-tab></app-invoice-comment-tab>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Uploads
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-upload-detail-tab></app-upload-detail-tab>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Three way Matching
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-invoice-three-way-matching></app-invoice-three-way-matching>
+        </mat-expansion-panel>
+    </mat-accordion>

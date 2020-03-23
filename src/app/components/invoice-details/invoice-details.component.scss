@@ -1,0 +1,50 @@
+.menu-spacer {
+    /* This fills the remaining space, by using flexbox.
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+}
+
+mat-card {
+    margin: 10px 0 10px 10px;
+}
+button{
+    border: none;
+    background: none;
+    outline: none;
+}
+
+@mixin iconContainer() {
+    // position: absolute;
+    // z-index: 2;
+    // padding-top: 20px;
+    // font-size: 30px;
+    // cursor: pointer;
+}
+
+.alf-am-task {
+    &-form-container {
+        float: left;
+        width: calc(100% - 40%);
+        overflow: auto;
+        height: 100%;
+    }
+    &-details-container {
+        float: left;
+        width: 39%;
+        border-left: 2px solid #e2e2e2;
+        @include iconContainer();
+    }
+    &-container {
+        width: 100%;
+    }
+}
+
+.view-container {
+    float: left;
+    width: 100%;
+    @include iconContainer();
+}
+
+.task-container {
+    display: none !important;
+}

@@ -1,0 +1,59 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SimsHttpCoreServices } from '../../services/sims-http-core.service';
+import { CommonService } from '../../services/common.service';
+@Component({
+  selector: 'maw-sidenav',
+  templateUrl: './maw-sidenav.component.html',
+  styleUrls: ['./maw-sidenav.component.scss']
+})
+export class MawSidenavComponent implements OnInit {
+  title = 'Muraai-APP-Work';
+  events: string[] = [];
+  opened: boolean;
+  menuList = [];
+  dataRequest = '';
+  soapRequest = '';
+  constructor(
+    private commonService: CommonService,
+    private simsHttpCoreServices: SimsHttpCoreServices,
+    private simsHttpCoreServices2: SimsHttpCoreServices
+  ) {
+  }
+  ngOnInit() {
+    // Get User details of logged in user
+
+    this.dataRequest = "<ud_userid>asavarinaik@PSPartition</ud_userid>"
+    this.soapRequest = this.commonService.getSoapBody("GetUserDetails", "http://schemas.cordys.com/WINDatabaseMetadata", this.dataRequest);
+    // console.log(this.soapRequest);
+
+    this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(response => {
+      //Get Menu by Role from response of Get User Details
+      let result = this.commonService.parseXML(response);
+      let roleID = result["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetUserDetailsResponse"][0]["tuple"][0]["old"][0]["win_user_details"][0]["ud_role"][0];
+
+      this.dataRequest = "<roleid>" + roleID + "</roleid>"
+      this.soapRequest = this.commonService.getSoapBody("GetMenuByRole", "http://schemas.cordys.com/WINDatabaseMetadata", this.dataRequest);
+      // console.log(this.soapRequest);
+      this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(response => {
+        //Framing the JSON Object to be mapped to the menu and sub menus
+        let result = this.commonService.parseXML(response);
+        let repMenus = result["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetMenuByRoleResponse"][0]["tuple"][0]["old"][0]["getMenuByRole"][0]["getMenuByRole"][0]["Menu"][0]["Header"];
+        for (var i = 0; i < repMenus.length; i++) {
+          let groupItems = [];
+          let repItems = result["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetMenuByRoleResponse"][0]["tuple"][0]["old"][0]["getMenuByRole"][0]["getMenuByRole"][0]["Menu"][0]["Header"][i]["Item"];
+          for (var j = 0; j < repItems.length; j++) {
+            let eachItem = {
+              "FormName": result["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetMenuByRoleResponse"][0]["tuple"][0]["old"][0]["getMenuByRole"][0]["getMenuByRole"][0]["Menu"][0]["Header"][0]["Item"][j]["FormName"][0],
+              "FormURL": result["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetMenuByRoleResponse"][0]["tuple"][0]["old"][0]["getMenuByRole"][0]["getMenuByRole"][0]["Menu"][0]["Header"][0]["Item"][j]["FormURL"][0],
+              "ScreenId": result["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetMenuByRoleResponse"][0]["tuple"][0]["old"][0]["getMenuByRole"][0]["getMenuByRole"][0]["Menu"][0]["Header"][0]["Item"][j]["ScreenId"][0]
+            };
+            groupItems.push(eachItem);
+          }
+          let eachMenu = { "MenuName": result["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetMenuByRoleResponse"][0]["tuple"][0]["old"][0]["getMenuByRole"][0]["getMenuByRole"][0]["Menu"][0]["Header"][i]["HeadingName"][0], "SubMenus": groupItems };
+          this.menuList.push(eachMenu);
+        }
+      });
+    });
+  }
+
+}

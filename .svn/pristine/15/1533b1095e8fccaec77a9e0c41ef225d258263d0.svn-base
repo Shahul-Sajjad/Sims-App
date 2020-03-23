@@ -1,0 +1,15 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-invoice-comment-tab',
+  templateUrl: './invoice-comment-tab.component.html',
+  styleUrls: ['./invoice-comment-tab.component.scss']
+})
+export class InvoiceCommentTabComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

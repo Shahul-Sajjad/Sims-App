@@ -1,0 +1,25 @@
+<app-invoice-actions [taskInfo]="taskInfo"></app-invoice-actions>
+<div fxLayout="row" fxlayoutgap="0.25% grid" style="margin-top: 115px;">
+    <div class="main" fxFlex fxLayout="column" [ngClass]="detailsRespectedClass" *ngIf="getViewerStatus">
+
+        <!-- <div>
+            <mat-icon class="menu-extended-right" color="primary" (click)="fullScreenMode()" *ngIf="isOverLayMode" matTooltip="Click to Expand">keyboard_arrow_right</mat-icon>
+            <mat-icon class="menu-extended-left" color="primary" (click)="defaultLayoutMode()" *ngIf="!isOverLayMode" matTooltip="Click to Shrink">keyboard_arrow_left</mat-icon>
+        </div> -->
+        <div>
+            <mat-card>
+                <app-invoice-info-details [taskDetails]="taskInfo"></app-invoice-info-details>
+            </mat-card>
+        </div>
+    </div>
+    <div class="main" fxflex="50" style="width: 50%;" fxLayout="column" [ngClass]="taskRespectedClass">
+       
+        <mat-card>
+            <div  fxLayout="row" fxLayoutAlign="end center">
+                <button><mat-icon>cloud_download</mat-icon></button>
+                <button (click)="pdfFullScreenViewer()"><mat-icon>fullscreen</mat-icon></button>
+                </div>
+            <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block;" [fit-to-page]="true"></pdf-viewer>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,181 @@
+import { Component, OnInit, EventEmitter, ViewChild, Output, ChangeDetectorRef } from '@angular/core';
+import { MatPaginator, MatDialog, MatTableDataSource, MatTable } from '@angular/material';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { UserMasterDetailsDailogComponent } from '../user-master-details-dailog/user-master-details-dailog.component';
+import { RouterLinkWithHref } from '@angular/router';
+import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
+import { SimsCoreService } from 'src/app/services/sims-core.service';
+import { CommonService } from 'src/app/services/common.service';
+import { UserMasterUpdateDetailsDailogComponent } from '../user-master-update-details-dailog/user-master-update-details-dailog.component';
+
+export interface PeriodicElement {
+
+  userId : String;
+  userName : String;
+  firstName : String;
+  middleName : String;
+  lastName : String;
+  role : String;
+  emailId : String;
+  state : String;
+  country : String;
+  contactNumber : String;
+  address : String;
+  status : any;
+  pinCode : String;
+  costCenter : String;
+  supervisorCode : String;
+  supervisorEmail : String;
+  location : String;
+  reportingTo : String;
+
+}
+
+let ELEMENT_DATA: PeriodicElement[] = [];
+
+@Component({
+  selector: 'app-user-master',
+  templateUrl: './user-master.component.html',
+  styleUrls: ['./user-master.component.scss']
+})
+export class UserMasterComponent implements OnInit {
+  form: FormGroup;
+  products = [];
+  title = 'sims-app';
+  row:any;
+  displayedColumns: string[] = ['userId','userName','firstName','middleName','lastName','role','emailId',
+  'state','country','contactNumber','address','status','pinCode','costCenter','supervisorCode','supervisorEmail',
+  'location','reportingTo'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  loadUserMasterSpinner:boolean = true;
+  
+  constructor(private fb: FormBuilder,
+              public dailog : MatDialog,
+              private simsHttpCoreServices: SimsHttpCoreServices,
+              private simsCoreService: SimsCoreService,
+              private commonService : CommonService ,
+              private changeDetectionRef: ChangeDetectorRef) { }
+
+  addOpenDialog() {
+    const dialogRef = this.dailog.open(UserMasterDetailsDailogComponent,
+      {width : '80%',
+      });
+      dialogRef.afterClosed().subscribe(result =>{
+        ELEMENT_DATA.push(result.updatedData.value);
+        this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+        this.dataSource.paginator = this.paginator;
+        // this.dataSource.data.push(result.updatedData.value);
+        console.log('alert mat use karo kabhi', result);
+        // this.table.renderRows();
+        this.changeDetectionRef.detectChanges();
+      });
+      
+  }
+
+  addOpenUpdateDialog(row,index) {
+    const dialogRef = this.dailog.open(UserMasterUpdateDetailsDailogComponent,
+      { width : '80%',
+        data:{row,index}
+      });
+      dialogRef.afterClosed().subscribe(data=>{
+        ELEMENT_DATA[data.index] = data.updatedData.value;
+        this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+        this.dataSource.paginator = this.paginator;
+        this.changeDetectionRef.detectChanges();
+      })
+  }
+
+  @ViewChild(MatPaginator ,{static: true}) paginator: MatPaginator ; 
+  @ViewChild(MatTable ,{static: true}) table:MatTable<any>;
+  @Output() groupFilters: EventEmitter<any> = new EventEmitter<any>();
+  ngOnInit() {
+    
+    this.form = this.fb.group({
+      userId : new FormControl(''),
+      userName : new FormControl(''),
+      firstName : new FormControl(''),
+      middleName : new FormControl(''),
+      lastName : new FormControl(''),
+      role : new FormControl(''),
+      emailId : new FormControl(''),
+      state : new FormControl(''),
+      country : new FormControl(''),
+      contactNumber : new FormControl(''),
+      address : new FormControl(''),
+      status : new FormControl(''),
+      pinCode : new FormControl(''),
+      costCenter : new FormControl(''),
+      supervisorCode : new FormControl(''),
+      supervisorEmail : new FormControl(''),
+      location : new FormControl(''),
+      reportingTo : new FormControl('')
+
+    });
+    this.loadUserMasterSpinner= true;
+    this.userTableDetailComments();
+  }
+
+resetForm(){
+  this.form = this.fb.group({
+  userId : new FormControl(''),
+  firstName : new FormControl(''),
+  lastName : new FormControl('')
+  });
+  this.userTableDetailComments();
+}
+
+userTableDetailComments() {
+  ELEMENT_DATA = [];
+  console.log("Element Data :"+ELEMENT_DATA); 
+  this.dataSource=new MatTableDataSource(ELEMENT_DATA);
+  this.loadUserMasterSpinner = true;
+  let serviceName = "GetUserCreationDetail";
+  let nameSpace = "http://schemas.cordys.com/WINDatabaseMetadata"; 
+  var dataRequest = "<userid>"+ this.form.value.userId +"</userid><userFirstName>"+ this.form.value.firstName +"</userFirstName><userLastName>"+ this.form.value.lastName +"</userLastName>"
+  var soapRequest = "<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">"+
+      "<SOAP:Body>" +
+        "<" + serviceName + " xmlns=\"" + nameSpace + "\"  preserveSpace=\"no\" qAccess=\"0\" qValues=\"\" >" +
+    
+           dataRequest + 
+        "</" + serviceName + ">"+
+      "</SOAP:Body>"+
+    "</SOAP:Envelope>";
+  var parser = new DOMParser();
+  parser.parseFromString(soapRequest,"text/xml");
+  this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
+     var userList = this.commonService.parseXML(response);
+    console.log(userList);
+
+    var userDetailsList = userList["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetUserCreationDetailResponse"][0]["tuple"];
+
+    userDetailsList.forEach(element =>
+      {
+       
+      let userDetails={
+        userId : element["old"][0]["win_user_details"][0]["ud_userid"][0],
+        userName : element["old"][0]["win_user_details"][0]["ud_user_name"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_user_name"][0]:"",
+        firstName : element["old"][0]["win_user_details"][0]["ud_first_name"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_first_name"][0]:"",
+        middleName : element["old"][0]["win_user_details"][0]["ud_middle_name"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_middle_name"][0]:"",
+        lastName : element["old"][0]["win_user_details"][0]["ud_last_name"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_last_name"][0]:"",
+        role : element["old"][0]["win_user_details"][0]["role"][0]["$"] === undefined ?element["old"][0]["win_user_details"][0]["role"][0]: "",
+        emailId : element["old"][0]["win_user_details"][0]["ud_email"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_email"][0]:"",
+        state : element["old"][0]["win_user_details"][0]["ud_state"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_state"][0]:"",
+        country : element["old"][0]["win_user_details"][0]["ud_country"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_country"][0]: "",
+        contactNumber : element["old"][0]["win_user_details"][0]["ud_contactnumber"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_contactnumber"][0]:"",
+        address : element["old"][0]["win_user_details"][0]["ud_address"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_address"][0]:"",
+        status : element["old"][0]["win_user_details"][0]["ud_status"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_status"][0]:"",
+        pinCode : element["old"][0]["win_user_details"][0]["ud_pincode"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["ud_pincode"][0]:"",
+        costCenter : element["old"][0]["win_user_details"][0]["cost_center"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["cost_center"][0]:"",
+        supervisorCode : "",
+        supervisorEmail : element["old"][0]["win_user_details"][0]["supervisor_email"][0]["$"] === undefined ?  element["old"][0]["win_user_details"][0]["supervisor_email"][0]:"",
+        location : element["old"][0]["win_user_details"][0]["location"][0]["$"] === undefined ? element["old"][0]["win_user_details"][0]["location"][0]:"",
+        reportingTo : element["old"][0]["win_user_details"][0]["ud_reportingto"][0]
+      };
+      ELEMENT_DATA.push(userDetails);
+    });
+    this.dataSource.paginator = this.paginator;
+    this.loadUserMasterSpinner= false;
+  });
+}
+
+}

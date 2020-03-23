@@ -1,0 +1,130 @@
+
+<div class="wrapper-1">
+    
+    <div id="content" class="">
+        
+        <div class="page right-content">
+
+            <div class="mt-10 ">
+                <div class="common card-base-1 bg-light ml-10 mr-10">
+                    <div class="card">
+                        <div class="card-header header-font container-fluid" style="background-color:aliceblue;">
+                            <div class="row">
+                                <div class="col" style="margin-left:22px;margin-top: 10px;">
+                                    <b>User Details</b>
+                                </div>
+                                <div class="col-8">
+                                    
+                                </div>
+                                <div class="col-2 float-right">
+                                    
+                                </div> 
+                            </div>
+
+                        </div>
+                        <div id="collapsibleBody" class=".collapse.show">
+                            <div class="card-body">
+                                <form class="row" [formGroup]="form">
+                        
+                                <mat-form-field  appearance="outline">
+                                    <mat-label>User Id</mat-label> 
+                                    <input matInput formControlName="userId"  placeholder="UserId" readonly>
+                                </mat-form-field>  
+                        
+                                <mat-form-field appearance="outline">
+                                <mat-label>User Name</mat-label>
+                                <input matInput formControlName="userName" placeholder="UserName">
+                                </mat-form-field>
+                       
+                            <mat-form-field appearance="outline">
+                                <mat-label>First Name</mat-label>
+                                <input matInput formControlName="firstName" placeholder="FirstName">
+                            </mat-form-field>
+                        
+                                <mat-form-field appearance="outline">
+                                <mat-label>Middle Name</mat-label>
+                                <input matInput formControlName="middleName"  placeholder="MiddleName">
+                                </mat-form-field>
+                        
+                                <mat-form-field appearance="outline">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput formControlName="lastName"  placeholder="LastName">
+                                </mat-form-field> 
+                
+                                <mat-form-field  appearance="outline">
+                                    <mat-label>Role</mat-label>
+                                    <input matInput formControlName="role" placeholder="Role">
+                                </mat-form-field> 
+                        
+                                <mat-form-field appearance="outline">
+                                <mat-label>Email Id</mat-label>
+                                <input  matInput  formControlName="emailId" placeholder="EmailId">
+                                </mat-form-field>
+                        
+                                <mat-form-field  appearance="outline">
+                                    <mat-label>state</mat-label>
+                                    <input matInput formControlName="state" placeholder="state">
+                                </mat-form-field>
+                        
+                                <mat-form-field  appearance="outline">
+                                    <mat-label>Country</mat-label>
+                                    <input matInput formControlName="country" placeholder="Country">
+                                </mat-form-field> 
+                        
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contact Number</mat-label>
+                                    <input  matInput formControlName="contactNumber" placeholder="ContactNo" >
+                                </mat-form-field>
+                        
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Address</mat-label>
+                                    <input  matInput formControlName="address" placeholder="Address">
+                                </mat-form-field>
+                        
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Status</mat-label>
+                                    <input  matInput formControlName="status" placeholder="Status">
+                                </mat-form-field>
+                        
+                                <mat-form-field appearance="outline">
+                                <mat-label>Pin Code</mat-label>
+                                <input  matInput formControlName="pinCode" placeholder="PinCode">
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="outline">
+                                <mat-label>Cost Center</mat-label>
+                                <input  matInput formControlName="costCenter" placeholder="CostCenter">
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="outline">
+                                <mat-label>Supervisor Code</mat-label>
+                                <input  matInput formControlName="supervisorCode" placeholder="SupervisorCode">
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="outline">
+                                <mat-label>Supervisor Email</mat-label>
+                                <input  matInput formControlName="supervisorEmail" placeholder="SupervisorEmail">
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="outline">
+                                <mat-label>Location</mat-label>
+                                <input  matInput formControlName="location" placeholder="Location">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Reporting To</mat-label>
+                                <input  matInput formControlName="reportingTo" placeholder="ReportingTo" readonly>
+                            </mat-form-field>
+                        
+                                <br>    
+                                <div class="example-button-row"> 
+                                    <button mat-raised-button>Team Mapping</button>
+                                    <button mat-raised-button>Entity Mapping</button>
+                                    <button mat-raised-button>Role Mapping</button>
+                                    <button mat-raised-button>Address Mapping</button>
+                                    <button mat-raised-button (click)="updateService()">Update</button>
+                                </div>   
+                                </form>
+                            </div>
+                        </div>
+                    </div>

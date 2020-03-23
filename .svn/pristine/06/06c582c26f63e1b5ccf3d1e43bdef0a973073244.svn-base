@@ -1,0 +1,101 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
+import { CommonService } from 'src/app/services/common.service';
+import { VendorBankDetails } from 'src/app/models/invoice-item.model';
+
+
+@Component({
+  selector: 'app-vendor-bank-detail-tab',
+  templateUrl: './vendor-bank-detail-tab.component.html',
+  styleUrls: ['./vendor-bank-detail-tab.component.scss']
+})
+export class VendorBankDetailTabComponent implements OnInit {
+  vendordataRequest: string;
+  soapRequest: string;
+  VendorBank_ELEMENT_DATA: VendorBankDetails[] = [];
+  displayedVendorColumns: string[] = ['bank', 'beneficiary', 'account_no', 'swift','iban', 'bank_key',  'partner_bank_type',  'ifsc',  'alternate_payee', 'currency_type'];
+  vendorBankDetailDataSource=new MatTableDataSource<VendorBankDetails>();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  columnHeaderName=[
+    {
+      lineNo:0,
+      headerId:"bank"
+    },
+    {
+      lineNo:1,
+      headerId:"beneficiary"
+    },
+    {
+      lineNo:2,
+      headerId:"account_no"
+    },
+    {
+    lineNo:3,
+    headerId:"swift"
+    },
+    {
+      lineNo:4,
+      headerId:"iban"
+    },
+    {
+      lineNo:5,
+      headerId:"bank_key"
+    },
+    {
+      lineNo:6,
+      headerId:"ibpartner_bank_typean"
+    },
+    {
+      lineNo:7,
+      headerId:"ifsc"
+    },
+    {
+      lineNo:8,
+      headerId:"alternate_payee"
+    },
+    {
+      lineNo:9,
+      headerId:"currency_type"
+    }
+  ]
+
+
+  constructor(
+    private simsHttpCoreServices: SimsHttpCoreServices,
+    private commonService: CommonService,
+    ) { }
+
+  ngOnInit() {
+    this.vendorBankDetailDataSource.paginator = this.paginator;
+    this.getVendorBankDetails('1000000');
+
+  }
+  getVendorBankDetails(VendorId:string){
+  
+    this.vendordataRequest = "<vendor_id>" + VendorId + "</vendor_id>";
+    this.soapRequest = this.commonService.getSoapBody("GetBankDetailsForVendor", "http://schemas.cordys.com/WINDatabaseMetadata", this.vendordataRequest);
+    this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(VendorBankDetailResult => {
+      let vendorBankDetaillist = this.commonService.parseXML(VendorBankDetailResult);
+      let vendorBankDetail=vendorBankDetaillist["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0].GetBankDetailsForVendorResponse[0].tuple;
+      vendorBankDetail.map((x,index)=>{let vendorBankDetailModel={
+            beneficiary:x.old[0].mtr_vendor_bank_details[0].beneficary[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].beneficary[0],
+            bank_name: x.old[0].mtr_vendor_bank_details[0].bank_name[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].bank_name[0],
+            account_no: x.old[0].mtr_vendor_bank_details[0].account_no[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].account_no[0],
+            swift: x.old[0].mtr_vendor_bank_details[0].swift[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].swift[0],
+            iban:x.old[0].mtr_vendor_bank_details[0].iban[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].iban[0],
+            bank_key:x.old[0].mtr_vendor_bank_details[0].bank_key[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].bank_key[0],
+            partner_bank_type:x.old[0].mtr_vendor_bank_details[0].partner_bank_type[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].partner_bank_type[0],
+            ifsc:x.old[0].mtr_vendor_bank_details[0].ifsc_code[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].ifsc_code[0],
+            alternate_payee:x.old[0].mtr_vendor_bank_details[0].altenate_payee[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].altenate_payee[0],
+            currency_type:x.old[0].mtr_vendor_bank_details[0].curr_type[0] instanceof Object?"undefined": x.old[0].mtr_vendor_bank_details[0].curr_type[0],
+      }
+      this.VendorBank_ELEMENT_DATA.push(vendorBankDetailModel);
+      if(vendorBankDetail.length-1==index)
+        this.vendorBankDetailDataSource = new MatTableDataSource<VendorBankDetails>(this.VendorBank_ELEMENT_DATA);
+    });
+    });
+  }
+
+}

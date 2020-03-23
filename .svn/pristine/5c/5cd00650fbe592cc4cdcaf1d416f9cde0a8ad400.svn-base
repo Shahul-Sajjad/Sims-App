@@ -1,0 +1,116 @@
+<div class="wrapper-1">
+    <div id="content" class="">
+        <div class="page right-content">
+
+            <div class="mt-10 ">
+                <div class="common card-base-1 bg-light ml-10 mr-10">
+                    <div class="body">
+                        <div class="card" style="height:125px">
+                            <div class="card-header header-font container-fluid" style="background-color:aliceblue;">
+                                <div class="row">
+                                    <div class="col" style="margin-left:22px;margin-top: 10px;">
+                                        <b>Invoice Type Master</b>
+                                    </div>
+                                    <div class="col-8">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div id="collapsibleBody" class=".collapse.show">
+                                <div class="card-body">
+                                    <form class="row" [formGroup]="invoiceForm">
+
+
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Invoice Type</mat-label>
+                                            <input matInput formControlName="invoiceType" placeholder="Invoice Type">
+                                        </mat-form-field>
+
+
+                                        <br>
+                                        <div class="btndiv">
+                                            <button class="searchBtn1" mat-raised-button
+                                                (click)="invoiceTypeComments(invoiceForm.value)">Search</button>
+                                            <button class="searchBtn1" mat-raised-button
+                                                (click)="resetForm()">Clear</button>
+                                            <button class="searchBtn1" mat-raised-button (click)="removeSelectedRows()">
+                                                Delete </button>
+                                            <button class="searchBtn1" mat-raised-button (click)="addInvoiceType()">Add
+                                                User</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-15">
+                            <div class="card-header header-font" style="background-color:aliceblue;">
+                                <div class="col" style="margin-left:10px;margin-top: 10px;margin-bottom: 5px;">
+                                    <b>User List</b>
+                                </div>
+                            </div>
+
+                            <div [style.display]="!loadInvoiceMasterSpinner? 'none':'block'">
+                                <app-saw-loader></app-saw-loader>
+                            </div>
+                            <div [style.display]="loadInvoiceMasterSpinner? 'none':'block'"></div>
+                            <div class="card-body">
+                                <div class="{{collapsed ? 'table-wrap' : '' }} table-responsive">
+
+                                    <!-- <div [style.display]="!loadInvoiceMasterSpinner? 'none':'block'">
+                <app-saw-loader></app-saw-loader>
+            </div> -->
+
+                                    <!-- <div [style.display]="loadInvoiceMasterSpinner? 'none':'block'"></div> -->
+
+                                    <table mat-table [dataSource]="invoiceDataSource" #mytable class="mat-elevation-z8">
+                                        <ng-container matColumnDef="select">
+                                            <th mat-header-cell *matHeaderCellDef>
+                                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                    [checked]="selection.hasValue() && isAllSelected()"
+                                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                                </mat-checkbox>
+                                            </th>
+                                            <td mat-cell *matCellDef="let row">
+                                                <mat-checkbox (click)="$event.stopPropagation()"
+                                                    (change)="$event ? selection.toggle(row) : null"
+                                                    [checked]="selection.isSelected(row)">
+                                                </mat-checkbox>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="slNo">
+                                            <th mat-header-cell *matHeaderCellDef> Sl No </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.slNo}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="invoiceType">
+                                            <th mat-header-cell *matHeaderCellDef> Invoice Type </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.invoiceType}} </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; let index=index; columns: displayedColumns;"
+                                            (dblclick)="updateInvoiceType(row, index)" (click)="selection.toggle(row)">
+                                        </tr>
+                                    </table>
+
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="table-button" style="margin-left: 700px; margin-top: 10px; margin-bottom: 10px;">
+        <button mat-raised-button (click)="addInvoiceType()">Add User</button>
+         <button mat-raised-button (click)="addOpenDialog()">Edit User</button> 
+    </div> -->
+                <mat-card class="footer">
+                    <div style="margin-left:2%; color:#0d47a1">Copyright Muraai Information Technologies Pvt Ltd
+                        &copy; 2020-2021</div>
+                </mat-card>

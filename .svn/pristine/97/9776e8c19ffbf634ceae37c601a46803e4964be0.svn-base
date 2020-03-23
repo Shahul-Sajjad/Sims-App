@@ -1,0 +1,140 @@
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
+import { CommonService } from 'src/app/services/common.service';
+
+
+export interface StatusElement {
+  invoiceStatus: string;
+
+}
+export interface InvoiceStatusClassification {
+  invoiceClassification: string;
+
+}
+
+
+@Component({
+  selector: 'invoice-summary',
+  templateUrl: './invoice-summary.component.html',
+  styleUrls: ['./invoice-summary.component.scss']
+})
+
+
+export class InvoiceSummaryComponent implements OnInit {
+  collapsed = true;
+  form: FormGroup;
+  products = [];
+  title = 'sims-app';
+  dataRequest = '';
+  soapRequest = '';
+  // displayedColumns: string[] = ['stage', 'PDF', 'urgentFlag', 'entityName', 'vendorName', 'vendorCode', 'invoice', 'pendingWith', 'type', 'classification', 'workItem'];
+  displayedColumns: string[] = ['stage', 'PDF', 'UrgentFlag', 'EntityName', 'VendorName', 'VendorCode', 'Invoice', 'PendingWith', 'Type','InvoiceClassification', 'Classification', 'WorkItem'];
+  statusElement: StatusElement[] = [];
+  invoiceStatusClassification: InvoiceStatusClassification[] = [{ "invoiceClassification": "Invoice Classification" }];
+
+  constructor(
+    private fb: FormBuilder,
+    private simsHttpCoreServices: SimsHttpCoreServices,
+    private commonService: CommonService
+  ) {
+
+  }
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @Output() groupFilters: EventEmitter<any> = new EventEmitter<any>();
+  ngOnInit() {
+    this.form = this.fb.group({
+      PO: new FormControl(''),
+      Invoice: new FormControl(''),
+      VendorCode: new FormControl(''),
+      VendorName: new FormControl(''),
+      Status: new FormControl(''),
+      InvoiceClassification: new FormControl(''),
+      FromInvoiceDate: new FormControl(''),
+      ToInvoiceDate: new FormControl(''),
+      EntityName: new FormControl(''),
+      FromReceivedDate: new FormControl(''),
+      ToReceivedDate: new FormControl(''),
+      Type: new FormControl(''),
+      DocumentNo: new FormControl(''),
+      PendingWith: new FormControl('')
+    });
+    this.initiateProducts();
+    this.getAllInvoiceStatus();
+    this.getInvoiceClassification();
+  }
+
+  initiateProducts() {
+    this.products = [
+      {"stage": "Non-FSSC",   "PDF": "download", "UrgentFlag": "Low",      "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC45", "Invoice": "20BGST92221", "PendingWith": "", "Type": "PO", "InvoiceClassification": "PO", "Classification": "Domestic Opex service", "WorkItem": "IN200106352" },
+      {"stage": "FSSC",       "PDF": "download", "UrgentFlag": "Medium",   "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC46", "Invoice": "20BGST92222", "PendingWith": "", "Type": "NON-PO", "InvoiceClassification": "NON-PO", "Classification": "Domestic Opex", "WorkItem": "IN200106355" },
+      {"stage": "FSSC",       "PDF": "download", "UrgentFlag": "High",     "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC46", "Invoice": "20BGST92223", "PendingWith": "", "Type": "PO", "InvoiceClassification": "PO", "Classification": "Domestic Opex", "WorkItem": "IN200106354" },
+      {"stage": "FSSC",       "PDF": "download", "UrgentFlag": "Medium",   "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC47", "Invoice": "20BGST92224", "PendingWith": "", "Type": "NON-PO", "InvoiceClassification": "NON-PO", "Classification": "Domestic Opex", "WorkItem": "IN200106351" },
+      {"stage": "Non-FSSC",   "PDF": "download", "UrgentFlag": "Medium",   "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC45", "Invoice": "20BGST92221", "PendingWith": "", "Type": "PO", "InvoiceClassification": "PO", "Classification": "Domestic Opex", "WorkItem": "IN200106346" },
+      {"stage": "FSSC",       "PDF": "download", "UrgentFlag": "High",     "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC45", "Invoice": "20BGST92234", "PendingWith": "", "Type": "PO", "InvoiceClassification": "PO", "Classification": "Domestic Opex", "WorkItem": "IN200106378" },
+      {"stage": "Non-FSSC",   "PDF": "download", "UrgentFlag": "Medium",   "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC46", "Invoice": "20BGST92902", "PendingWith": "", "Type": "NON-PO", "InvoiceClassification": "NON-PO", "Classification": "Foreign Capex materials", "WorkItem": "IN200106359" },
+      {"stage": "FSSC",       "PDF": "download", "UrgentFlag": "Medium",   "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC46", "Invoice": "20BGST92283", "PendingWith": "", "Type": "PO", "InvoiceClassification": "PO", "Classification": "Domestic Opex", "WorkItem": "IN200106342" },
+      {"stage": "FSSC",       "PDF": "download", "UrgentFlag": "Low",      "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC47", "Invoice": "20BGST22224", "PendingWith": "", "Type": "NON-PO", "InvoiceClassification": "NON-PO", "Classification": "Inter unit - Goods", "WorkItem": "IN200106372" },
+      {"stage": "Non-FSSC",   "PDF": "download", "UrgentFlag": "Low",      "EntityFlag": "Lupin Ltd", "VendorName": "Chromachemie L", "VendorCode": "VC55", "Invoice": "20BGST93321", "PendingWith": "", "Type": "PO", "InvoiceClassification": "PO", "Classification": "Domestic Opex", "WorkItem": "IN200106302" }
+    ];
+  }
+  modifyCollapse(event: any) {
+    this.collapsed = !this.collapsed;
+  }
+
+  search(filters: any): void {
+    this.initiateProducts();
+    Object.keys(filters).forEach(key => filters[key] === '' ? delete filters[key] : key);
+    this.groupFilters.emit(filters);
+    this.products = this.products.filter(function (item) {
+      for (var key in filters) {
+        if (key === "Type" || key === "InvoiceClassification") {
+          if (item[key] === undefined || item[key] !== filters[key])
+            return false;
+        }
+        else if (item[key] === undefined || !item[key].includes(filters[key]))
+          return false;
+      return true;
+    }
+    });
+  }
+
+  //Get all invoice status
+  getAllInvoiceStatus() {
+    this.dataRequest = "";
+    this.soapRequest = this.commonService.getSoapBody("GetAllInvoiceStatus", "http://schemas.cordys.com/WINDatabaseMetadata", this.dataRequest);
+    this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(response => {
+      var invoiceItems = this.commonService.parseXML(response);
+      // console.log(invoiceItems);
+      var dropDownItems = invoiceItems["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetAllInvoiceStatusResponse"][0]["tuple"];
+      dropDownItems.forEach(element => {
+        let statusList = {
+          invoiceStatus: element["old"][0]["mtr_invoice_status"][0]["invoice_status"][0]
+        };
+        this.statusElement.push(statusList);
+      });
+    });
+  }
+
+  //Get all invoice classification
+  getInvoiceClassification() {
+    this.dataRequest = "<cursor id='0' position='0' numRows='30' maxRows='99999' sameConnection='false' /><fromSlno>1</fromSlno><toSlno>30</toSlno>";
+    this.soapRequest = this.commonService.getSoapBody("GetMtr_ap_invoice_typeObjects", "http://schemas.cordys.com/WINDatabaseMetadata", this.dataRequest);
+    this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(response => {
+      var classificationItems = this.commonService.parseXML(response);
+      // console.log(classificationItems);
+      var dropdownClassList = classificationItems["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetMtr_ap_invoice_typeObjectsResponse"][0]["tuple"];
+      dropdownClassList.forEach(element => {
+        let statusClassList = {
+          invoiceClassification: element["old"][0]["mtr_ap_invoice_type"][0]["invoice_type"][0]
+        };
+        this.invoiceStatusClassification.push(statusClassList);
+      });
+
+    });
+  }
+
+}

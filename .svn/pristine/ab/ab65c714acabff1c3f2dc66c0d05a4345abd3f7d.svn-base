@@ -1,0 +1,64 @@
+.main-inbox-body {
+    background-color: #f5f5f5;
+    padding-top: 20px;
+}
+
+.inbox, .inbox mat-form-field, .inbox table, .inbox mat-paginator{
+    width: 100%;
+    padding-right: 2%;
+}
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.inbox-button-list {
+    margin-left: 2%;margin-bottom: 10px;
+}
+button {
+    margin-right: 10px;
+}
+tr.mat-header-row {
+    height: 36px;
+}
+.task-td {
+    width: 50% !important;
+}
+.task-link {
+    padding-left: 2%;
+    margin-left: 20px;
+    margin-right: 20px;
+    min-height: 600px;;
+}
+.task-body {
+    padding-right: 2%;
+    margin-right: 20px;
+    padding-left: 2%;
+}
+// box styles
+.box {
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.75);
+    background-color: white;
+}
+
+.link-container {
+    margin-top: 20px;
+}
+
+.pt p span {    
+    margin-left: 20px;
+}
+mat-icon {
+    vertical-align: middle;
+}
+.task-header {
+    cursor: pointer;
+}
+.spinner {
+    position: relative;
+    left: 45%;
+    top: 40%;
+}
+
+.mat-raised-button {
+    cursor: pointer;
+}

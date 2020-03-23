@@ -1,0 +1,17 @@
+<mat-drawer-container class="example-container" >
+    <!-- <mat-drawer mode="side" opened class="side-drawer">
+      Display Sidenav content
+    </mat-drawer> -->
+  
+    <mat-drawer-content>
+            <div fxLayout="column">
+                <app-maw-quicklinknav style="margin-top: 5%;"></app-maw-quicklinknav>
+                <!-- <div class="breakline"></div> -->
+                <app-maw-chart></app-maw-chart>
+
+            </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  <mat-card class="footer">
+      <div style="margin-left:2%; color:#0d47a1">Copyright Muraai Information Technologies Pvt Ltd 	&copy; 2020-2021</div>
+  </mat-card>

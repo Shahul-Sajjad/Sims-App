@@ -1,0 +1,55 @@
+mat-card {
+    margin: 5px 0 5px 5px;
+    
+}
+
+h1 {
+    display: inline;
+}
+
+a {
+    float: right;
+    text-decoration: none;
+    color: #1e88e5;
+    padding: 10px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-details>* {
+    min-width: 100%;
+}
+
+.value {
+    float: right;
+}
+
+span {
+    display: inline-block;
+    width: 50%;
+}
+
+img {
+    width: 100px;
+    display: block;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.details {
+
+    margin-bottom: 70px;
+}
+
+.details>h4 {
+    text-align: center;
+}
+
+mat-form-field {
+    padding: 5px 5px 0 5px;
+}

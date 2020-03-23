@@ -1,0 +1,297 @@
+<div class="wrapper-1">
+    <div id="content">
+        <div class="mt-10 ">
+            <div class="common card-base-1">
+                <div class="body">
+                    <div class="card" fxLayout="column" fxLayoutAlign="space-between center">
+                        <div class="card-header header-font container-fluid" fxLayout="column"
+                            fxLayoutAlign="space-between" >
+                            <div class="card-header header-font">
+                                <b>
+                                    <div class="col">
+                                        SEARCH
+
+                                    </div>
+                                </b>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="invoiceSummaryForm">
+
+                                    <!-- <label for="taskId">Inv # / Task Id</label> -->
+                                    <div class="form" fxLayout="row" fxLayoutAlign="space-between center">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Inv #</mat-label>
+                                            <input matInput formControlName="Invoice"/>
+                                        </mat-form-field>
+                                        <!-- <label for="exampleInputPassword1">PO</label> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>PO</mat-label>
+                                            <input matInput formControlName="PO" />
+                                        </mat-form-field>
+
+                                        <!-- <label for="exampleInputEmail1">Vendor</label> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Vendor</mat-label>
+                                            <mat-select formControlName="VendorCode">
+                                                <mat-option *ngFor="let vendorList of vendorCodeList"
+                                                    value="{{vendorList.vendorCode}}"
+                                                    (click)="vendorNameSet(vendorList)">
+                                                    {{vendorList.vendorCode}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                        <!-- <label for="exampleInputPassword1">Vendor Name</label> /> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Vendor Name</mat-label>
+                                            <input matInput formControlName="VendorName">
+                                        </mat-form-field>
+
+                                        <!-- <label >Status</label>
+                                        <input type="dropdown" class="form-control" /> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Status</mat-label>
+                                            <mat-select formControlName="InvoiceStatusCode">
+                                                <mat-option *ngFor="let status of statusElement"
+                                                    value={{status.invoiceStatusCode}}>
+                                                    {{status.invoiceStatus}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <br>
+                                        <!-- <label for="exampleInputEmail1">Invoice Classification</label> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Invoice Classification</mat-label>
+                                            <mat-select formControlName="InvoiceClassification">
+                                                <mat-option *ngFor="let element of invoiceStatusClassification"
+                                                    value="element.invoiceClassification">
+                                                    {{element.invoiceClassification}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+                                        <!-- <label for="exampleInputPassword1">From Invoice Date</label> -->
+                                        <mat-form-field appearance="outline">
+                                            <input matInput formControlName="FromInvoiceDate" [matDatepicker]="picker4"
+                                                placeholder="From Invoice Date">
+                                            <mat-datepicker-toggle matSuffix [for]="picker4">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker4></mat-datepicker>
+                                        </mat-form-field>
+                                        <!-- <label for="exampleInputEmail1">To Invoice Date</label> -->
+                                        <mat-form-field appearance="outline">
+                                            <input matInput formControlName="ToInvoiceDate" [matDatepicker]="picker3"
+                                                placeholder="To Invoice Date">
+                                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                        <!-- <label for="exampleInputPassword1">Entity Name</label> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Entity Name</mat-label>
+                                            <input matInput formControlName="EntityName" value="India" />
+                                        </mat-form-field>
+
+                                        <!-- <label for="exampleInputPassword1">Type</label> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Invoice Type</mat-label>
+                                            <mat-select formControlName="Type">
+                                                <mat-option value="">---Select---</mat-option>
+                                                <mat-option value="PO">PO</mat-option>
+                                                <mat-option value="NON-PO">NON-PO</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Document #</mat-label>
+                                            <input matInput formControlName="DocumentNo" />
+                                        </mat-form-field>
+                                        <!-- <label for="exampleInputPassword1">Pending With</label> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Pending With</mat-label>
+                                            <input matInput formControlName="PendingWith" />
+                                        </mat-form-field>
+                                    </div>
+                                    <br>
+                                    <div class="example-button-row">
+                                        <button mat-raised-button (click)="getSummaryTable()">Search</button>
+                                        <button mat-raised-button (click)="resetForm()">Clear</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>                        
+                    </div>
+                    <!-- invoice summary table  -->
+                    <div class="card mt-15">
+                        <div class="card-header header-font">
+                            <b>
+                                <div class="col">
+                                    INVOICE SUMMARY
+                                </div>
+                            </b>
+                        </div>
+
+                        <div [style.display]="!loadSummarySpinner ? 'none' : 'block'">
+                            <app-saw-loader></app-saw-loader>
+                        </div>
+                        <div [style.display]="loadSummarySpinner ? 'none' : 'block'">
+                            <div class="table-container">
+                            <table mat-table [dataSource]="invoicesummaryDataSource" matSort class="mat-elevation-z8">
+                                <ng-container matColumnDef="stage">
+                                    <th mat-header-cell *matHeaderCellDef> Stage </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.stage}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="UrgentFlag">
+                                    <th mat-header-cell *matHeaderCellDef> UrgentFlag </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.UrgentFlag}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="EntityName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header asc> EntityName </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.EntityName}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="VendorName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> VendorName </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.VendorName}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="VendorCode">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> VendorCode </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.VendorCode}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Invoice">
+                                    <th mat-header-cell *matHeaderCellDef> Invoice </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Invoice}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PendingWith">
+                                    <th mat-header-cell *matHeaderCellDef> PendingWith </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.PendingWith}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Type">
+                                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Classification">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Classification </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Classification}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="WorkItem">
+                                    <th mat-header-cell *matHeaderCellDef> WorkItem </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.WorkItem}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="InvoiceDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> InvoiceDate </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.InvoiceDate}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Currency">
+                                    <th mat-header-cell *matHeaderCellDef> Currency </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Currency}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Mode">
+                                    <th mat-header-cell *matHeaderCellDef> Mode </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Mode}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="RecievedDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> RecievedDate </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.RecievedDate}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Status">
+                                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PO">
+                                    <th mat-header-cell *matHeaderCellDef> PO #</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.PO}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="BuyerApprover">
+                                    <th mat-header-cell *matHeaderCellDef> BuyerApprover </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.BuyerApprover}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="ERPdueDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ERPdueDate </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.ERPdueDate}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PostingDocNum">
+                                    <th mat-header-cell *matHeaderCellDef> PostingDocNum </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.PostingDocNum}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PostingDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> PostingDate </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.PostingDate }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="ProcessedBy">
+                                    <th mat-header-cell *matHeaderCellDef> ProcessedBy </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.ProcessedBy}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="GrossInvAmt">
+                                    <th mat-header-cell *matHeaderCellDef> GrossInvAmt </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.GrossInvAmt}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="OCCId">
+                                    <th mat-header-cell *matHeaderCellDef> OCCId </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.OCCId}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PaymentNo">
+                                    <th mat-header-cell *matHeaderCellDef> PaymentNo </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.PaymentNo}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PaymentDate">
+                                    <th mat-header-cell *matHeaderCellDef> PaymentDate </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.PaymentDate}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PaymentStatus">
+                                    <th mat-header-cell *matHeaderCellDef> PaymentStatus </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.PaymentStatus}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PDF">
+                                    <th mat-header-cell *matHeaderCellDef> PDF </th>
+                                    <td mat-cell *matCellDef="let element">
+                                         <i class="material-icons" (click)="download()">
+                                            cloud_download
+                                        </i>
+                                       <!-- {{element.PDF}} -->
+
+                                     </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="centre">
+                                </tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns"
+                                    (dblclick)="invoiceDetails(row.Invoice, row.internalID)"></tr>
+
+                            </table>
+                        </div>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20, 30, 40, 50]" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,153 @@
+{
+    "ap_processor": {
+        "0": {
+            "name": "Unassigned invoice",
+            "count": "19",
+            "tag": "unassigned"
+        },
+        "1": {
+            "name": "Pending for GR",
+            "count": "6",
+            "tag" : "ASSIGNED"
+            
+        },
+        "2": {
+            "name": "Ready to post",
+            "count": "2",
+            "tag" : "Ready to post"
+        },
+        "3": {
+            "name": "Duplicate Invoice",
+            "count": "2",
+            "tag": "duplicate"
+        },
+        "4": {
+            "name": "Exception Invoice",
+            "count": "6",
+            "tag":"exception"
+        },
+        "5": {
+            "name": "Service Invoices",
+            "count": "12",
+            "tag":"service"
+        },
+        "6": {
+            "name": "Overdue invoices",
+            "count": "19",
+            "tag":"overdue"
+        },
+        "7": {
+            "name": "Pending with Approvers",
+            "count": "32",
+            "tag":"pending"
+        }
+    },
+    "ap_buyer": {
+        "0": {
+            "name": "Pending with me",
+            "count": "16"
+        },
+        "1": {
+            "name": "Pending with others",
+            "count": "38"
+        },
+        "2": {
+            "name": "Approved Invoices",
+            "count": "57"
+        },
+        "3": {
+            "name": "Overdue invoices",
+            "count": "13"
+        }
+    },
+    "ap_approver": {
+        "0": {
+            "name": "Pending with me",
+            "count": "21"
+        },
+        "1": {
+            "name": "Pending with others",
+            "count": "76"
+        },
+        "2": {
+            "name": "Approved Invoices",
+            "count": "97"
+        },
+        "3": {
+            "name": "Overdue invoices",
+            "count": "45"
+        }
+    },
+    "ap_supervisor": {
+        "0": {
+            "name": "Unassigned invoice",
+            "count": "65"
+        },
+        "1": {
+            "name": "Ready to post",
+            "count": "45"
+        },
+        "2": {
+            "name": "Pending for GR",
+            "count": "26"
+        },
+        "3": {
+            "name": "Duplicate Invoice",
+            "count": "9"
+        },
+        "4": {
+            "name": "Exception Invoice",
+            "count": "11"
+        },
+        "5": {
+            "name": "Service Invoices",
+            "count": "20"
+        },
+        "6": {
+            "name": "Overdue invoices",
+            "count": "6"
+        },
+        "7": {
+            "name": "Pending with Approvers",
+            "count": "59"
+        }
+    },
+    "ap_manager": {
+        "0": {
+            "name": "Unassigned invoice",
+            "count": "52"
+        },
+        "1": {
+            "name": "Ready to post",
+            "count": "90"
+        },
+        "2": {
+            "name": "Pending for GR",
+            "count": "66"
+        },
+        "3": {
+            "name": "Duplicate Invoice",
+            "count": "22"
+        },
+        "4": {
+            "name": "Exception Invoice",
+            "count": "27"
+        },
+        "5": {
+            "name": "Service Invoices",
+            "count": "34"
+        },
+        "6": {
+            "name": "Overdue invoices",
+            "count": "20"
+        },
+        "7": {
+            "name": "Pending with Approvers",
+            "count": "38"
+        },
+        "8": {
+            "name": "Approved Invoices",
+            "count": "49"
+        }
+    }
+}

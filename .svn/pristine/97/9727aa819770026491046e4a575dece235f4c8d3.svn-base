@@ -1,0 +1,438 @@
+<mat-card-content>
+    <mat-toolbar>
+        <div class="btn">
+            <button mat-raised-button color="primary">Save</button>
+            <button mat-raised-button color="accent">Cancel</button>
+        </div>
+    </mat-toolbar>
+    <app-invoice-header [invNum]="invoiceNumber" [internalId]="internalId"></app-invoice-header>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Invoice Details
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="tableAlign">
+              <table mat-table [dataSource]="invoiceDetailsDataSource">
+
+                <ng-container matColumnDef="inv_line">
+                    <th mat-header-cell *matHeaderCellDef>Inv Line #</th>
+                    <td mat-cell *matCellDef="let element"> {{element.inv_line}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="po_line">
+                    <th mat-header-cell *matHeaderCellDef>PO Line #</th>
+                    <td mat-cell *matCellDef="let element"> {{element.po_line}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="po">
+                    <th mat-header-cell *matHeaderCellDef>PO #</th>
+                    <td mat-cell *matCellDef="let element"> {{element.po}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="grn">
+                    <th mat-header-cell *matHeaderCellDef>GRN #</th>
+                    <td mat-cell *matCellDef="let element"> {{element.grn}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="buyerapprover">
+                    <th mat-header-cell *matHeaderCellDef>Buyer/Approver</th>
+                    <td mat-cell *matCellDef="let element"> {{element.buyerapprover}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="material">
+                    <th mat-header-cell *matHeaderCellDef> Material</th>
+                    <td mat-cell *matCellDef="let element"> {{element.material}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="material_desc">
+                    <th mat-header-cell *matHeaderCellDef> Material Desc </th>
+                    <td style="word-break: break-all;
+                    width: 6%;" mat-cell *matCellDef="let element"> {{element.material_desc}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="qty">
+                    <th mat-header-cell *matHeaderCellDef>Qty</th>
+                    <td mat-cell *matCellDef="let element"> {{element.qty}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="rate">
+                    <th mat-header-cell *matHeaderCellDef> Rate </th>
+                    <td mat-cell *matCellDef="let element"> {{element.rate}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="UOM">
+                    <th mat-header-cell *matHeaderCellDef> UOM </th>
+                    <td mat-cell *matCellDef="let element"> {{element.UOM}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="doc_curr">
+                    <th mat-header-cell *matHeaderCellDef> Doc. Curr </th>
+                    <td mat-cell *matCellDef="let element"> {{element.doc_curr}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="local_curr">
+                    <th mat-header-cell *matHeaderCellDef> Local Curr </th>
+                    <td mat-cell *matCellDef="let element"> {{element.local_curr}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="gl_code">
+                    <th mat-header-cell *matHeaderCellDef> Gl code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.gl_code}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="cost_center">
+                    <th mat-header-cell *matHeaderCellDef> Center code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.cost_center}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="wbs">
+                    <th mat-header-cell *matHeaderCellDef> WBS</th>
+                    <td mat-cell *matCellDef="let element"> {{element.wbs}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="requestor">
+                    <th mat-header-cell *matHeaderCellDef> Requestor </th>
+                    <td mat-cell *matCellDef="let element"> {{element.requestor}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="approver">
+                    <th mat-header-cell *matHeaderCellDef> Approver </th>
+                    <td mat-cell *matCellDef="let element"> {{element.approver}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="gross_value">
+                    <th mat-header-cell *matHeaderCellDef> Gross Value </th>
+                    <td mat-cell *matCellDef="let element"> {{element.gross_value}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="discount">
+                    <th mat-header-cell *matHeaderCellDef> Discount </th>
+                    <td mat-cell *matCellDef="let element"> {{element.discount}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="delivery_date">
+                    <th mat-header-cell *matHeaderCellDef> Delivery Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.delivery_date}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="po_material">
+                    <th mat-header-cell *matHeaderCellDef> PO Material </th>
+                    <td mat-cell *matCellDef="let element"> {{element.po_material}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="po_marterial_desc">
+                    <th mat-header-cell *matHeaderCellDef> PO Material Desc </th>
+                    <td mat-cell *matCellDef="let element"> {{element.po_marterial_desc}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="po_price">
+                    <th mat-header-cell *matHeaderCellDef> PO Price </th>
+                    <td mat-cell *matCellDef="let element"> {{element.po_price}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="trading_part_code">
+                    <th mat-header-cell *matHeaderCellDef> Trading Part Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.trading_part_code}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="order_id">
+                    <th mat-header-cell *matHeaderCellDef> Order ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.order_id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="remarks">
+                    <th mat-header-cell *matHeaderCellDef> Remarks </th>
+                    <td style="word-break: break-all;
+                    width: 6%;" mat-cell *matCellDef="let element"> {{element.remarks}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="validator_remarks">
+                    <th mat-header-cell *matHeaderCellDef> Validator Remarks </th>
+                    <td mat-cell *matCellDef="let element"> {{element.validator_remarks}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tax_code">
+                    <th mat-header-cell *matHeaderCellDef> Tax Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tax_code}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="vp">
+                    <th mat-header-cell *matHeaderCellDef> VP </th>
+                    <td mat-cell *matCellDef="let element"> {{element.vp}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="profit_center">
+                    <th mat-header-cell *matHeaderCellDef> Profit Center </th>
+                    <td mat-cell *matCellDef="let element"> {{element.profit_center}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="hsn_sac">
+                    <th mat-header-cell *matHeaderCellDef> HSN SAC </th>
+                    <td mat-cell *matCellDef="let element"> {{element.hsn_sac}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="lr_no">
+                    <th mat-header-cell *matHeaderCellDef> LR No </th>
+                    <td mat-cell *matCellDef="let element"> {{element.lr_no}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedInvoiceColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedInvoiceColumns;"></tr>
+            </table>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Bank Details
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-accordion>
+                <mat-expansion-panel >
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Invoice Bank Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="tableAlign">
+                    <table mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="invoice">
+                            <th mat-header-cell *matHeaderCellDef> Invoice No </th>
+                            <td mat-cell *matCellDef="let element"> {{element.invoice}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="internal_doc_id">
+                            <th mat-header-cell *matHeaderCellDef> Internal DocId</th>
+                            <td mat-cell *matCellDef="let element"> {{element.internal_doc_id}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="bank">
+                            <th mat-header-cell *matHeaderCellDef> Bank Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.bank_name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="beneficiary">
+                            <th mat-header-cell *matHeaderCellDef> Beneficiary </th>
+                            <td mat-cell *matCellDef="let element"> {{element.beneficiary}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="account_no">
+                            <th mat-header-cell *matHeaderCellDef> Account No </th>
+                            <td mat-cell *matCellDef="let element"> {{element.account_no}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="swift">
+                            <th mat-header-cell *matHeaderCellDef> Swift </th>
+                            <td mat-cell *matCellDef="let element"> {{element.swift}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="iban">
+                            <th mat-header-cell *matHeaderCellDef> Iban </th>
+                            <td mat-cell *matCellDef="let element"> {{element.iban}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="currency_type">
+                            <th mat-header-cell *matHeaderCellDef> Currency Type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.currency_type}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <br>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Vendor Bank Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="tableAlign">
+                    <table mat-table [dataSource]="vendorBankDetailDataSource">
+                        <ng-container matColumnDef="bank">
+                            <th mat-header-cell *matHeaderCellDef> Bank Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.bank_name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="beneficiary">
+                            <th mat-header-cell *matHeaderCellDef> Beneficiary </th>
+                            <td mat-cell *matCellDef="let element"> {{element.beneficiary}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="account_no">
+                            <th mat-header-cell *matHeaderCellDef> Account No </th>
+                            <td mat-cell *matCellDef="let element"> {{element.account_no}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="swift">
+                            <th mat-header-cell *matHeaderCellDef> Swift </th>
+                            <td mat-cell *matCellDef="let element"> {{element.swift}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="bank_key">
+                            <th mat-header-cell *matHeaderCellDef> Bank Key </th>
+                            <td mat-cell *matCellDef="let element"> {{element.bank_key}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="partner_bank_type">
+                            <th mat-header-cell *matHeaderCellDef> Partner Bank Tyoe </th>
+                            <td mat-cell *matCellDef="let element"> {{element.partner_bank_type}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ifsc">
+                            <th mat-header-cell *matHeaderCellDef> IFSC </th>
+                            <td mat-cell *matCellDef="let element"> {{element.ifsc}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="iban">
+                            <th mat-header-cell *matHeaderCellDef> Iban </th>
+                            <td mat-cell *matCellDef="let element"> {{element.iban}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="alternate_payee">
+                            <th mat-header-cell *matHeaderCellDef> Alternate Payee </th>
+                            <td mat-cell *matCellDef="let element"> {{element.alternate_payee}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="currency_type">
+                            <th mat-header-cell *matHeaderCellDef> Currency Type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.currency_type}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedVendorColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedVendorColumns;"></tr>
+                    </table>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Tax & Freight
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="tableAlign">
+            <table mat-table [dataSource]="taxDetailsDataSource">
+                <ng-container matColumnDef="option">
+                    <th mat-header-cell *matHeaderCellDef>Option</th>
+                    <td mat-cell *matCellDef="let element"> {{element.option}}</td>
+                </ng-container>
+                <ng-container matColumnDef="payment_mode">
+                    <th mat-header-cell *matHeaderCellDef> Credit/Debit</th>
+                    <td mat-cell *matCellDef="let element"> {{element.payment_mode}}</td>
+                </ng-container>
+                <ng-container matColumnDef="tax_code">
+                    <th mat-header-cell *matHeaderCellDef> Tax Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tax_code}} </td>
+                </ng-container>
+                <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef>Amount</th>
+                    <td mat-cell *matCellDef="let element"> {{element.amount}}</td>
+                </ng-container>
+                <ng-container matColumnDef="base_amount">
+                    <th mat-header-cell *matHeaderCellDef> Base Amount </th>
+                    <td mat-cell *matCellDef="let element"> {{element.base_amount}}</td>
+                </ng-container>
+                <ng-container matColumnDef="gl_code">
+                    <th mat-header-cell *matHeaderCellDef> Gl code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.gl_code}}</td>
+                </ng-container>
+                <ng-container matColumnDef="cost_center">
+                    <th mat-header-cell *matHeaderCellDef> Cost Center </th>
+                    <td mat-cell *matCellDef="let element"> {{element.cost_center}} </td>
+                </ng-container>
+                <ng-container matColumnDef="exempt">
+                    <th mat-header-cell *matHeaderCellDef> Exempt </th>
+                    <td mat-cell *matCellDef="let element"> {{element.exempt}} </td>
+                </ng-container>
+                <ng-container matColumnDef="tax_indicator">
+                    <th mat-header-cell *matHeaderCellDef> Tax Indicator </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tax_indicator}} </td>
+                </ng-container>
+                <ng-container matColumnDef="text">
+                    <th mat-header-cell *matHeaderCellDef> Text </th>
+                    <td mat-cell *matCellDef="let element"> {{element.text}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedTaxColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedTaxColumns;"></tr>
+            </table>
+        </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Comments
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Comments</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>Previous Comments</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+            </div>
+            <!-- <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>System Comments</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="outline">
+                    <mat-label>SAP Comments</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+            </div> -->
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel style="width: 47vw;">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Uploads
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout="column">
+            <div>
+            <button mat-raised-button color="primary">Upload file</button>
+            </div>
+            <div class="tableAlign">
+            <table mat-table [dataSource]="uploadDataSource">
+
+                <ng-container matColumnDef="file_name">
+                    <th mat-header-cell *matHeaderCellDef>File Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.file_name}}</td>
+                </ng-container>
+                <ng-container matColumnDef="uploaded_by">
+                    <th mat-header-cell *matHeaderCellDef> Uploaded By </th>
+                    <td mat-cell *matCellDef="let element"> {{element.uploaded_by}}</td>
+                </ng-container>
+                <ng-container matColumnDef="uploaded_date">
+                    <th mat-header-cell *matHeaderCellDef> Uploaded Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.uploaded_date}} </td>
+                </ng-container>
+                <ng-container matColumnDef="file_path">
+                    <th mat-header-cell *matHeaderCellDef> File Path </th>
+                    <td mat-cell *matCellDef="let element"> {{element.file_path}} </td>
+                </ng-container>
+                <ng-container matColumnDef="node_id">
+                    <th mat-header-cell *matHeaderCellDef> Node Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.node_id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="document_id">
+                    <th mat-header-cell *matHeaderCellDef> Document ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.document_id}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedUploadColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedUploadColumns;"></tr>
+            </table>
+            </div>
+        </div>
+        </mat-expansion-panel>
+    </mat-accordion>

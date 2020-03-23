@@ -1,0 +1,76 @@
+.body{
+  overflow-x: hidden;
+}
+
+.card-header {
+  padding: 0 !important;
+}
+mat-form-field {
+  padding-right: 5px;
+  width: 180px;
+}
+.form{
+  padding: 17px 12px 0px 14px;
+}
+
+.card-body {
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 5px 5px 5px 5px;
+}
+
+::ng-deep mat-from-field > .mat-form-field-wrapper {
+  padding-bottom: 0.5em;
+}
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  height:20px;
+}
+.mat-form-field-flex{
+  height: 20px;
+}
+.search-text{
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+
+.search-icon{
+  margin-top: 4px; 
+  margin-right: 20px;
+}
+.card-header-header-font{
+  background-color:aliceblue;
+  
+}
+
+
+
+
+// .header-font{
+//   margin-top: 20px;
+// }
+
+
+.header-font{
+    margin-top: 0px;
+    background-color:aliceblue;
+    
+  }
+  .col{
+    height: 28px;
+    margin-top: 12px;
+  }
+  
+  td.mat-cell
+{
+  padding-left:12px;
+  word-wrap: break-word;
+}
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+  font-weight: 700;
+  padding-left: 12px;
+
+}

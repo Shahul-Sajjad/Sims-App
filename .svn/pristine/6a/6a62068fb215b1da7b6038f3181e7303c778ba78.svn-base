@@ -1,0 +1,21 @@
+Two models:
+	1.GetVendorMasterAutosuggestModel
+	2.getVendorMasterModel
+
+
+on click search(search1_Click) button:
+	function search1_Click(eventObject)
+	{
+		getVendorMasterModel.reset();
+	
+	}
+On Click of refresh(refresh1_Click)button
+function refresh1_Click(eventObject)
+{
+    vcode.setValue("");
+    vname.setValue("");
+    vlocation1.setValue("");
+    vstatus.setValue("");
+     getVendorMasterModel.reset();
+}
+	

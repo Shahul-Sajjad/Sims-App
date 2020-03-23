@@ -1,0 +1,149 @@
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
+import { CommonService } from 'src/app/services/common.service';
+
+export interface ThreeWayMatching {
+  po: String;
+  poLine: String;
+  lineOrderQuantity: String;
+  invoiceQty: String;
+  grnQty: String;
+  poLineRate: String;
+  invoiceLineRate: String;
+  grnPrice: String;
+  poUom: String;
+  invoiceUom: String;
+  grnUom: String;
+  material: String;
+  lineMaterialDesc: String;
+  poAmt: String;
+  invoiceAmount: String;
+  grnAmount: String;
+  threeWayMatchingStatus: String;
+}
+
+
+@Component({
+  selector: 'app-invoice-three-way-matching',
+  templateUrl: './invoice-three-way-matching.component.html',
+  styleUrls: ['./invoice-three-way-matching.component.scss']
+})
+export class InvoiceThreeWayMatchingComponent implements OnInit {
+  ThreeWay_Element_Data: ThreeWayMatching[] = []
+  displayedInvoiceColumns: String[] = ['po', 'poLine', 'lineOrderQuantity', 'invoiceQty', 'grnQty', 'poLineRate', 'invoiceLineRate', 'grnPrice', 'poUom', 'invoiceUom', 'grnUom', 'material', 'lineMaterialDesc', 'poAmt', 'invoiceAmount', 'grnAmount', 'threeWayMatchingStatus'];
+  invoiceDetailsDataSource = new MatTableDataSource<ThreeWayMatching>();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  soapRequest: string;
+  vendorThreeWayDataRequest: string;
+  qtyStyles;
+  rateStyle;
+  amtStyle;
+  statusStyle;
+
+  @Input() invoiceNum;
+  @Input() internalDocId;
+
+
+  constructor(private simsHttpCoreServices: SimsHttpCoreServices,
+    private commonService: CommonService) { }
+
+  ngOnInit() {
+    this.getThreeWayMatchingDetails(this.internalDocId, this.invoiceNum)
+  }
+
+
+  getThreeWayMatchingDetails(InternalDocId: string, InvoiceNumber: string) {
+    this.vendorThreeWayDataRequest = "<InternalDocId>" + InternalDocId + "</InternalDocId><InvoiceNumber>" + InvoiceNumber + "</InvoiceNumber>";
+    this.soapRequest = this.commonService.getSoapBody("GetThreewayMatchingForInvioce", "http://schemas.cordys.com/WINDatabaseMetadata", this.vendorThreeWayDataRequest);
+    this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(ThreewaymatchingResult => {
+      let ThreewaymatchingDetaillist = this.commonService.parseXML(ThreewaymatchingResult);
+      let Threewaymatching = ThreewaymatchingDetaillist["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0].GetThreewayMatchingForInvioceResponse[0].tuple;
+      Threewaymatching.map((x, index) => {
+
+        let ThreewaymatchingDetailModel = {
+
+          po: x.old[0].TABLE[0].PO[0] instanceof Object ? "" : x.old[0].TABLE[0].PO[0],
+
+          poLine: x.old[0].TABLE[0].POLine[0] instanceof Object ? "" : x.old[0].TABLE[0].POLine[0],
+
+          lineOrderQuantity: x.old[0].TABLE[0].line_order_qty[0] instanceof Object ? "" : x.old[0].TABLE[0].line_order_qty[0],
+          invoiceQty: x.old[0].TABLE[0].InvoiceQty[0] instanceof Object ? "" : x.old[0].TABLE[0].InvoiceQty[0],
+
+          grnQty: x.old[0].TABLE[0].GRNQty[0] instanceof Object ? "" : x.old[0].TABLE[0].GRNQty[0],
+
+          poLineRate: x.old[0].TABLE[0].PO_Line_Rate[0] instanceof Object ? "" : x.old[0].TABLE[0].PO_Line_Rate[0],
+
+          invoiceLineRate: x.old[0].TABLE[0].Invoice_Line_Rate[0] instanceof Object ? "" : x.old[0].TABLE[0].Invoice_Line_Rate[0],
+          grnPrice: x.old[0].TABLE[0].grn_price[0] instanceof Object ? "" : x.old[0].TABLE[0].grn_price[0],
+          poUom: x.old[0].TABLE[0].po_uom[0] instanceof Object ? "" : x.old[0].TABLE[0].po_uom[0],
+          invoiceUom: x.old[0].TABLE[0].invoice_uom[0] instanceof Object ? "" : x.old[0].TABLE[0].invoice_uom[0],
+          grnUom: x.old[0].TABLE[0].grn_uom[0] instanceof Object ? "" : x.old[0].TABLE[0].grn_uom[0],
+          material: x.old[0].TABLE[0].Material[0] instanceof Object ? "" : x.old[0].TABLE[0].Material[0],
+          lineMaterialDesc: x.old[0].TABLE[0].line_material_desc[0] instanceof Object ? "" : x.old[0].TABLE[0].line_material_desc[0],
+          poAmt: x.old[0].TABLE[0].po_amt[0] instanceof Object ? "" : x.old[0].TABLE[0].po_amt[0],
+          invoiceAmount: x.old[0].TABLE[0].InvoiceAmount[0] instanceof Object ? "" : x.old[0].TABLE[0].InvoiceAmount[0],
+          grnAmount: x.old[0].TABLE[0].GRNAmount[0] instanceof Object ? "" : x.old[0].TABLE[0].GRNAmount[0],
+          threeWayMatchingStatus: x.old[0].TABLE[0].ThreeWayMatchingStatus[0] instanceof Object ? "" : x.old[0].TABLE[0].ThreeWayMatchingStatus[0]
+        }
+        this.ThreeWay_Element_Data.push(ThreewaymatchingDetailModel)
+        if (Threewaymatching.length - 1 == index)
+          //invoiceDetailsDataSource = new MatTableDataSource<ThreeWayMatching>();
+          this.invoiceDetailsDataSource = new MatTableDataSource<ThreeWayMatching>(this.ThreeWay_Element_Data);
+        this.comparisonColorChange(this.ThreeWay_Element_Data);
+      });
+    });
+
+  }
+
+  comparisonColorChange(invoiceData) {
+    invoiceData.map(x => {
+      if (x.lineOrderQuantity >= x.invoiceQty && x.invoiceQty <= x.grnQty) {
+        this.qtyStyles = {
+          'color': 'black'
+        }
+      }
+      else {
+        this.qtyStyles = {
+          'color': 'red'
+        }
+      }
+      if (x.poLineRate == x.invoiceLineRate && x.invoiceLineRate == x.grnPrice) {
+        this.rateStyle = {
+          'color': 'black'
+        }
+      }
+      else {
+        this.rateStyle = {
+          'color': 'green'
+        }
+      }
+      if (x.poAmt >= x.invoiceAmount && x.invoiceAmount <= x.grnAmount) {
+        this.amtStyle = {
+          'color': 'black'
+        }
+      }
+      else {
+        this.amtStyle = {
+          'color': 'blue'
+        }
+      }
+      if (x.threeWayMatchingStatus == 'Fail') {
+        this.statusStyle = {
+          'color': 'red'
+        }
+      }
+      else {
+        this.statusStyle = {
+          'color': 'black'
+        }
+      }
+
+
+
+    })
+  }
+
+
+
+}

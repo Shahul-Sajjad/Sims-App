@@ -1,0 +1,171 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-maw-chart',
+  templateUrl: './maw-chart.component.html',
+  styleUrls: ['./maw-chart.component.scss']
+})
+export class MawChartComponent implements OnInit {
+    dataSource = [{
+    state: "Jan",
+    young: 6.7,
+    middle: 28.6
+}, {
+    state: "Feb",
+    young: 9.6,
+    middle: 43.4
+}, {
+    state: "March",
+    young: 13.5,
+    middle: 49
+}, {
+    state: "April",
+    young: 30,
+    middle: 90.3
+}, {
+    state: "May",
+    young: 20,
+    middle: 70.3
+}, {
+    state: "June",
+    young: 50,
+    middle: 60.3
+}, {
+    state: "July",
+    young: 20,
+    middle: 56.3
+}];
+processingVendor = [{
+    state: "Annie Ho",
+    young: 167
+}, {
+    state: "Daisy Oh",
+    young: 96
+}, {
+    state: "Brenda Lee",
+    young: 135
+}, {
+    state: "Jennifer Cepluch",
+    young: 302
+}];
+userData = [{
+    age: "Annie Ho",
+    number: 23
+}, {
+    age: "Daisy Oh",
+    number: 16
+}, {
+    age: "Brenda Lee",
+    number: 9
+}, {
+    age: "Cepluch",
+    number: 13
+}, {
+    age: "Jennifer",
+    number: 14
+}, {
+    age: "Lee",
+    number: 19
+}, {
+    age: "Mark",
+    number: 6
+}];
+
+areas = [{
+    country: "Joe Wu",
+    area: 12
+}, {
+    country: "Lydia Cha",
+    area: 7
+}, {
+    country: "Joseph R",
+    area: 9
+}, {
+    country: "Daniel",
+    area: 15
+}];
+
+
+
+    // `````````````````````````
+  type = 'bar';
+  data = {
+  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  datasets: [
+      {
+      label: "Invoice pending by month",
+      data: [65, 59, 80, 81, 56, 55, 40],
+      backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(153, 102, 255, 0.5)',
+          'rgba(255, 159, 64, 0.5)'
+      ],
+      }
+  ]
+  };
+  options = {
+  responsive: true,
+  maintainAspectRatio: false
+  };
+
+  typePie = 'horizontalBar';
+  pieData = {
+      labels: ["Pending", "Duplicate Invoice", "Amount Mismatch", "PO missing", "Quantity Missing", "Completed"],
+      datasets: [
+          {
+          label: "Invoice Status",
+          data: [65, 59, 80, 81, 56],
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.5)',
+              'rgba(54, 162, 235, 0.5)',
+              'rgba(255, 206, 86, 0.5)',
+              'rgba(75, 192, 192, 0.5)',
+              'rgba(153, 102, 255, 0.5)',
+              'rgba(103, 108, 255, 0.5)'
+          ],
+          }
+      ]
+      };
+
+      type2 = 'pie';
+      data2 = {
+          labels: ["Jan", "Feb", "Mar", "April"],
+          datasets: [
+              {
+              label: "Invoice processing time by month",
+              data: [134, 123, 158, 81],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.5)',
+                  'rgba(54, 162, 235, 0.5)',
+                  'rgba(255, 206, 86, 0.5)',
+                  'rgba(75, 192, 192, 0.5)'
+              ],
+              }
+          ]
+          };
+
+      type4 = 'line';
+      data4 = {
+          labels: ["Vendor1", "Vendor2", "Vendor3", "Vendor4"],
+          datasets: [
+              {
+              label: "Average processing time by vendor",
+              data: [134, 123, 158, 81],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.5)',
+                  'rgba(54, 162, 235, 0.5)',
+                  'rgba(255, 206, 86, 0.5)',
+                  'rgba(75, 192, 192, 0.5)'
+              ],
+              }
+          ]
+          };
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

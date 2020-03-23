@@ -1,0 +1,39 @@
+.mat-row:nth-child(odd) {
+    background-color: rgb(240, 247, 246);
+  }
+  
+  .mat-row:nth-child(even) {
+    background-color: white;
+  }
+ 
+  .card-header-header-font {
+    height: 400px;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+.mt-10{
+  margin: 10px;
+  }
+.mt-15 {
+  height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-shadow: 0px 0px 10px 0px grey;
+}
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+  font-weight: 700;
+  padding-left: 12px;
+
+}
+td.mat-cell
+{
+  padding-left:12px;
+  word-wrap: break-word;
+}
+  

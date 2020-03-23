@@ -1,0 +1,104 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+
+
+@Component({
+  selector: 'app-invoice-info-details',
+  templateUrl: './invoice-info-details.component.html',
+  styleUrls: ['./invoice-info-details.component.scss']
+})
+export class InvoiceInfoDetailsComponent implements OnInit {
+  displayedColumns: string[] = ['bank', 'beneficiary', 'account_no', 'swift'];
+  displayedUploadColumns: string[] = ['file_name', 'uploaded_by', 'uploaded_date'];
+  displayedInvoiceColumns: string[] = ['inv_line', 'material', 'material_desc',  'qty', 'rate', 'UOM', 'gl_code', 'cost_center'];
+  displayedTaxColumns: string[] = ['option', 'payment_mode', 'tax_code',  'amount', 'base_amount', 'gl_code', 'cost_center'];
+  dataSource = new MatTableDataSource<BankDetails>(ELEMENT_DATA);
+  uploadDataSource = new MatTableDataSource<UploadDetails>(UPLOADE_ELEMENT_DATA);
+  invoiceDetailsDataSource = new MatTableDataSource<InvoiceDetails>(INVOICE_ELEMENT_DATA);
+  taxDetailsDataSource = new MatTableDataSource<TaxDetails>(TAX_ELEMENT_DATA);
+  invoiceNumber;
+  internalId;
+
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  constructor() { }
+
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.invoiceNumber = '005556';
+    this.internalId = '613';
+  }
+
+}
+export interface BankDetails {
+  beneficiary: string;
+  bank_name: string;
+  account_no: number;
+  swift: string;
+}
+const ELEMENT_DATA: BankDetails[] = [
+  { bank_name: 'SBI', beneficiary: 'John Cena', account_no: 123456, swift: 'SBI123' },
+  { bank_name: 'Axis', beneficiary: 'Undertaker', account_no: 654123, swift: 'Axis123' },
+  { bank_name: 'Citi', beneficiary: 'Kane', account_no: 456789, swift: 'Citi123' },
+  { bank_name: 'Amex', beneficiary: 'Randy orton', account_no: 987456, swift: 'Amex123' },
+  { bank_name: 'HDFC', beneficiary: 'Rey M', account_no: 852369, swift: 'HDFC123' }
+];
+
+export interface UploadDetails {
+  file_name: string;
+  uploaded_by: string;
+  uploaded_date: string;
+}
+
+const UPLOADE_ELEMENT_DATA: UploadDetails[] = [
+  { file_name: '1.pdf', uploaded_by: 'John Cena', uploaded_date: '13/12/2019'},
+  { file_name: '2.pdf', uploaded_by: 'Undertaker', uploaded_date: '14/12/2019'},
+  { file_name: '3.pdf', uploaded_by: 'Kane', uploaded_date: '15/12/2019'},
+  { file_name: '4.pdf', uploaded_by: 'Randy orton', uploaded_date: '16/12/2019'},
+  { file_name: '5.pdf', uploaded_by: 'Rey M', uploaded_date: '17/12/2019'}
+];
+
+export interface InvoiceDetails {
+  inv_line: string;
+  material: string;
+  material_desc: string;
+  qty: number;
+  rate: number;
+  UOM: string;
+  gl_code: string;
+  cost_center: string;
+}
+
+const INVOICE_ELEMENT_DATA: InvoiceDetails[] = [
+  // tslint:disable-next-line: max-line-length
+  { inv_line: '1.pdf', material: 'John Cena', material_desc: '13/12/2019',  qty: 1, rate: 100, UOM: 'xyz', gl_code: 'abc', cost_center: 'fgh'},
+  // tslint:disable-next-line: max-line-length
+  { inv_line: '2.pdf', material: 'Undertaker', material_desc: '14/12/2019', qty: 1, rate: 100, UOM: 'xyz', gl_code: 'abc', cost_center: 'fgh'},
+  { inv_line: '3.pdf', material: 'Kane', material_desc: '15/12/2019',  qty: 1, rate: 100, UOM: 'xyz', gl_code: 'abc', cost_center: 'fgh'},
+  // tslint:disable-next-line: max-line-length
+  { inv_line: '4.pdf', material: 'Randy orton', material_desc: '16/12/2019',  qty: 1, rate: 100, UOM: 'xyz', gl_code: 'abc', cost_center: 'fgh'},
+  { inv_line: '5.pdf', material: 'Rey M', material_desc: '17/12/2019',  qty: 1, rate: 100, UOM: 'xyz', gl_code: 'abc', cost_center: 'fgh'}
+];
+
+export interface TaxDetails {
+  option: string;
+  payment_mode: string;
+  tax_code: string;
+  amount: number;
+  base_amount: number;
+  gl_code: string;
+  cost_center: string;
+}
+
+const TAX_ELEMENT_DATA: TaxDetails[] = [
+  // tslint:disable-next-line: max-line-length
+  { option: '1', payment_mode: 'Credit', tax_code: 'ABC12',  amount: 11, base_amount: 100, gl_code: 'xyz', cost_center: 'fgh'},
+  // tslint:disable-next-line: max-line-length
+  { option: '2', payment_mode: 'Debit', tax_code: 'DEF34', amount: 12, base_amount: 100, gl_code: 'xyz', cost_center: 'fgh'},
+  { option: '3', payment_mode: 'Credit', tax_code: 'GHI56',  amount: 13, base_amount: 100, gl_code: 'xyz', cost_center: 'fgh'},
+  // tslint:disable-next-line: max-line-length
+  { option: '4', payment_mode: 'Debit', tax_code: 'JKL78',  amount: 14, base_amount: 100, gl_code: 'xyz', cost_center: 'fgh'},
+  { option: '5', payment_mode: 'Credit', tax_code: 'MNO910',  amount: 14, base_amount: 100, gl_code: 'xyz', cost_center: 'fgh'}
+];

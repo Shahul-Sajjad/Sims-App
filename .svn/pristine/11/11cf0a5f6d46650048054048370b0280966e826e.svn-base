@@ -1,0 +1,47 @@
+<div fxLayout="row" fxLayoutAlign="none center">
+    <div class="quicklink-nav" *ngFor=" let quickLink of quickLinks; index as i">
+        <div style="margin-top: 10px;cursor: pointer;" [ngClass]="{'vertical-line' : i !== 0 }" [routerLink]="['/inbox', quickLink.tag]">
+            <p class="quicklink-text "><span>{{quickLink.name}}</span> <br> <span class="quicklink-nav-counts ">{{quickLink.count}}</span> </p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+
+<!-- <div class="quicklinknav">
+    <div fxLayout="row" fxLayoutAlign="none center">
+        <div class="quicklink-nav" *ngFor=" let quickLink of quickLinks; index as i">
+            <div class="thing">
+                <p class="quicklink-text "><span>{{quickLink.name}}</span> <br> <span class="quicklink-nav-counts ">{{quickLink.count}}</span> </p>
+			</div>
+
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row" >
+			
+					<div class="col-md-2" *ngFor=" let quickLink of quickLinks; index as i">
+							<div class="thing">
+									<p class="quicklink-text "><span>{{quickLink.name}}</span> <br> <span class="quicklink-nav-counts ">{{quickLink.count}}</span> </p>
+								</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+<!-- <div class="quicklinknav">
+		<div fxLayout="row" fxLayoutAlign="none center">
+			<div class="quicklink-nav" *ngFor=" let quickLink of quickLinks; index as i">
+				<div [ngClass]="{'vertical-line' : i !== 0 }">
+					<p class="quicklink-text "><span>{{quickLink.name}}</span> <br> <span class="quicklink-nav-counts ">{{quickLink.count}}</span> </p>
+				</div>
+	
+			</div>
+		</div>
+	</div> -->

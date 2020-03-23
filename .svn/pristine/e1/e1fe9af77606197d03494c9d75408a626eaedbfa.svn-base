@@ -1,0 +1,4 @@
+mat-form-field {
+    padding-right: 5px;
+    width: 180px;
+}

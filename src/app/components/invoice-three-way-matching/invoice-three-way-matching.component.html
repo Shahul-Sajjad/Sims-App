@@ -1,0 +1,84 @@
+<div class="tableAlign">
+    <table mat-table [dataSource]="invoiceDetailsDataSource">
+        <ng-container matColumnDef="statuIcon">
+            <th mat-header-cell *matHeaderCellDef># </th>
+            <td mat-cell *matCellDef="let element"><mat-icon *ngIf="element.statuIcon" style="color: red;">cancel</mat-icon>
+                                                    <mat-icon *ngIf="!element.statuIcon"
+                                                                style="color: white;
+                                                                background: green;
+                                                                border-radius: 50%;">check</mat-icon>      
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="po">
+            <th mat-header-cell *matHeaderCellDef>PO# </th>
+            <td mat-cell *matCellDef="let element"> {{element.po}}</td>
+        </ng-container>
+        <ng-container matColumnDef="poLine">
+            <th mat-header-cell *matHeaderCellDef>PO Line </th>
+            <td mat-cell *matCellDef="let element"> {{element.poLine}}</td>
+        </ng-container>
+        <ng-container matColumnDef="lineOrderQuantity">
+            <th mat-header-cell *matHeaderCellDef>PO Line Qty</th>
+            <td mat-cell [ngStyle]="qtyStyles" *matCellDef="let element"> {{element.lineOrderQuantity}}</td>
+        </ng-container>
+        <ng-container matColumnDef="invoiceQty">
+            <th mat-header-cell *matHeaderCellDef>Invoice Qty</th>
+            <td mat-cell [ngStyle]="qtyStyles" *matCellDef="let element"> {{element.invoiceQty}}</td>
+        </ng-container>
+        <ng-container matColumnDef="grnQty">
+            <th mat-header-cell *matHeaderCellDef>Gr Qty</th>
+            <td mat-cell [ngStyle]="qtyStyles" *matCellDef="let element"> {{element.grnQty}}</td>
+        </ng-container>
+        <ng-container matColumnDef="poLineRate">
+            <th mat-header-cell *matHeaderCellDef> Po Price</th>
+            <td mat-cell [ngStyle]="rateStyle" *matCellDef="let element"> {{element.poLineRate | number : '1.2-2'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="invoiceLineRate">
+            <th mat-header-cell *matHeaderCellDef> Invoice Price </th>
+            <td mat-cell [ngStyle]="rateStyle" *matCellDef="let element"> {{element.invoiceLineRate | number : '1.2-2'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="grnPrice">
+            <th mat-header-cell *matHeaderCellDef>Gr Unit Price</th>
+            <td mat-cell [ngStyle]="rateStyle" *matCellDef="let element"> {{element.grnPrice | number : '1.2-2'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="poUom">
+            <th mat-header-cell *matHeaderCellDef> Po Uom </th>
+            <td mat-cell *matCellDef="let element"> {{element.poUom}}</td>
+        </ng-container>
+        <ng-container matColumnDef="invoiceUom">
+            <th mat-header-cell *matHeaderCellDef> Invoice Uom </th>
+            <td mat-cell *matCellDef="let element"> {{element.invoiceUom}} </td>
+        </ng-container>
+        <ng-container matColumnDef="grnUom">
+            <th mat-header-cell *matHeaderCellDef> Gr Uom </th>
+            <td mat-cell *matCellDef="let element"> {{element.grnUom}} </td>
+        </ng-container>
+        <ng-container matColumnDef="material">
+            <th mat-header-cell *matHeaderCellDef> Po Mat Code. </th>
+            <td mat-cell *matCellDef="let element"> {{element.material}} </td>
+        </ng-container>
+        <ng-container matColumnDef="lineMaterialDesc">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.lineMaterialDesc}}</td>
+        </ng-container>
+        <ng-container matColumnDef="poAmt">
+            <th mat-header-cell *matHeaderCellDef> Po Amt </th>
+            <td mat-cell [ngStyle]="amtStyle" *matCellDef="let element"> {{element.poAmt}} </td>
+        </ng-container>
+        <ng-container matColumnDef="invoiceAmount">
+            <th mat-header-cell *matHeaderCellDef> Invoice Amt</th>
+            <td mat-cell [ngStyle]="amtStyle" *matCellDef="let element"> {{element.invoiceAmount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="grnAmount">
+            <th mat-header-cell *matHeaderCellDef> Gr Amt </th>
+            <td mat-cell [ngStyle]="amtStyle" *matCellDef="let element"> {{element.grnAmount | number : '1.2-2'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="threeWayMatchingStatus">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element" [ngStyle]="statusStyle"> {{element.threeWayMatchingStatus}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedInvoiceColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedInvoiceColumns;"></tr>
+    </table>
+</div>

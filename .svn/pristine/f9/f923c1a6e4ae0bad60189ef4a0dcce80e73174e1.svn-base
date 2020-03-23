@@ -1,0 +1,20 @@
+
+    
+    
+<div fxLayout="row" fxLayoutAlign="space-around center" class="alignBtn">
+<button mat-raised-button color="accent" [disabled]="endSaveBtn" (click)="saveData()">Save Data</button>
+<button mat-raised-button color="accent" (click)="approveReject()">Approve Invoice</button>
+<button mat-raised-button color="accent" (click)="approveReject()">Reject</button>
+<button mat-raised-button color="accent">Submit Invoice</button>
+<button mat-raised-button color="accent" (click)="pullPO_GR()">Pull PO/GR</button>
+<button mat-raised-button color="accent" (click)="postToSAP()">Post to SAP</button>
+<button mat-raised-button color="accent" (click)="cancelInvoice()">Cancel Invoice</button>
+<button mat-raised-button color="accent" (click)="downloadInvoice()">Download Invoice</button>
+<button mat-raised-button color="accent" [disabled]="enbReverseExit" (click)="reverese_exit()">Revesre & Exit</button>
+<button mat-raised-button color="accent" (click)="reverese_post()">Revesre & Post</button>
+<button mat-raised-button color="accent">Return to validator</button>
+<button mat-raised-button color="accent" [disabled]="enbCommentBtn" (click)="saveComment()">Save Comments</button>
+<button mat-raised-button color="accent" (click)="modifyInvoiceDetails()">Modify Invoice Lines</button>
+</div>
+    
+   
