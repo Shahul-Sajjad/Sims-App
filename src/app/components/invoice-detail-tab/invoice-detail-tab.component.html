@@ -2,9 +2,9 @@
     <table mat-table [dataSource]="invoiceDetailsDataSource">
         <ng-container matColumnDef="statuIcon">
             <th mat-header-cell *matHeaderCellDef>#</th>
-            <td mat-cell *matCellDef="let element"><mat-icon *ngIf="!element.statuIcon" style="color: red;">cancel</mat-icon>
-                                                   <mat-icon *ngIf="element.statuIcon"
-                                                   style="color: white;
+            <td mat-cell *matCellDef="let element">
+                <mat-icon *ngIf="!element.statuIcon" style="color: red;">cancel</mat-icon>
+                <mat-icon *ngIf="element.statuIcon" style="color: white;
                                                    background: green;
                                                    border-radius: 50%;">check</mat-icon>
             </td>
@@ -20,7 +20,8 @@
             <th mat-header-cell *matHeaderCellDef>PO Line #</th>
             <td mat-cell *matCellDef="let element ; let i = index;">
                 <input *ngIf="showTableData" matInput [value]="element.po_line" (focusout)="onKey($event,i)" [(ngModel)]="element.po_line">
-                <b  *ngIf="!showTableData"> {{element.po_line}}</b>
+                <b *ngIf="!showTableData"> {{element.po_line}}</b>
+                <mat-icon (click)="getTempAsnnumberfromPoLine(element.po)" style="cursor:pointer">search</mat-icon>
             </td>
         </ng-container>
 

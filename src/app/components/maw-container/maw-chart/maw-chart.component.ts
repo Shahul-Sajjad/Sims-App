@@ -135,7 +135,6 @@ areas = [{
     this.simsHttpCoreServices.httpPost(soapRequest).subscribe(chartDetailResponse => {
         let chartDetail = this.commonService.parseXML(chartDetailResponse);
         let chartDetaillist=chartDetail["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetInvoiceDataforChartResponse"][0].tuple
-        console.log(chartDetaillist);
         if (chartDetaillist) {
             if (chartNumber == "one") {
                 chartDetaillist.map((x, index) => {

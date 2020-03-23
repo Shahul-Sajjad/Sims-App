@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
@@ -12,12 +12,12 @@ import { TaxDetails } from 'src/app/models/invoice-item.model';
   styleUrls: ['./tax-freight-detail-tab.component.scss']
 })
 export class TaxFreightDetailTabComponent implements OnInit {
-  invNum:string;
-  batchId:string;
+  @Input() invNum;
+  batchId: string;
   vendordataRequest: string;
   soapRequest: string;
-  TAX_ELEMENT_DATA:TaxDetails[]=[];
-  displayedTaxColumns: string[] = ['option', 'payment_mode', 'tax_code',  'amount', 'base_amount', 'gl_code', 'cost_center','exempt','tax_indicator','text'];
+  TAX_ELEMENT_DATA: TaxDetails[] = [];
+  displayedTaxColumns: string[] = ['option', 'payment_mode', 'tax_code', 'amount', 'base_amount', 'gl_code', 'cost_center', 'exempt', 'tax_indicator', 'text'];
   taxDetailsDataSource = new MatTableDataSource<TaxDetails>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -75,35 +75,37 @@ export class TaxFreightDetailTabComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
-    this.invNum='002';
-    this.batchId='581';
-    this.taxDetailsDataSource.paginator = this.paginator;
-    this.getTaxFreightDetails(this.batchId,this.invNum);
+
+    setTimeout(() => {
+      this.batchId = localStorage.getItem('batchId');
+      this.taxDetailsDataSource.paginator = this.paginator;
+      this.getTaxFreightDetails(this.batchId, this.invNum);
+    }, 10000);
   }
-  getTaxFreightDetails(batchId:string,invoiceNo:string){
-  
-    this.vendordataRequest = "<invoice_no>" + invoiceNo + "</invoice_no><batch_id>"+batchId+"</batch_id>";
+  getTaxFreightDetails(batchId: string, invoiceNo: string) {
+
+    this.vendordataRequest = "<invoice_no>" + invoiceNo + "</invoice_no><batch_id>" + batchId + "</batch_id>";
     this.soapRequest = this.commonService.getSoapBody("GetTaxFreightLinesByInvNo", "http://schemas.cordys.com/WINDatabaseMetadata", this.vendordataRequest);
     this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(TaxFreightDetailResult => {
       let TaxFreightDetaillist = this.commonService.parseXML(TaxFreightDetailResult);
-      let TaxFreightDetail=TaxFreightDetaillist["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0].GetTaxFreightLinesByInvNoResponse[0].tuple;
-      TaxFreightDetail.map((x,index)=>{let taxFreightDetailModel={
-            option: x.old[0].ap_tax_frieght_details[0].slno[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].slno[0],
-            payment_mode:x.old[0].ap_tax_frieght_details[0].trans_type[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].trans_type[0],
-            tax_code:x.old[0].ap_tax_frieght_details[0].tax_code[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].tax_code[0],
-            amount:x.old[0].ap_tax_frieght_details[0].amount[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].amount[0],
-            base_amount:x.old[0].ap_tax_frieght_details[0].line_base_amt[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].line_base_amt[0],
-            gl_code:x.old[0].ap_tax_frieght_details[0].glcode[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].glcode[0],
-            cost_center:x.old[0].ap_tax_frieght_details[0].cost_center[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].cost_center[0],
-            exempt:x.old[0].ap_tax_frieght_details[0].exemption[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].exemption[0],
-            tax_indicator:x.old[0].ap_tax_frieght_details[0].tax_indicator[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].tax_indicator[0],
-            text:x.old[0].ap_tax_frieght_details[0].remarks[0] instanceof Object?"": x.old[0].ap_tax_frieght_details[0].remarks[0],
-           }
-      this.TAX_ELEMENT_DATA.push(taxFreightDetailModel);
-      if(TaxFreightDetail.length-1==index)
-        this.taxDetailsDataSource = new MatTableDataSource<TaxDetails>(this.TAX_ELEMENT_DATA);
-    });
+      let TaxFreightDetail = TaxFreightDetaillist["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0].GetTaxFreightLinesByInvNoResponse[0].tuple;
+      TaxFreightDetail.map((x, index) => {
+        let taxFreightDetailModel = {
+          option: x.old[0].ap_tax_frieght_details[0].slno[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].slno[0],
+          payment_mode: x.old[0].ap_tax_frieght_details[0].trans_type[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].trans_type[0],
+          tax_code: x.old[0].ap_tax_frieght_details[0].tax_code[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].tax_code[0],
+          amount: x.old[0].ap_tax_frieght_details[0].amount[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].amount[0],
+          base_amount: x.old[0].ap_tax_frieght_details[0].line_base_amt[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].line_base_amt[0],
+          gl_code: x.old[0].ap_tax_frieght_details[0].glcode[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].glcode[0],
+          cost_center: x.old[0].ap_tax_frieght_details[0].cost_center[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].cost_center[0],
+          exempt: x.old[0].ap_tax_frieght_details[0].exemption[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].exemption[0],
+          tax_indicator: x.old[0].ap_tax_frieght_details[0].tax_indicator[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].tax_indicator[0],
+          text: x.old[0].ap_tax_frieght_details[0].remarks[0] instanceof Object ? "" : x.old[0].ap_tax_frieght_details[0].remarks[0],
+        }
+        this.TAX_ELEMENT_DATA.push(taxFreightDetailModel);
+        if (TaxFreightDetail.length - 1 == index)
+          this.taxDetailsDataSource = new MatTableDataSource<TaxDetails>(this.TAX_ELEMENT_DATA);
+      });
     });
   }
 

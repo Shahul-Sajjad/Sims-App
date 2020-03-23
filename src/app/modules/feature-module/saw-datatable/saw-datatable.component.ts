@@ -30,7 +30,6 @@ export class SawDatatableComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns1.forEach(element => {
-      console.log(element);
     });
   }
 

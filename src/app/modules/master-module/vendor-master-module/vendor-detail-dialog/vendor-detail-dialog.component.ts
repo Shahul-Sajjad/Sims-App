@@ -27,8 +27,6 @@ export class VendorDetailDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-
-    console.log('row data', this.data);
     this.currentIndex = this.data.index;
     this.vendorDetailform = this.fb.group({
       code: new FormControl(this.data.row.code),
@@ -76,8 +74,6 @@ export class VendorDetailDialogComponent implements OnInit {
     this.soapupdateRequest = this.commonService.getSoapupdateBody("UpdateWin_vendor_master", "http://schemas.cordys.com/WINDatabaseMetadata", this.updateVendorDataRequest);
     this.simsHttpCoreServices.httpPost(this.soapupdateRequest).subscribe(vendorUpdateDetail => {
       var updateLists = this.commonService.parseXML(vendorUpdateDetail);
-      console.log(updateLists)
-
     })
   }
 

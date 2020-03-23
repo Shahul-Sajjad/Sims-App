@@ -65,7 +65,6 @@ export class UserMasterComponent implements OnInit {
         this.dataSource = new MatTableDataSource(ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;
         // this.dataSource.data.push(result.updatedData.value);
-        console.log('alert mat use karo kabhi', result);
         // this.table.renderRows();
         this.changeDetectionRef.detectChanges();
       });
@@ -126,7 +125,6 @@ resetForm(){
 
 userTableDetailComments() {
   ELEMENT_DATA = [];
-  console.log("Element Data :"+ELEMENT_DATA); 
   this.dataSource=new MatTableDataSource(ELEMENT_DATA);
   this.loadUserMasterSpinner = true;
   let serviceName = "GetUserCreationDetail";
@@ -144,7 +142,6 @@ userTableDetailComments() {
   parser.parseFromString(soapRequest,"text/xml");
   this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
      var userList = this.commonService.parseXML(response);
-    console.log(userList);
 
     var userDetailsList = userList["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetUserCreationDetailResponse"][0]["tuple"];
 

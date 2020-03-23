@@ -59,7 +59,6 @@ export class LocationMasterComponent implements OnInit {
     this.soapRequest = this.commonService.getSoapBody("GetLocation", "http://schemas.cordys.com/WINDatabaseMetadata", this.locationdataRequest);
     this.simsHttpCoreServices.httpPost(this.soapRequest).subscribe(locationdetails => {
       var lists = this.commonService.parseXML(locationdetails);
-      console.log(lists);
 
       //Response
       var locationTaskLists = lists["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetLocationResponse"][0]["tuple"];
@@ -105,19 +104,13 @@ export class LocationMasterComponent implements OnInit {
 
 
   locationDetailDialog(row, index): void {
-    // console.log('mara row', row, index);
     const locationDialogRef = this.dialog.open(LocationDetailDailogComponent, {
       width: '80%',
       data: { row, index }
     });
     locationDialogRef.afterClosed().subscribe(data => {
-      // console.log('Updated data in parent1: ', data);
-      // console.log('Updated data in parent2: ',this.locationDataSource);
-      // console.log(data)
       locationdata[data.index] = data.updatedlocationData.value;
       this.locationDataSource = new MatTableDataSource(locationdata);
-      // console.log('Updated data in parent3: ',this.locationDataSource);
-
       this.locationDataSource.paginator = this.paginator;
       this.locationDataSource.sort = this.sort;
       this.changeDetectionRef.detectChanges();
@@ -146,7 +139,6 @@ export class LocationMasterComponent implements OnInit {
       this.locationDataSource = new MatTableDataSource(locationdata);
       this.locationDataSource.paginator = this.paginator;
       // this.dataSource.data.push(result.updatedData.value);
-      // console.log('alert mat use karo kabhi', result);
       // this.table.renderRows();
       this.changeDetectionRef.detectChanges();
     });
@@ -184,7 +176,6 @@ export class LocationMasterComponent implements OnInit {
     this.soapupdateRequest = this.commonService.getSoapupdateBody("UpdateMtr_location", "http://schemas.cordys.com/WINDatabaseMetadata", this.vendordataRequestdelete);
     this.simsHttpCoreServices.httpPost(this.soapupdateRequest).subscribe(locationupdatedetails => {
       var lists = this.commonService.parseXML(locationupdatedetails);
-      console.log(lists);
     }
     )
   }

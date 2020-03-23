@@ -21,7 +21,6 @@ export class UserMasterDetailsDailogComponent implements OnInit {
               private commonService : CommonService ,) { }
   
   ngOnInit() {
-    console.log('row data',this.data);
 
     this.form = this.fb.group({
         userId : new FormControl(''),
@@ -64,7 +63,6 @@ export class UserMasterDetailsDailogComponent implements OnInit {
       parser.parseFromString(soapRequest,"text/xml");
       this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
         var userAddList = this.commonService.parseXML(response);
-        console.log("userAddList :"+userAddList);
       });
     }
 

@@ -117,15 +117,11 @@ export class VendorMasterComponent implements OnInit {
   // Opening The  VendorDetailsdialogComponent MatDialog
 
   vendorDetailDialog(row, index): void {
-    console.log('mara row', row, index);
     const vendorDialogRef = this.dialog.open(VendorDetailDialogComponent, {
       width: '80%',
       data: { row, index }
     });
     vendorDialogRef.afterClosed().subscribe(data => {
-      // console.log('Updated data in parent: ', data);
-      // console.log(this.vendorDataSource);
-      // console.log(data)
       ELEMENT_DATA[data.index] = data.updatedData.value;
       this.vendorDataSource = new MatTableDataSource(ELEMENT_DATA);
       this.vendorDataSource.paginator = this.paginator;

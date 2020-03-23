@@ -1,20 +1,16 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between none" fxLayoutGap="20px" fxLayoutGap.xs="0"
   class="main-inbox-body">
   <!-- Side bar quick menu starts here -->
-  <div fxFlex="20%" class="task-link box">
+
+  <!-- make changes to display icon and names -->
+  <div fxFlex="15%" class="task-link box" *ngIf="showIcon">
     <div class="link-container">
-      <!-- <mat-icon
-    (click)="onToolbarMenuToggle()"
-    id="toolbarMenu">subject</mat-icon> -->
-
-
       <p><b>PERSONAL TASKS</b></p>
       <div class="pt">
         <p (click)="getTasksInbox('ASSIGNED', assignedTaskCount)" class="task-header">
-          <mat-icon matBadge="{{ assignedTaskCount }}">inbox</mat-icon><span>Pending Task</span>
-          <!-- <mat-chip>13</mat-chip> -->
+          <mat-icon matBadge="{{ assignedTaskCount }}">inbox</mat-icon>
+          <span *ngIf="isExpanded">Pending Task</span>
         </p>
-        <!-- <hr /> -->
         <p (click)="getTasksInbox('COMPLETED', completedTaskCount)" class="task-header">
           <mat-icon matBadge="{{ completedTaskCount }}" matBadgeColor="primary">check_box</mat-icon><span>Completed
             Task</span>
@@ -37,8 +33,38 @@
       </div>
     </div>
   </div>
+
+
+  <!-- make changes to display icons only -->
+  <div fxFlex="5%" class="task-link box" *ngIf="!showIcon">
+    <div class="link-container">
+      <div class="pt">
+        <p (click)="getTasksInbox('ASSIGNED', assignedTaskCount)" class="task-header">
+          <mat-icon matBadge="{{ assignedTaskCount }}" matTooltip="Pending Task">inbox</mat-icon>
+        </p>
+        <p (click)="getTasksInbox('COMPLETED', completedTaskCount)" class="task-header">
+          <mat-icon matBadge="{{ completedTaskCount }}" matBadgeColor="primary" matTooltip="Completed
+            Task">check_box</mat-icon>
+      </div>
+      <div class="pt">
+        <p (click)="getDuetask('Un Assigned', dueDateTaskCount)" class="task-header">
+          <mat-icon matBadge="{{ dueDateTaskCount }}" matBadgeColor="warn" matTooltip="Un Assigned Task">edit</mat-icon>
+        </p>
+      </div>
+      <div class="pt">
+        <p>
+          <mat-icon matTooltip="PO Opex Material">account_box</mat-icon>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
   <!-- Main Inbox content starts here -->
-  <div fxFlex="80%" class="task-body box">
+  <div fxFlex="85%" class="task-body box" *ngIf="showIcon">
     <div class="inbox" style="float: left; width: 95%;">
       <br />
       <div>
@@ -54,16 +80,183 @@
       </div>
       <!-- Button list for different actions -->
       <div class="inbox-button-list">
+        <button mat-raised-button matTooltip="Shrink Task" (click)="hideToggle($event)">
+          <mat-icon>swap_horiz</mat-icon>
+        </button>
         <button mat-raised-button matTooltip="Refresh" (click)="refreshTable()">
           <mat-icon>refresh</mat-icon>
         </button>
-        <button mat-raised-button (click)="claimTask()">Claim</button>
-        <button mat-raised-button>Delegate</button>
+
+        <button mat-raised-button (click)="claimTask()" matTooltip="Claim">
+          <mat-icon>assignment_ind</mat-icon>
+        </button>
+
+
+        <button mat-raised-button matTooltip="Delegate">
+          <mat-icon>supervisor_account</mat-icon>
+        </button>
+
         <button mat-raised-button matTooltip="Forward">
           <mat-icon>forward</mat-icon>
         </button>
         <button mat-raised-button matTooltip="Revoke">
           <mat-icon>undo</mat-icon>
+        </button>
+
+
+        <button mat-raised-button matTooltip="Over Due" style="background-color:#f77672 ;text-align: center">
+          {{coloryellow}}
+        </button>
+        <button mat-raised-button matTooltip="Nearing Due" style="background-color:#eef567 ;text-align: center">
+          {{colorred}}
+        </button>
+        <button mat-raised-button matTooltip="No Due" style="background-color:white; ;text-align: center">
+          {{colorwhite}}
+        </button>
+        <button mat-raised-button matTooltip="Pending for GRN" style="background-color:blue; ;text-align: center">
+          0
+        </button>
+        <button mat-raised-button matTooltip="Pending for Posting" style="background-color:green ;text-align: center">
+          0
+        </button>
+        <button mat-raised-button matTooltip="Suspected Duplicate" style="background-color:grey ;text-align: center">
+          0
+        </button>
+
+      </div>
+      <div [style.display]="!loadInboxSpinner ? 'none' : 'block'">
+        <app-saw-loader></app-saw-loader>
+      </div>
+      <!-- Inbox Table -->
+      <div [style.display]="loadInboxSpinner ? 'none' : 'block'">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <!-- Position Column -->
+          <ng-container matColumnDef="task">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Task</th>
+            <td mat-cell *matCellDef="let element" class="task-td" [ngStyle]="{'background-color':element.dueTask}">
+              {{ element.task }}
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="sender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sender</th>
+            <td mat-cell *matCellDef="let element" [ngStyle]="{'background-color':element.dueTask}">
+              {{ element.sender }}
+            </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="assignedTo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Assigned To
+            </th>
+            <td mat-cell *matCellDef="let element" [ngStyle]="{'background-color':element.dueTask}">
+              {{ element.assignedTo }}
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="receivedOn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Received On
+            </th>
+            <td mat-cell *matCellDef="let element" [ngStyle]="{'background-color':element.dueTask}">
+              {{ element.receivedOn }}
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="dueDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
+            <td mat-cell *matCellDef="let element" [ngStyle]="{'background-color':element.dueTask}">
+              {{ element.dueDate }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" [style.background-color]="getTaskColor(row)"
+            (dblclick)="invoiceDetails(row.invNo, row.intDoc,row.taskID)"></tr>
+        </table>
+        <ng-container *ngIf="dataSource.data.length <= 0">
+          <p style="font-weight:bolder;font-size: 24px;padding-left:300px;">There is no item to display</p>
+        </ng-container>
+        <div class="pagiantor">
+          <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Main Inbox content starts here -->
+  <div fxFlex="95%" class="task-body box" *ngIf="!showIcon">
+    <div class="inbox" style="float: left; width: 95%;">
+      <br />
+      <div>
+        <div style="width:30%;float:left;font-size:24px">
+          {{ activeTaskStatus }} ({{ this.activeStatusCount }})
+        </div>
+        <div style="width:70%;float:left;">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" [value]="routeParameter"
+              placeholder="Search for something..." />
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Button list for different actions -->
+      <div class="inbox-button-list">
+        <button mat-raised-button matTooltip="Expand Task" (click)="hideToggle($event)">
+          <mat-icon>swap_horiz</mat-icon>
+        </button>
+        <button mat-raised-button matTooltip="Refresh" (click)="refreshTable()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+
+        <button mat-raised-button (click)="claimTask()" matTooltip="Claim">
+          <mat-icon>assignment_ind</mat-icon>
+        </button>
+
+        <button mat-raised-button matTooltip="Delegate">
+          <mat-icon>supervisor_account</mat-icon>
+        </button>
+
+        <button mat-raised-button matTooltip="Forward">
+          <mat-icon>forward</mat-icon>
+        </button>
+        <button mat-raised-button matTooltip="Revoke">
+          <mat-icon>undo</mat-icon>
+        </button>
+
+
+        <button mat-raised-button matTooltip="Over Due" style="background-color:#f77672 ;text-align: center">
+          {{coloryellow}}
+        </button>
+        <button mat-raised-button matTooltip="Nearing Due" style="background-color:#eef567 ;text-align: center">
+          {{colorred}}
+        </button>
+        <button mat-raised-button matTooltip="No Due" style="background-color:white; ;text-align: center">
+          {{colorwhite}}
+        </button>
+        <button mat-raised-button matTooltip="Pending for GRN" style="background-color:blue; ;text-align: center">
+          0
+        </button>
+        <button mat-raised-button matTooltip="Pending for Posting" style="background-color:green ;text-align: center">
+          0
+        </button>
+        <button mat-raised-button matTooltip="Suspected Duplicate" style="background-color:grey ;text-align: center">
+          0
         </button>
       </div>
       <div [style.display]="!loadInboxSpinner ? 'none' : 'block'">
@@ -138,13 +331,9 @@
         </div>
       </div>
     </div>
-    <div style="float: right; width: 5%; margin-top: 113px">
-      <div style="background-color:#f77672 ; padding: 10px; margin: 2px; text-align: center" matTooltip="Over Due">1</div>
-      <div style="background-color: #eef567; padding: 10px; margin: 2px; text-align: center" matTooltip="Nearing Due">2</div>
-      <div style="background-color: blue; padding: 10px; margin: 2px; text-align: center" matTooltip="Pending for GRN">3</div>
-      <div style="background-color: green; padding: 10px; margin: 2px; text-align: center" matTooltip="Pending for Posting">4</div>
-    </div>
+
   </div>
+
 </div>
 
 <!-- <mat-card class="footer">

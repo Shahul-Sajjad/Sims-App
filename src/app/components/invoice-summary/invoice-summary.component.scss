@@ -10,7 +10,9 @@ mat-form-field {
   padding-right: 5px;
   width: 180px;
 }
-
+.common.card-base-1{
+  margin-top: 50px;
+}
 .card-body {
   -webkit-box-flex: 1;
   flex: 1 1 auto;
@@ -32,6 +34,7 @@ mat-form-field {
   margin-left: 0px;
   background-color: aliceblue;
   border-bottom: 1px solid whitesmoke;
+  height: 33px;
 }
 .search_text
 {
@@ -50,23 +53,14 @@ mat-form-field {
   
 }
 
-
-
-
-// .header-font{
-//   margin-top: 20px;
-// }
-
-
 .header-font{
     margin-top: 0px;
     background-color:aliceblue;
     }
   .col{
-    height: 30px;
-    margin-top: 0px;
+    height: 55px;
     width: 100%;
-    top: 5px;
+    top: 16px;
   }
   
   
@@ -87,8 +81,11 @@ th.mat-header-cell {
 }
 .example-button-row
 {
-  position:relative;
+ position:relative;
  text-align: center;
+ margin-top: 20px;
+ margin-left:14px;
+
 }
 .mat-raised-button{
   margin-right: 15px;
@@ -149,6 +146,7 @@ background-color: white;
 
 .material-icons{
   cursor: pointer;
+  width: 14px;
 }
 .thead{
   font-size: 14px;
@@ -165,7 +163,7 @@ background-color: white;
   margin-top: 0px;
 }
 .paginationItems{
-  margin-right: 0px;
+  margin-right: 40px;
   width: 75px;
 }
 .mat-form-field-wrapper{
@@ -176,5 +174,69 @@ background-color: white;
   margin-right: 5px;
 }
 a{
-  margin-top: 15px
+  margin-top: 15px;
+  margin-right: 10px;
+} 
+
+.search{
+  height: 40px;
+  border: 1px solid rgba(18, 18, 18, 0.18);
+  width: 555px;
+  margin-top: 8px;
+  margin-right: 6px;
+  border-radius: 4px;
 }
+.searchcard{
+    width: 554px;
+    height: 306px;
+    z-index: 1000;
+}
+  table {
+    display: table;
+    width: 100%;
+    background-color: inherit;
+  }
+
+  text {
+    width: 100%;
+  }
+
+  input {
+    outline: none;
+    border: none;
+    text-indent: 1em;
+    width: 100%;
+    border-radius: 6px;
+  }
+
+  mat-icon {
+    padding-top: 5px;
+    cursor: pointer;
+  }
+
+  .advanced-search {
+    margin: 0;
+    height: fit-content;
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    border-radius: 0 0 2px 2px;
+    position: absolute;
+    box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, .5);
+    width: calc(100% - 3px);
+    padding: 10px 0 6px;
+    &:hover {
+      box-shadow: 5px 5px 5px rgba(18, 18, 18, 0.11);
+    }
+  }
+  .custom-form-field{
+    width: 175px;
+    height: 60px;
+  }
+
+.mat-form-field-appearance-outline{
+  height: 40px;
+
+} 
+.mat-form-field-appearance-outline{
+  width: 150px;
+  margin-left: 14px;
+} 

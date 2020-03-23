@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { Router } from '@angular/router';
 import { ArrayDataSource } from '@angular/cdk/collections';
+import { element } from 'protractor';
 
 
 export interface InvoiceSummary {
@@ -92,6 +93,9 @@ export class InvoiceSummaryComponent implements OnInit {
   vendorCodeList: VendorCodeList[] = [];
   invoiceStatusClassification: InvoiceStatusClassification[] = [{ "invoiceClassification": "Invoice Classification" }];
   selected = '5';
+  openAdvanceSearch: boolean;
+  icon: string;
+
 
   paginationItems: PaginationItems[] = [
     { value: '5' },
@@ -108,7 +112,10 @@ export class InvoiceSummaryComponent implements OnInit {
     private router: Router,
     private _snackBar: MatSnackBar,
 
-  ) { }
+  ) {
+    this.openAdvanceSearch = false;
+    this.icon = 'keyboard_arrow_down';
+  }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -124,7 +131,7 @@ export class InvoiceSummaryComponent implements OnInit {
   }
 
   invoiceDetails(row, index): void {
-    this.router.navigate(['/invoice-details'], { queryParams: { invoiceNumber: row, internalId: index, taskId: '', mode: '' } });
+    this.router.navigate(['/invoice-details'], { queryParams: { invoiceNumber: row, internalId: index, taskId: '', mode: '', isButtonEnable: false } });
   }
 
   initialTableLoad() {
@@ -299,7 +306,8 @@ export class InvoiceSummaryComponent implements OnInit {
     { key: "Payment status", value: 'PaymentStatus' },
   ];
 
-  menuList = new Array();
+  menuList = [];
+
   onSelectMenus(event: any) {
     const modificationArray = ['all', 'RecievedDate', 'Status', 'PO', 'BuyerApprover', 'ERPdueDate', 'PostingDocNum', 'PostingDate', 'ProcessedBy', 'GrossInvAmt', 'OCCId', 'PaymentNo', 'PaymentDate', 'PaymentStatus'];
     if (event.value.includes('all')) {
@@ -307,9 +315,7 @@ export class InvoiceSummaryComponent implements OnInit {
       this.preselectedValues = this.preselectedValues.concat(modificationArray);
       this.displayedColumns = ['stage', 'EntityName', 'VendorName', 'VendorCode', 'Invoice', 'PDF', 'PendingWith', 'UrgentFlag', 'Type', 'Classification', 'WorkItem', 'InvoiceDate', 'Currency', 'Mode', 'RecievedDate', 'Status', 'PO', 'BuyerApprover', 'ERPdueDate', 'PostingDocNum', 'PostingDate', 'ProcessedBy', 'GrossInvAmt', 'OCCId', 'PaymentNo', 'PaymentDate', 'PaymentStatus'];
       this.preselectedValues.push('all');
-    }
-
-    else {
+    } else {
       this.menuList = event.value;
       this.displayedColumns = this.menuList;
       this.tableMenuLen = this.displayedColumns.length;
@@ -318,11 +324,6 @@ export class InvoiceSummaryComponent implements OnInit {
     if (this.tableMenuLen <= 1) {
       this.openSnackBar('Select atleast one item!!', '');
     }
-  }
-  onselctionChange(event: any ){
-    const modificationArray = ['all', 'RecievedDate', 'Status', 'PO', 'BuyerApprover', 'ERPdueDate', 'PostingDocNum', 'PostingDate', 'ProcessedBy', 'GrossInvAmt', 'OCCId', 'PaymentNo', 'PaymentDate', 'PaymentStatus'];
-    console.log("I m in selction change");
-    
   }
 
   openSnackBar(message: string, action: string) {
@@ -335,7 +336,7 @@ export class InvoiceSummaryComponent implements OnInit {
   }
 
   firstPage() {
-    this.position = 0 + this.numberOfRows;
+    this.position = 0;
     this.nextPreviousPage(this.numberOfRows, this.position);
 
   }
@@ -359,7 +360,7 @@ export class InvoiceSummaryComponent implements OnInit {
   }
   onSelectPaginationItems(event: any) {
     this.numberOfRows = +event.value;
-    this.position = 0 + this.numberOfRows;
+    this.position = 0;
     this.nextPreviousPage(this.numberOfRows, this.position);
   }
 
@@ -414,10 +415,29 @@ export class InvoiceSummaryComponent implements OnInit {
       this.invoicesummaryDataSource.paginator = this.paginator;
       this.invoicesummaryDataSource.sort = this.sort;
       this.loadSummarySpinner = false;
+      if (this.preselectedValues.includes('all')) {
+        this.preselectedValues = ['stage', 'EntityName', 'VendorName', 'VendorCode', 'Invoice', 'PDF', 'PendingWith', 'UrgentFlag', 'Type', 'Classification', 'WorkItem', 'InvoiceDate', 'Currency', 'Mode', 'RecievedDate', 'Status', 'PO', 'BuyerApprover', 'ERPdueDate', 'PostingDocNum', 'PostingDate', 'ProcessedBy', 'GrossInvAmt', 'OCCId', 'PaymentNo', 'PaymentDate', 'PaymentStatus'];
+      }
       this.displayedColumns = this.preselectedValues;
       this.menuList = this.preselectedValues;
-      
+
     });
   }
-  
+
+
+  public toggleSearch(): void {
+
+    this.openAdvanceSearch = !this.openAdvanceSearch;
+    if (this.openAdvanceSearch === false) {
+      this.icon = 'keyboard_arrow_down';
+    }
+    else {
+      this.icon = 'keyboard_arrow_up';
+    }
+  }
+
+  isSearchAvailable(): boolean {
+    return true;
+  }
+
 }

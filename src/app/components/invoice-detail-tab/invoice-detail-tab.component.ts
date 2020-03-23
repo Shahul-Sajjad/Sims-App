@@ -23,15 +23,13 @@ export class InvoiceDetailTabComponent implements OnInit {
   showTableData: boolean;
   statusIcon:boolean;
 
-  @Input() invNum;
-  @Input() internalId;
+  @Input() invoiceNum;
+  @Input() internalDocId;
 
   INVOICE_ELEMENT_DATA: InvoiceDetails[] = [];
   displayedInvoiceColumns: string[] =
     ['statuIcon','inv_line', 'po_line', 'po', 'grn', 'buyerapprover', 'material', 'material_desc', 'qty', 'rate', 'UOM', 'doc_curr', 'local_curr', 'gl_code', 'cost_center', 'wbs', 'requestor', 'approver', 'gross_value', 'discount', 'delivery_date', 'status', 'po_material', 'po_marterial_desc', 'po_price', 'trading_part_code', 'remarks', 'validator_remarks', 'tax_code', 'vp', 'profit_center', 'hsn_sac', 'lr_no'];
   invoiceDetailsDataSource = new MatTableDataSource<InvoiceDetails>();
-  invoiceNum: string = '003';
-  internalDocId: string = '580';
   hdStyle;
   poDetailsLists = [];
 
@@ -229,8 +227,9 @@ export class InvoiceDetailTabComponent implements OnInit {
       let invoiceDetaillist = this.commonService.parseXML(invoiceDetailResult);
       let invoiceDetail = invoiceDetaillist["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0].GetInvoiceDetailsByInvNoResponse[0].tuple;
       invoiceDetail.map((x, index) => {
+       // this.INVOICE_ELEMENT_DATA = [];
         let invoiceDetailModel = {
-          statuIcon:x.old[0].invoice_details[0].Img[0] instanceof Object ? "" : x.old[0].invoice_details[0].Img[0].substring(32,33) =="s"?this.statusIcon=true:this.statusIcon=false,
+          statuIcon:x.old[0].invoice_details[0].Img[0] instanceof Object ? "" : x.old[0].invoice_details[0].Img[0].substring(32,33) =="s"?true:false,
           line_id: x.old[0].invoice_details[0].line_id[0] instanceof Object ? "" : x.old[0].invoice_details[0].line_id[0],
           inv_line: x.old[0].invoice_details[0].line_no[0] instanceof Object ? "" : x.old[0].invoice_details[0].line_no[0],
           po_line: x.old[0].invoice_details[0].po_line_no[0] instanceof Object ? "" : x.old[0].invoice_details[0].po_line_no[0],
@@ -272,7 +271,9 @@ export class InvoiceDetailTabComponent implements OnInit {
         }
       });
        this.invoiceDataService.setInvoiceDetailTableData(invoiceDetail);
-    });
+    }),()=>{
+      
+    };
 
   }
 

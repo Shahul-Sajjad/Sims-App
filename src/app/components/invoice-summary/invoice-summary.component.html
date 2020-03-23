@@ -3,133 +3,139 @@
         <div class="mt-10 ">
             <div class="common card-base-1">
                 <div class="body">
-                    <div class="card" fxLayout="column" fxLayoutAlign="space-between center">
-                        <div class="card-header header-font container-fluid" fxLayout="column"
-                            fxLayoutAlign="space-between">
-                            <div class="card-header header-font">
-                                <b>
-                                    <div class="col">
-                                        SEARCH
-
-                                    </div>
-                                </b>
-                            </div>
-                            <div class="card-body">
-                                <form [formGroup]="invoiceSummaryForm">
-
-                                    <!-- <label for="taskId">Inv # / Task Id</label> -->
-                                    <div class="form" fxLayout="row" fxLayoutAlign="space-between center">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Inv #</mat-label>
-                                            <input matInput formControlName="Invoice" />
-                                        </mat-form-field>
-                                        <!-- <label for="exampleInputPassword1">PO</label> -->
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>PO</mat-label>
-                                            <input matInput formControlName="PO" />
-                                        </mat-form-field>
-
-                                        <!-- <label for="exampleInputEmail1">Vendor</label> -->
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Vendor</mat-label>
-                                            <mat-select formControlName="VendorCode">
-                                                <mat-option *ngFor="let vendorList of vendorCodeList"
-                                                    value="{{vendorList.vendorCode}}"
-                                                    (click)="vendorNameSet(vendorList)">
-                                                    {{vendorList.vendorCode}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-
-                                        <!-- <label for="exampleInputPassword1">Vendor Name</label> /> -->
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Vendor Name</mat-label>
-                                            <input matInput formControlName="VendorName">
-                                        </mat-form-field>
-
-                                        <!-- <label >Status</label>
-                                        <input type="dropdown" class="form-control" /> -->
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Status</mat-label>
-                                            <mat-select formControlName="InvoiceStatusCode">
-                                                <mat-option *ngFor="let status of statusElement"
-                                                    value={{status.invoiceStatusCode}}>
-                                                    {{status.invoiceStatus}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <br>
-                                        <!-- <label for="exampleInputEmail1">Invoice Classification</label> -->
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Invoice Classification</mat-label>
-                                            <mat-select formControlName="InvoiceClassification">
-                                                <mat-option *ngFor="let element of invoiceStatusClassification"
-                                                    value="element.invoiceClassification">
-                                                    {{element.invoiceClassification}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="form" fxLayout="row wrap" fxLayoutAlign="space-between center">
-
-                                        <!-- <label for="exampleInputPassword1">From Invoice Date</label> -->
-                                        <mat-form-field appearance="outline">
-                                            <input matInput formControlName="FromInvoiceDate" [matDatepicker]="picker4"
-                                                placeholder="From Invoice Date">
-                                            <mat-datepicker-toggle matSuffix [for]="picker4">
-                                            </mat-datepicker-toggle>
-                                            <mat-datepicker #picker4></mat-datepicker>
-                                        </mat-form-field>
-                                        <!-- <label for="exampleInputEmail1">To Invoice Date</label> -->
-                                        <mat-form-field appearance="outline">
-                                            <input matInput formControlName="ToInvoiceDate" [matDatepicker]="picker3"
-                                                placeholder="To Invoice Date">
-                                            <mat-datepicker-toggle matSuffix [for]="picker3">
-                                            </mat-datepicker-toggle>
-                                            <mat-datepicker #picker3></mat-datepicker>
-                                        </mat-form-field>
-                                        <!-- <label for="exampleInputPassword1">Entity Name</label> -->
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Entity Name</mat-label>
-                                            <input matInput formControlName="EntityName" value="India" />
-                                        </mat-form-field>
-
-                                        <!-- <label for="exampleInputPassword1">Type</label> -->
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Invoice Type</mat-label>
-                                            <mat-select formControlName="Type">
-                                                <mat-option value="">---Select---</mat-option>
-                                                <mat-option value="PO">PO</mat-option>
-                                                <mat-option value="NON-PO">NON-PO</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Document #</mat-label>
-                                            <input matInput formControlName="DocumentNo" />
-                                        </mat-form-field>
-                                        <!-- <label for="exampleInputPassword1">Pending With</label> -->
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Pending With</mat-label>
-                                            <input matInput formControlName="PendingWith" />
-                                        </mat-form-field>
-                                    </div>
-                                    <br>
-                                    <div class="example-button-row">
-                                        <button mat-raised-button (click)="getSummaryTable()">Search</button>
-                                        <button mat-raised-button (click)="resetForm()">Clear</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- invoice summary table  -->
                     <div class="mt-15">
-                        <div class="card-header header-font">
+                        <div class="card-header header-font" fxLayout="row" fxLayoutAlign="end">
                             <div class="col">
                                 <b> INVOICE SUMMARY </b>
                             </div>
+                            <div class="search">
+                                <table>
+                                    <tr>
+                                        <td class="search-text">
+                                            <input type="text" placeholder="Search Invoice Summary">
+                                        </td>
+                                        
+                                        <td *ngIf="isSearchAvailable()">
+                                            <mat-icon (click)="toggleSearch()" matTooltip="Search">{{icon}}</mat-icon>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <mat-card *ngIf="openAdvanceSearch" class="searchcard">
+                                    <div class="card-body" fxLayout="column" fxLayoutAlign="none" fxLayoutGap="120px">
+                                        <form [formGroup]="invoiceSummaryForm">
+
+                                            <!-- <label for="taskId">Inv # / Task Id</label> -->
+                                            <div class="form" fxLayout="row" fxLayoutAlign="space-between center">
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Inv #</mat-label>
+                                                    <input matInput formControlName="Invoice" />
+                                                </mat-form-field>
+                                                <!-- <label for="exampleInputPassword1">PO</label> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>PO</mat-label>
+                                                    <input matInput formControlName="PO" />
+                                                </mat-form-field>
+
+                                                <!-- <label for="exampleInputEmail1">Vendor</label> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Vendor</mat-label>
+                                                    <mat-select formControlName="VendorCode">
+                                                        <mat-option *ngFor="let vendorList of vendorCodeList"
+                                                            value="{{vendorList.vendorCode}}"
+                                                            (click)="vendorNameSet(vendorList)">
+                                                            {{vendorList.vendorCode}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form" fxLayout="row" fxLayoutAlign=" none">
+                                                <!-- <label for="exampleInputPassword1">Vendor Name</label> /> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Vendor Name</mat-label>
+                                                    <input matInput formControlName="VendorName">
+                                                </mat-form-field>
+
+                                                <!-- <label >Status</label>
+                                                <input type="dropdown" class="form-control" /> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Status</mat-label>
+                                                    <mat-select formControlName="InvoiceStatusCode">
+                                                        <mat-option *ngFor="let status of statusElement"
+                                                            value={{status.invoiceStatusCode}}>
+                                                            {{status.invoiceStatus}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <br>
+                                                <!-- <label for="exampleInputEmail1">Invoice Classification</label> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Invoice Classification</mat-label>
+                                                    <mat-select formControlName="InvoiceClassification">
+                                                        <mat-option *ngFor="let element of invoiceStatusClassification"
+                                                            value="element.invoiceClassification">
+                                                            {{element.invoiceClassification}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <div class="form" fxLayout="row" fxLayoutAlign=" none">
+                                                <!-- <label for="exampleInputPassword1">From Invoice Date</label> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <input matInput formControlName="FromInvoiceDate"
+                                                        [matDatepicker]="picker4" placeholder="From Invoice Date">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker4">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker4></mat-datepicker>
+                                                </mat-form-field>
+                                                <!-- <label for="exampleInputEmail1">To Invoice Date</label> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <input matInput formControlName="ToInvoiceDate"
+                                                        [matDatepicker]="picker3" placeholder="To Invoice Date">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker3">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #picker3></mat-datepicker>
+                                                </mat-form-field>
+                                                <!-- <label for="exampleInputPassword1">Entity Name</label> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Entity Name</mat-label>
+                                                    <input matInput formControlName="EntityName" value="India" />
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="form" fxLayout="row" fxLayoutAlign=" none">
+
+                                                <!-- <label for="exampleInputPassword1">Type</label> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Invoice Type</mat-label>
+                                                    <mat-select formControlName="Type">
+                                                        <mat-option value="">---Select---</mat-option>
+                                                        <mat-option value="PO">PO</mat-option>
+                                                        <mat-option value="NON-PO">NON-PO</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+
+
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Document #</mat-label>
+                                                    <input matInput formControlName="DocumentNo" />
+                                                </mat-form-field>
+                                                <!-- <label for="exampleInputPassword1">Pending With</label> -->
+                                                <mat-form-field appearance="outline" class="custom-form-field">
+                                                    <mat-label>Pending With</mat-label>
+                                                    <input matInput formControlName="PendingWith" />
+                                                </mat-form-field>
+                                            </div>
+                                            <br>
+                                            <div class="example-button-row">
+                                                <button mat-raised-button (click)="getSummaryTable()">Search</button>
+                                                <button mat-raised-button (click)="resetForm()">Clear</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </mat-card>
+                            </div>
+
                         </div>
 
                         <div class="selectMen">
@@ -138,7 +144,7 @@
                                 <mat-select multiple [(ngModel)]="preselectedValues"
                                     (selectionChange)="onSelectMenus($event)">
                                     <ng-container *ngFor="let item of menuItems">
-                                        <mat-option (onSelectionChange)="onselctionChange($event)" [value]="item.value">
+                                        <mat-option [value]="item.value">
                                             {{item.key}}
                                         </mat-option>
                                     </ng-container>
@@ -146,7 +152,6 @@
                             </mat-form-field>
                         </div>
                         <div fxLayout="row" fxLayoutAlign="end none" class="pagination">
-
                             <mat-form-field class="paginationItems">
                                 <mat-label>Items per page:</mat-label>
                                 <mat-select (selectionChange)="onSelectPaginationItems($event)" [(value)]="selected">
@@ -156,25 +161,25 @@
                                 </mat-select>
                             </mat-form-field>
                             <a (click)="firstPage()">
-                                <i class="material-icons">
+                                <i class="material-icons" matTooltip="First page">
                                     first_page
                                 </i>
                             </a>
 
                             <a (click)="prviousPage()">
-                                <i class="material-icons">
+                                <i class="material-icons" matTooltip="Previous page">
                                     keyboard_arrow_left
                                 </i>
                             </a>
 
                             <a (click)="nextPage()">
-                                <i class="material-icons">
+                                <i class="material-icons" matTooltip="Next page">
                                     keyboard_arrow_right
                                 </i>
                             </a>
 
                             <a (click)="lastPage()">
-                                <i class="material-icons">
+                                <i class="material-icons" matTooltip="Last page">
                                     last_page
                                 </i>
                             </a>
@@ -327,7 +332,7 @@
                                         </td>
                                     </ng-container>
 
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="centre">
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" class="centre">
                                     </tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns"
                                         (dblclick)="invoiceDetails(row.Invoice, row.internalID)"></tr>

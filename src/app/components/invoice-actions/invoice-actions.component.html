@@ -1,28 +1,54 @@
 <div fxLayout="row" fxLayoutAlign="space-around center" class="alignBtn">
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <button [ngStyle]="saveStyles"  *ngIf="!endSaveBtn" (click)="saveData()">Save</button>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div *ngIf="isSaveEnable">
+            <button [ngStyle]="saveStyles" *ngIf="!endSaveBtn" (click)="saveData()">Save</button>
+        </div>
+        <div *ngIf="isCancelEnable">
             <button [ngStyle]="cancelStyles" (click)="cancelInvoice()">Cancel</button>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <button  style="border-radius: 25px 0px 0px 25px !important;border-right: none; " (click)="approveReject()">Approve</button>
-            <button  style="border-radius: 0px 25px 25px 0px !important;" (click)="approveReject()">Reject</button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div *ngIf="isApproveEnable">
+            <button style="border-radius: 25px 0px 0px 25px !important;border-right: none; " (click)="approveReject('approve')">Approve</button>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <button  style="border-radius: 25px 0px 0px 25px !important;border-right: none; " >Submit</button>
-            <button  style="border-radius: 0px 25px 25px 0px !important;" (click)="downloadInvoice()">Download</button>
+        <div *ngIf="isRejectEnable">
+            <button style="border-radius: 0px 25px 25px 0px !important;" (click)="approveReject('reject')">Reject</button>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <button  style="border-radius: 25px 0px 0px 25px !important;border-right: none; "(click)="pullPO_GR()">Pull PO/GR</button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div *ngIf="isSubmitEnable">
+            <button style="border-radius: 25px 0px 0px 25px !important;border-right: none; ">Submit</button>
+        </div>
+        <div *ngIf="isDownloadEnable">
+            <button style="border-radius: 0px 25px 25px 0px !important;" (click)="downloadInvoice()">Download</button>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div *ngIf="isPullEnable">
+            <button style="border-radius: 25px 0px 0px 25px !important;border-right: none; " (click)="pullPO_GR()">Pull PO/GR</button>
+        </div>
+        <div *ngIf="isPostEnable">
             <button style="border-right: none;" (click)="postToERP()">Post to ERP</button>
+        </div>
+        <div *ngIf="isReverseExitEnable">
             <button style="border-right: none;" *ngIf="enbReverseExit" (click)="reverese_exit()">Revesre & Exit</button>
-            <button  style="border-radius: 0px 25px 25px 0px !important;" (click)="reverese_post()">Revesre & Post</button>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <button  style="border-radius: 25px !important;" (click)="return_to_validator()" >Return to validator</button>
+        <div *ngIf="isReversePostEnable">
+            <button style="border-radius: 0px 25px 25px 0px !important;" (click)="reverese_post()">Revesre & Post</button>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div *ngIf="isReturnToValidatorEnable">
+            <button style="border-radius: 25px !important;" (click)="return_to_validator()">Return to validator</button>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div *ngIf="isSaveCommentEnable">
             <button [ngStyle]="commentStyles" *ngIf="!enbCommentBtn" (click)="saveComment()">Save
                 Comments</button>
+        </div>
+        <div *ngIf="isModifyEnable">
             <button [ngStyle]="modifyStyles" (click)="modifyInvoiceDetails()">Modify Invoice Lines</button>
         </div>
+    </div>
 </div>

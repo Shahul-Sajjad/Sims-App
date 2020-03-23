@@ -1,4 +1,4 @@
-<app-invoice-actions [taskInfo]="taskInfo"></app-invoice-actions>
+<app-invoice-actions [taskInfo]="taskInfo" *ngIf="isButtonEnable === 'true'"></app-invoice-actions>
 <div fxLayout="row" fxlayoutgap="0.25% grid" style="margin-top: 115px;">
     <div class="main" fxFlex fxLayout="column" [ngClass]="detailsRespectedClass" *ngIf="getViewerStatus">
 

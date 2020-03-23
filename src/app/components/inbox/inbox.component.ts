@@ -6,7 +6,6 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { formatDate } from '@angular/common';
 import moment from 'moment';
 
 import { SimsHttpCoreServices } from "../../services/sims-http-core.service";
@@ -43,6 +42,12 @@ export class InboxComponent implements OnInit {
   taskRespectedClass = 'alf-am-task-container';
   detailsRespectedClass = 'alf-am-task-details-container';
   isOverLayMode: boolean = true;
+  colorred = 0;
+  coloryellow = 0;
+  colorwhite: 0;
+
+
+  showIcon = true;
 
 
 
@@ -65,6 +70,9 @@ export class InboxComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   dueStyle;
+
+  isExpanded: boolean = true;
+ 
 
   constructor(
     private route: ActivatedRoute,
@@ -92,6 +100,9 @@ export class InboxComponent implements OnInit {
   }
   // This will return All Assigned task
   getTasksInbox(taskStatus, totalTask?) {
+    this.colorred = 0;
+    this.coloryellow = 0;
+    this.colorwhite=0;
     let inboxTaskData: PeriodicElement[] = [];
     this.getCountTaskInbox();
     this.dataSource = new MatTableDataSource(inboxTaskData);
@@ -118,13 +129,11 @@ export class InboxComponent implements OnInit {
       var soapRequest = this.commonService.getSoapBody("GetTasks", "http://schemas.cordys.com/notification/workflow/1.0", dataRequest);
       this.simsHttpCoreServices.httpPost(soapRequest).subscribe(assignedTasks => {
         var lists = this.commonService.parseXML(assignedTasks);
-        console.log(lists);
         var taskLists =
           lists["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0][
           "GetTasksResponse"
           ][0]["tuple"];
         if (taskLists !== undefined) {
-
           taskLists.forEach(element => {
             let task = {
               task: element["old"][0]["Task"][0]["Activity"][0]["_"],
@@ -167,11 +176,19 @@ export class InboxComponent implements OnInit {
     let day6 = moment(StartDate).add(6, 'days').format('YYYY-MM-DD');
     let day7 = moment(StartDate).add(7, 'days').format('YYYY-MM-DD');
 
+
     if (day4 === currentDate || day5 === currentDate || day6 === currentDate || day7 === currentDate) {
       this.dueStyle = '#eef567'
+      this.colorred++;
     }
     else if (currentDate > day7) {
       this.dueStyle = '#f77672';
+      this.coloryellow++;
+    }
+    else{
+      this.dueStyle='white';
+      this.colorwhite++;
+
     }
 
     return this.dueStyle;
@@ -255,6 +272,9 @@ export class InboxComponent implements OnInit {
 
   // Calling Due task separately because the SOAP request is little bit different comparision to Assigned/Completed
   getDuetask(taskStatus?, taskCount?) {
+    this.coloryellow = 0;
+    this.colorred = 0;
+    this.colorwhite=0;
     let inboxTaskData: PeriodicElement[] = [];
     this.dataSource = new MatTableDataSource(inboxTaskData);
     this.loadInboxSpinner = true;
@@ -267,14 +287,12 @@ export class InboxComponent implements OnInit {
     var soapRequest = this.commonService.getSoapBody("GetHumanTasks", "http://schemas.cordys.com/notification/workflow/1.0", dataRequest);
     this.simsHttpCoreServices.httpPost(soapRequest).subscribe(assignedTasks => {
       var lists = this.commonService.parseXML(assignedTasks);
-      console.log(lists);
       var taskLists =
         lists["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0][
         "GetHumanTasksResponse"
         ][0]["tuple"];
 
       this.dueDateTaskCount = taskLists !== undefined ? taskLists.length : 0;
-      console.log(taskLists);
       if (taskLists !== undefined) {
         // var addDate= (7* 24 * 60 * 60);
 
@@ -295,25 +313,17 @@ export class InboxComponent implements OnInit {
           };
           inboxTaskData.push(task);
         });
-        console.log(inboxTaskData);
         this.dataSource = new MatTableDataSource(inboxTaskData);
         this.loadInboxSpinner = false;
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       }
-
       else {
         this.loadInboxSpinner = false;
       }
     });
   }
 
-  // setDueDate(dueDate) {
-  // console.log (formatDate(dueDate,'yyyy-mm-dd','en-us'));
-  // var today=this.receivedOn
-  // var in_a_week   =this.receivedOn.setDate(today.getDate()+7);
-
-  // }
 
   getCountDueTask() {
     var dataRequest =
@@ -321,7 +331,6 @@ export class InboxComponent implements OnInit {
     var soapRequest = this.commonService.getSoapBody("GetHumanTasks", "http://schemas.cordys.com/notification/workflow/1.0", dataRequest);
     this.simsHttpCoreServices.httpPost(soapRequest).subscribe(assignedTasks => {
       var lists = this.commonService.parseXML(assignedTasks);
-      console.log(lists);
       var taskLists =
         lists["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0][
         "GetHumanTasksResponse"
@@ -391,19 +400,10 @@ export class InboxComponent implements OnInit {
     this.router.navigate(['/invoice-details'], { queryParams: { invoiceNumber: invNo, internalId: intDoc, taskId: task, mode: '', isButtonEnable: true } });
   }
 
-  public fullScreenMode(): void {
-    console.log("work");
-    this.taskRespectedClass = 'task-container ';
-    this.detailsRespectedClass = 'view-container';
+
+  hideToggle() {
+    this.showIcon = !this.showIcon;
   }
 
-  public defaultLayoutMode(): void {
-    console.log("work");
-    this.taskRespectedClass = 'alf-am-task-form-container';
-    this.detailsRespectedClass = 'alf-am-task-details-container';
-  }
-  get getViewerStatus(): boolean {
-    return this.showViewerStatus;
-  }
 }
 

@@ -43,11 +43,9 @@ export class VendorBankDetailsComponent implements OnInit {
 
     // this.dataSource = new MatTableDataSource(ELEMENT_DATA);
     // // const code = +this.vendorSearchInputform.value.code;
-    // console.log(typeof code);
     let serviceName = "GetBankDetailsForVendor";
     let nameSpace = "http://schemas.cordys.com/WINDatabaseMetadata";
     var dataRequest = "<vendor_id>1000000</vendor_id>";
-    console.log(dataRequest);
     var soapRequest = "<SOAP:Envelope xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
       "<SOAP:Body>" +
       "<" + serviceName + " xmlns=\"" + nameSpace + "\" preserveSpace=\"no\" qAccess=\"0\" qValues=\"\">" +
@@ -58,9 +56,7 @@ export class VendorBankDetailsComponent implements OnInit {
     var parser = new DOMParser();
     parser.parseFromString(soapRequest, "text/xml");
     this.simsHttpCoreServices.httpPost(soapRequest).subscribe(vendorbankdetails => {
-      console.log(vendorbankdetails);
       var lists = this.commonService.parseXML(vendorbankdetails);
-      console.log(lists);
 
       //  Response
       var vendorbankTaskLists = lists["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["GetBankDetailsForVendorResponse"][0]["tuple"];

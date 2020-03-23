@@ -101,13 +101,16 @@
                 <app-invoice-header [invNum]="invoiceNumber" [internalId]="internalId" [taskId]="taskId" [mode]="mode"></app-invoice-header>
             </mat-tab>
             <mat-tab label="Details">
-                <app-invoice-detail-tab [invNum]="invoiceNumber" [internalId]="internalId"></app-invoice-detail-tab>
+                <app-invoice-detail-tab [invoiceNum]="invoiceNumber" [internalDocId]="internalId"></app-invoice-detail-tab>
+            </mat-tab>
+            <mat-tab label="Three way Matching">
+                <app-invoice-three-way-matching [invoiceNum]="invoiceNumber" [internalDocId]="internalId"></app-invoice-three-way-matching>
             </mat-tab>
             <mat-tab label="Bank Details">
                 <br>
                 <mat-tab-group>
                     <mat-tab label="Invoice Bank Details">
-                        <app-invoice-bank-detail-tab></app-invoice-bank-detail-tab>
+                        <app-invoice-bank-detail-tab [invoiceNum]="invoiceNumber" [internalDocId]="internalId"></app-invoice-bank-detail-tab>
                     </mat-tab>
                     <mat-tab label="Vendor Bank Details">
                         <app-vendor-bank-detail-tab></app-vendor-bank-detail-tab>
@@ -115,7 +118,7 @@
                 </mat-tab-group>
             </mat-tab>
             <mat-tab label="Tax & Freight">
-                <app-tax-freight-detail-tab></app-tax-freight-detail-tab>
+                <app-tax-freight-detail-tab [invNum]="invoiceNumber"></app-tax-freight-detail-tab>
             </mat-tab>
             <mat-tab label="Comments">
                 <app-invoice-comment-tab></app-invoice-comment-tab>
@@ -123,9 +126,7 @@
             <mat-tab label="Uploads">
                 <app-upload-detail-tab></app-upload-detail-tab>
             </mat-tab>
-            <mat-tab label="Three way Matching">
-                <app-invoice-three-way-matching [invoiceNum]="invoiceNumber" [internalDocId]="internalId"></app-invoice-three-way-matching>
-            </mat-tab>
+
         </mat-tab-group>
     </div>
     <div fxFlex="2">

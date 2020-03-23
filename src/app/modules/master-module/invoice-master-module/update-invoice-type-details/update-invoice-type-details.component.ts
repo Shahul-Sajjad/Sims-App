@@ -21,9 +21,7 @@ export class UpdateInvoiceTypeDetailsComponent implements OnInit {
     private commonService : CommonService) { }
 
   ngOnInit() {
-    console.log('row data',this.data);
     this.currentIndex = this.data.index; 
-    console.log("CurrentIndex"+ this.currentIndex);
     this.invoiceForm = this.invoiceUpdateFormBuilder.group({
       slNo : new FormControl(this.data.row.slNo),
       invoiceType : new FormControl(this.data.row.invoiceType)
@@ -47,7 +45,6 @@ export class UpdateInvoiceTypeDetailsComponent implements OnInit {
     parser.parseFromString(soapRequest,"text/xml");
     this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
       var invoiceTypeList = this.commonService.parseXML(response);
-      console.log("userUpdateList :"+invoiceTypeList);
     });
   }
 

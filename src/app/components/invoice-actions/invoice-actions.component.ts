@@ -3,10 +3,9 @@ import { SimsHttpCoreServices } from 'src/app/services/sims-http-core.service';
 import { CommonService } from 'src/app/services/common.service';
 import { VendorBankDetails } from 'src/app/models/invoice-item.model';
 import { InvoiceDataService } from 'src/app/services/invoice-data.service';
-import { error } from '@angular/compiler/src/util';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PostToErpDialogComponent } from '../post-to-erp-dialog/post-to-erp-dialog.component';
 
 
@@ -43,7 +42,21 @@ export class InvoiceActionsComponent implements OnInit {
   cancelStyles;
   commentStyles;
   modifyStyles;
-  messageResp:string;
+  userId;
+  isSaveEnable = false;
+  isCancelEnable = false;
+  isApproveEnable = false;
+  isRejectEnable = false;
+  isSubmitEnable = false;
+  isDownloadEnable = false;
+  isPullEnable = false;
+  isPostEnable = false;
+  isReverseExitEnable = false;
+  isReversePostEnable = false;
+  isReturnToValidatorEnable = false;
+  isSaveCommentEnable = false;
+  isModifyEnable = false;
+  messageResp: string;
   constructor(
     private simsHttpCoreServices: SimsHttpCoreServices,
     private commonService: CommonService,
@@ -65,13 +78,14 @@ export class InvoiceActionsComponent implements OnInit {
     this.documentId = "32233";
     this.batchId = "231";
     this.commentBy = "sameer";
-    
-   this.cancelStyles={
-    "border-radius": "25px"
-   }
-   this.modifyStyles={
-    "border-radius": "25px"
-   }
+
+    this.cancelStyles = {
+      "border-radius": "25px"
+    };
+    this.modifyStyles = {
+      "border-radius": "25px"
+    };
+
     this.endSaveBtn = true;
     this.endSaveBtn = true;
     this.invoiceDataService.tabHandler.subscribe(x => {
@@ -81,29 +95,48 @@ export class InvoiceActionsComponent implements OnInit {
     this.invoiceDataService.invoiceDetailHandler.subscribe((x: any) => {
       if (x instanceof Object) {
         this.endSaveBtn = x["disSaveBtn"]
-        if(!this.endSaveBtn){
-          this.saveStyles={
+        if (!this.endSaveBtn) {
+          this.saveStyles = {
             "border-radius": "25px 0px 0px 25px",
             "border-right": "none"
-           };
-          this.cancelStyles={
-            "border-radius": "0px 25px 25px 0px"     
-                };
+          };
+          this.cancelStyles = {
+            "border-radius": "0px 25px 25px 0px"
+          };
         }
       } else {
         this.enbCommentBtn = x;
-        if(!this.enbCommentBtn){
-          this.commentStyles={
+        if (!this.enbCommentBtn) {
+          this.commentStyles = {
             "border-radius": "25px 0px 0px 25px",
             "border-right": "none"
-           };
-          this.modifyStyles={
-            "border-radius": "0px 25px 25px 0px"     
-                };
+          };
+          this.modifyStyles = {
+            "border-radius": "0px 25px 25px 0px"
+          };
         }
       }
     });
+    setTimeout(() => {
+      this.getLoginUserDetails();
+    }, 10000);
   }
+
+  getLoginUserDetails() {
+    const userInfo = this.invoiceDataService.getUserInfo();
+    this.userId = userInfo.ud_role[0];
+    this.setButtonForUserRole();
+  }
+
+  setButtonForUserRole() {
+    if (this.userId === '48') {
+      this.isSaveEnable = true;
+      this.isCancelEnable = true;
+      this.isPullEnable = true;
+
+    }
+  }
+
   saveData() {
     // let formaData = this.invoiceDataService.getInvoiceHeaderData();
     // this.dataRequest = "<tuple><old><invoice_header qConstraint=\"0\"><invoice_no>" + this.invoiceNo + "</invoice_no><internal_doc_id>" + this.internalDocId + "</internal_doc_id></invoice_header></old><new><invoice_header qAccess=\"0\" qConstraint=\"0\" qInit=\"0\" qValues=\"\"><invoice_no>" + this.invoiceNo + "</invoice_no><internal_doc_id>" + this.internalDocId + "</internal_doc_id><invoice_date>" + formaData.invoiceDate + "</invoice_date><invoice_po>" + formaData.poNumber + "</invoice_po><invoice_status>" + formaData.invoiceStatus + "</invoice_status><vendor>" + formaData.vendorCode + "</vendor><costcenter>" + formaData.DOACC + "</costcenter><currency>" + formaData.currency + "</currency><entity_id>" + formaData.country + "</entity_id><validator_remarks>" + formaData.OCCRemarks + "</validator_remarks><frieght_amount>" + formaData.freight + "</frieght_amount><lang>" + formaData.language + "</lang><billing_to>" + formaData.billingAdd + "</billing_to><sub_total>" + formaData.basic + "</sub_total><tax_total>" + formaData.taxAmt + "</tax_total><grand_total>" + formaData.total + "</grand_total><invoice_recieved_date>" + formaData.invoiceRcptDate + "</invoice_recieved_date><invoice_type>" + formaData.invoiceType + "</invoice_type><vendor_name>" + formaData.vendorName + "</vendor_name><invoice_category>" + formaData.classification + "</invoice_category><exchange_rate>" + formaData.exchangeRate + "</exchange_rate><local_curr_amt>" + formaData.localAmt + "</local_curr_amt><vendor_gstNo>" + formaData.vendorGST + "</vendor_gstNo><billToGstNo>" + formaData.billGST + "</billToGstNo><igm_date>" + formaData.igmDate + "</igm_date><port_code>" + formaData.portCode + "</port_code><vendor_pan>" + formaData.vendorPan + "</vendor_pan><vendor_payment_method>" + formaData.payMethod + "</vendor_payment_method><house_bankid>" + formaData.houseBankId + "</house_bankid><location>" + formaData.location + "</location><validation_date>" + formaData.validationDate + "</validation_date><vendor_address>" + formaData.vendorAdd + "</vendor_address><addressee_name>" + formaData.addresseeDOA + "</addressee_name><bill_of_entry>" + formaData.billOfEntry + "</bill_of_entry><validation_digital_sign>" + formaData.digitalSign + "</validation_digital_sign><inv_due_date>" + formaData.invoiceDueDate + "</inv_due_date><inv_scan_date>" + formaData.scanDate + "</inv_scan_date><partner_bank_key>" + formaData.bankKey + "</partner_bank_key><is_original>" + formaData.original + "</is_original><place_supply>" + formaData.placeOfSupply + "</place_supply><erp_due_date>" + formaData.erpDueDate + "</erp_due_date><purchase_grp>" + formaData.purchaseGroup + "</purchase_grp><comp_code>" + formaData.companyCode + "</comp_code><region>" + formaData.vendorRegion + "</region><city>" + formaData.city + "</city><street>" + formaData.street + "</street><name2>" + formaData.name2 + "</name2><bank_ref>" + formaData.swissCode + "</bank_ref></invoice_header></new></tuple>";
@@ -120,9 +153,7 @@ export class InvoiceActionsComponent implements OnInit {
         this.openSnackBar("Saved successfully", "");
       }), () => { },
         error => { }
-    }
-
-    else if (this.selectedTab == "InvoiceDetailTab") {
+    } else if (this.selectedTab == "InvoiceDetailTab") {
       let tableValues = this.invoiceDataService.getInvoiceHeaderData();
       let tableIndex = tableValues.index;
       let tableData = tableValues.data.filteredData[tableIndex];
@@ -175,7 +206,7 @@ export class InvoiceActionsComponent implements OnInit {
     });
     let headerData = this.invoiceDataService.getInvoiceHeaderData();
 
-      }
+  }
 
   cancelInvoice() {
     this.openSnackBar('Invoice cancellation is in progress ...', '');
@@ -204,13 +235,13 @@ export class InvoiceActionsComponent implements OnInit {
   }
 
   //Return to validator method
-  return_to_validator(){
+  return_to_validator() {
     let headerData = this.invoiceDataService.getInvoiceHeaderData();
     const invoiceRoleName = ['38', '32', '34', '2'];
 
-   /*  if(headerData.invoiceStatus.indexOf("Pending with P2P maker") != -1 && roleName == "48"){
-      ReverseToValidatorByMaker();
-    } */
+    /*  if(headerData.invoiceStatus.indexOf("Pending with P2P maker") != -1 && roleName == "48"){
+       ReverseToValidatorByMaker();
+     } */
   }
 
 

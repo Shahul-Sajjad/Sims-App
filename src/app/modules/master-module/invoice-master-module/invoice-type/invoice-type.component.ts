@@ -65,10 +65,8 @@ export class InvoiceTypeComponent implements OnInit {
     parser.parseFromString(soapRequest,"text/xml");
     this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
        var invoice = this.commonService.parseXML(response);
-       console.log(invoice);
 
        const invoiceTypeDetails = invoice["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0]["SearchInvoiceTypesResponse"][0]["tuple"];
-      //  console.log("Invoices Type details" + invoiceTypeDetails);
         
         invoiceTypeDetails.forEach(element => 
         {
@@ -112,7 +110,6 @@ export class InvoiceTypeComponent implements OnInit {
           this.invoiceDataSource = new MatTableDataSource(Invoice_Element_Data);
           this.invoiceDataSource.paginator = this.paginator;
           // this.dataSource.data.push(result.updatedData.value);
-          console.log('alert mat use karo kabhi', result);
           // this.table.renderRows();
           this.changeDetectionRef.detectChanges();
         });
@@ -159,7 +156,6 @@ export class InvoiceTypeComponent implements OnInit {
         parser.parseFromString(soapRequest,"text/xml");
         this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
           var deleteInvoiceTypeList = this.commonService.parseXML(response);
-          console.log("addInvoiceTypeList :"+deleteInvoiceTypeList);
         });
       }
 

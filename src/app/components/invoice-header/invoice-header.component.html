@@ -23,16 +23,14 @@
         <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Invoice Date</mat-label>
-                <input matInput [matDatepicker]="invoiceDate" (dateChange)="onKey($event)"
-                    formControlName="invoiceDate">
+                <input matInput [matDatepicker]="invoiceDate" (dateChange)="onKey($event)" formControlName="invoiceDate">
                 <mat-datepicker-toggle (focusout)="onKey($event)" matSuffix [for]="invoiceDate"></mat-datepicker-toggle>
                 <mat-datepicker #invoiceDate></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Invoice Rcpt Date</mat-label>
-                <input matInput [matDatepicker]="invoiceRcptDate" formControlName="invoiceRcptDate"
-                    (dateChange)="onKey($event)">
+                <input matInput [matDatepicker]="invoiceRcptDate" formControlName="invoiceRcptDate" (dateChange)="onKey($event)">
                 <mat-datepicker-toggle matSuffix [for]="invoiceRcptDate"></mat-datepicker-toggle>
                 <mat-datepicker #invoiceRcptDate></mat-datepicker>
             </mat-form-field>
@@ -113,22 +111,19 @@
 
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Basic</mat-label>
-                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);"
-                    formControlName="basic">
+                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);" formControlName="basic">
             </mat-form-field>
 
-            <mat-form-field fxFlex appearance="outline">
+            <mat-form-field fxFlex appearance="outline" *ngIf="showFreight">
                 <mat-label>Freight</mat-label>
-                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);"
-                    formControlName="freight">
+                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);" formControlName="freight">
             </mat-form-field>
         </div>
 
         <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Tax Amt</mat-label>
-                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);"
-                    formControlName="taxAmt">
+                <input matInput type="text" value="" (focusout)="onAmountChange($event); onKey($event);" formControlName="taxAmt">
             </mat-form-field>
 
             <mat-form-field fxFlex appearance="outline">
@@ -236,8 +231,7 @@
 
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Validation Date</mat-label>
-                <input matInput [matDatepicker]="validationDate" (dateChange)="onKey($event)"
-                    formControlName="validationDate">
+                <input matInput [matDatepicker]="validationDate" (dateChange)="onKey($event)" formControlName="validationDate">
                 <mat-datepicker-toggle matSuffix [for]="validationDate"></mat-datepicker-toggle>
                 <mat-datepicker #validationDate></mat-datepicker>
             </mat-form-field>
@@ -253,8 +247,7 @@
         <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Invoice Due Date</mat-label>
-                <input matInput [matDatepicker]="invoiceDueDate" (dateChange)="onKey($event)"
-                    formControlName="invoiceDueDate">
+                <input matInput [matDatepicker]="invoiceDueDate" (dateChange)="onKey($event)" formControlName="invoiceDueDate">
                 <mat-datepicker-toggle matSuffix [for]="invoiceDueDate"></mat-datepicker-toggle>
                 <mat-datepicker #invoiceDueDate></mat-datepicker>
             </mat-form-field>
@@ -297,14 +290,12 @@
             </mat-form-field>
             <mat-form-field fxFlex appearance="outline" *ngIf="showAddresseeDOA">
                 <mat-label>Addressee DOA</mat-label>
-                <input matInput type="text" value="" (focusout)="onAddresseeDOAChange(); onKey($event);"
-                    formControlName="addresseeDOA">
+                <input matInput type="text" value="" (focusout)="onAddresseeDOAChange(); onKey($event);" formControlName="addresseeDOA">
             </mat-form-field>
 
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>DOA CC</mat-label>
-                <input matInput type="text" value="" (focusout)="onDOACCFocusOut(); onDOACCChange(); onKey($event);"
-                    formControlName="DOACC">
+                <input matInput type="text" value="" (focusout)="onDOACCFocusOut(); onDOACCChange(); onKey($event);" formControlName="DOACC">
             </mat-form-field>
         </div>
 
@@ -374,13 +365,11 @@
         <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Vendor Address</mat-label>
-                <textarea matInput type="text" value="" (focusout)="onKey($event)"
-                    formControlName="vendorAdd"></textarea>
+                <textarea matInput type="text" value="" (focusout)="onKey($event)" formControlName="vendorAdd"></textarea>
             </mat-form-field>
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Billing To</mat-label>
-                <textarea matInput type="text" value="" (focusout)="onKey($event)"
-                    formControlName="billingAdd"></textarea>
+                <textarea matInput type="text" value="" (focusout)="onKey($event)" formControlName="billingAdd"></textarea>
             </mat-form-field>
         </div>
         <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">

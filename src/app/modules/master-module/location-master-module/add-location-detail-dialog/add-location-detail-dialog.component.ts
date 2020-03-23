@@ -34,7 +34,6 @@ export class AddLocationDetailDialogComponent implements OnInit {
   }
   updatelocationDetails() {
     this.addnewlocationdetails();
-    console.log('worked');
    this.dialogRef.close({ updatedlocationData: this.locationaddform, action: 'saved', index: this.currentIndex });
    
   }
@@ -45,7 +44,6 @@ export class AddLocationDetailDialogComponent implements OnInit {
     this.soapupdateRequest = this.commonService.getSoapupdateBody("UpdateMtr_location", "http://schemas.cordys.com/WINDatabaseMetadata", this.vendordataRequestUpdate);
     this.simsHttpCoreServices.httpPost(this.soapupdateRequest).subscribe(locationupdatedetails => {
       var lists = this.commonService.parseXML(locationupdatedetails);
-      console.log(lists);
     }
     )
   }

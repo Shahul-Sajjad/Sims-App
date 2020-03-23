@@ -16,6 +16,7 @@ export class InvoiceDetailsComponent implements OnInit {
   taskRespectedClass = 'alf-am-task-container';
   detailsRespectedClass = 'alf-am-task-details-container';
   showViewerStatus = false;
+  isButtonEnable;
 
 
   constructor(
@@ -29,6 +30,7 @@ export class InvoiceDetailsComponent implements OnInit {
     this.setDocumentViewer(true);
     this.route.queryParams.subscribe((param) => {
       this.taskInfo = param;
+      this.isButtonEnable = param.isButtonEnable;
     });
     this.invoiceDataService.strinkBtnHandler.subscribe(x => {
       if (x) {

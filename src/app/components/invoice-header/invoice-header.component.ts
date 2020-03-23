@@ -12,8 +12,6 @@ import * as invoiceModel from 'src/app/models/invoice-item.model';
 })
 export class InvoiceHeaderComponent implements OnInit {
 
-
-
   invoiceHeaderForm = new FormGroup({
     invoiceNumber: new FormControl(''),
     taskId: new FormControl(''),
@@ -100,6 +98,8 @@ export class InvoiceHeaderComponent implements OnInit {
   showVendorPan = true;
   showDOACC = true;
   userId;
+  userRole;
+  userRoleName;
 
   constructor(
     private commonService: CommonService,
@@ -191,14 +191,23 @@ export class InvoiceHeaderComponent implements OnInit {
   ];
 
   ngOnInit() {
+
     this.getCompanyWiseInvoiceTypes();
     this.getDistinctCompCode();
     this.getCompanyWiseLocations();
     this.getDistinctBillToGstNo();
-    this.getUserRole();
     this.getTaxCodeDetails();
     this.getBusinessAreaDetails();
     this.getInvoiceHeaderDetails();
+    setTimeout(() => {
+      this.getLoginUserDetails();
+    }, 5000);
+  }
+
+  getLoginUserDetails() {
+    const userInfo = this.invoiceDataService.getUserInfo();
+    this.userId = userInfo.ud_role[0];
+    this.userRoleName = userInfo.role_name[0];
   }
 
   getCompanyWiseInvoiceTypes() {
@@ -285,24 +294,24 @@ export class InvoiceHeaderComponent implements OnInit {
     });
   }
 
-setValuesforPostToERPopup(element){
-let postToErpData={
-        invoiceno:  element.old[0].invoice_header[0].invoice_no[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_no[0],
-        vendor: element.old[0].invoice_header[0].vendor[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor[0],
-        batchid: element.old[0].invoice_header[0].internal_doc_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].internal_doc_id[0],
-        erpid:element.old[0].invoice_header[0].erp_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].erp_id[0],
-        type: element.old[0].invoice_header[0].invoice_category[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_category[0],
-        scanNo: "",
-        VenName: element.old[0].invoice_header[0].vendor_name[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor_name[0],
-        currency: element.old[0].invoice_header[0].currency[0] instanceof Object ? '' : element.old[0].invoice_header[0].currency[0],
-        compCode: element.old[0].invoice_header[0].comp_code[0] instanceof Object ? '' : element.old[0].invoice_header[0].comp_code[0],
-        invoiceFlowType :element.old[0].invoice_header[0].invoice_type[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_type[0],
-        entity :element.old[0].invoice_header[0].entity_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].entity_id[0],
-}
+  setValuesforPostToERPopup(element) {
+    let postToErpData = {
+      invoiceno: element.old[0].invoice_header[0].invoice_no[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_no[0],
+      vendor: element.old[0].invoice_header[0].vendor[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor[0],
+      batchid: element.old[0].invoice_header[0].internal_doc_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].internal_doc_id[0],
+      erpid: element.old[0].invoice_header[0].erp_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].erp_id[0],
+      type: element.old[0].invoice_header[0].invoice_category[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_category[0],
+      scanNo: "",
+      VenName: element.old[0].invoice_header[0].vendor_name[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor_name[0],
+      currency: element.old[0].invoice_header[0].currency[0] instanceof Object ? '' : element.old[0].invoice_header[0].currency[0],
+      compCode: element.old[0].invoice_header[0].comp_code[0] instanceof Object ? '' : element.old[0].invoice_header[0].comp_code[0],
+      invoiceFlowType: element.old[0].invoice_header[0].invoice_type[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_type[0],
+      entity: element.old[0].invoice_header[0].entity_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].entity_id[0],
+    }
 
-this.invoiceDataService.setPostErpBtnData(postToErpData);
+    this.invoiceDataService.setPostErpBtnData(postToErpData);
 
-}
+  }
 
 
   getBusinessAreaDetails() {
@@ -469,16 +478,6 @@ this.invoiceDataService.setPostErpBtnData(postToErpData);
 
   }
 
-  getUserRole() {
-    // tslint:disable-next-line: max-line-length
-    const dataRequest = '<ud_userid>asavarinaik@PSPartition</ud_userid>';
-    const soapRequest = this.commonService.getSoapBody('GetRoleNameByUserID', 'http://schemas.cordys.com/WINDatabaseMetadata', dataRequest);
-    this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
-      const userInfo = this.responseDataManipulation(response, 'GetRoleNameByUserIDResponse');
-      this.userId = userInfo[0].old[0].getRoleNameByUserID[0].getRoleNameByUserID[0];
-    });
-  }
-
   setInvoiceHeaderFormData(element) {
     this.invoiceHeaderForm.patchValue({
       invoiceNumber: element.old[0].invoice_header[0].invoice_no[0] instanceof Object ? '' : element.old[0].invoice_header[0].invoice_no[0],
@@ -567,7 +566,7 @@ this.invoiceDataService.setPostErpBtnData(postToErpData);
 
     if (invoiceClassification === 'PO') {
 
-this.invoiceHeaderForm
+      this.invoiceHeaderForm
       // pending
 
       // invoice_detailsTable.hideColumn(13);
@@ -673,10 +672,10 @@ this.invoiceHeaderForm
       if (this.userId === '2') {
         let btnObjec = {
           postBtn: false,
-          cancelBtn:false,
-          submitBtn:true,
-          approveBtn:false,
-          rejectBtn:false
+          cancelBtn: false,
+          submitBtn: true,
+          approveBtn: false,
+          rejectBtn: false
         }
         this.invoiceDataService.invoiceDetailHandler.next(btnObjec);
         // pending
@@ -777,9 +776,9 @@ this.invoiceHeaderForm
 
 
   onKey(event: any) {
-    let actionData={
-      event:event,
-      disSaveBtn:false
+    let actionData = {
+      event: event,
+      disSaveBtn: false
     }
     this.invoiceDataService.invoiceDetailHandler.next(actionData);
     this.invoiceDataService.tabHandler.next("InvoiceHeader");
@@ -877,8 +876,8 @@ this.invoiceHeaderForm
 
   setValueLocalStorage(element) {
 
-    localStorage.setItem('vendorCode ', element.old[0].invoice_header[0].vendor[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor[0]);
-    localStorage.setItem('batchId ', element.old[0].invoice_header[0].internal_doc_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].internal_doc_id[0],);
+    localStorage.setItem('vendorCode', element.old[0].invoice_header[0].vendor[0] instanceof Object ? '' : element.old[0].invoice_header[0].vendor[0]);
+    localStorage.setItem('batchId', element.old[0].invoice_header[0].internal_doc_id[0] instanceof Object ? '' : element.old[0].invoice_header[0].internal_doc_id[0]);
 
   }
 

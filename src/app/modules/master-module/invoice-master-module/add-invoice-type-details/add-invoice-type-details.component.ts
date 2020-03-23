@@ -45,7 +45,6 @@ export class AddInvoiceTypeDetailsComponent implements OnInit {
       parser.parseFromString(soapRequest,"text/xml");
       this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
         var addInvoiceTypeList = this.commonService.parseXML(response);
-        console.log("addInvoiceTypeList :"+addInvoiceTypeList);
       });
     }
 

@@ -22,9 +22,7 @@ export class UserMasterUpdateDetailsDailogComponent implements OnInit {
     private commonService : CommonService) { }
   // public dialogRef: MatDialogRef<UserMasterDetailsDailogComponent>
   ngOnInit() {
-    console.log('row data',this.data);
     this.currentIndex = this.data.index; 
-    console.log("CurrentIndex :"+this.currentIndex);
     this.form = this.fb.group({
         userId : new FormControl(this.data.row.userId),
         userName : new FormControl(this.data.row.userName),
@@ -65,7 +63,6 @@ export class UserMasterUpdateDetailsDailogComponent implements OnInit {
     parser.parseFromString(soapRequest,"text/xml");
     this.simsHttpCoreServices.httpPost(soapRequest).subscribe(response => {
       var userUpdateList = this.commonService.parseXML(response);
-      console.log("userUpdateList :"+userUpdateList);
     });
   }
 
