@@ -230,7 +230,7 @@ export class InvoiceDetailTabComponent implements OnInit {
       let invoiceDetail = invoiceDetaillist["__zone_symbol__value"]["SOAP:Envelope"]["SOAP:Body"][0].GetInvoiceDetailsByInvNoResponse[0].tuple;
       invoiceDetail.map((x, index) => {
         let invoiceDetailModel = {
-          //statuIcon:x.old[0].TABLE[0].ThreeWayMatchingStatus[0] instanceof Object ? "" : x.old[0].TABLE[0].ThreeWayMatchingStatus[0]=="Fail"?this.statusIcon=true:this.statusIcon=false,
+          statuIcon:x.old[0].invoice_details[0].Img[0] instanceof Object ? "" : x.old[0].invoice_details[0].Img[0].substring(32,33) =="s"?this.statusIcon=true:this.statusIcon=false,
           line_id: x.old[0].invoice_details[0].line_id[0] instanceof Object ? "" : x.old[0].invoice_details[0].line_id[0],
           inv_line: x.old[0].invoice_details[0].line_no[0] instanceof Object ? "" : x.old[0].invoice_details[0].line_no[0],
           po_line: x.old[0].invoice_details[0].po_line_no[0] instanceof Object ? "" : x.old[0].invoice_details[0].po_line_no[0],
